@@ -1,15 +1,20 @@
 import React from "react";
-import useFetchProducts from "../hooks/useFetchProducts";
 import ProductCard from "./ProductCard";
+import { Product } from "../types/interfaces";
 
-const ProductGrid = () => {
-  const products = useFetchProducts({ brand: "maybelline" }).products;
+interface ProductGridProps {
+  products: Product[];
+}
+
+const ProductGrid: React.FC<ProductGridProps> = ({products}) => {
 
   return (
   <div className="grid grid-cols-4 gap-4 justify-items-center justify-center">
-    {products.map(product => (
+    {products.map(product => product.image_link != null && (
         <ProductCard brand={product.brand} name={product.name} price={product.price} image_link={product.image_link} id={product.id} price_sign={product.price_sign} currency={product.currency} product_link={product.product_link} website_link={product.website_link} description={product.description} rating={product.rating} category={product.category} product_type={product.product_type} tag_list={product.tag_list} created_at={product.created_at} updated_at={product.updated_at} product_api_url={product.product_api_url} api_featured_image={product.api_featured_image} product_colors={product.product_colors}/>
-    ))}
+    )
+  
+  )}
   </div>
   )
 }
