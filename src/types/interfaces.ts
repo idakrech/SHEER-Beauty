@@ -1,4 +1,4 @@
-export interface FetchProductParams {
+export interface IFetchProductParams {
   brand?: string;
   product_type?: string;
   product_category?: string;
@@ -9,12 +9,12 @@ export interface FetchProductParams {
   rating_less_than?: number;
 }
 
-export interface ProductColor {
+export interface IProductColor {
   hex_value: string;
   colour_name: string;
 }
 
-export interface Product {
+export interface IProduct {
   id: number;
   brand: string;
   name: string;
@@ -33,7 +33,7 @@ export interface Product {
   updated_at: string;
   product_api_url: string;
   api_featured_image: string;
-  product_colors: ProductColor[];
+  product_colors: IProductColor[];
 }
   
   

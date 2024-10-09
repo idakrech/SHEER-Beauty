@@ -1,6 +1,6 @@
 import axios from "axios"
 import buildURL from "../helpers/buildURL"
-import { FetchProductParams, IProduct } from "../types/interfaces"
+import { IFetchProductParams, IProduct } from "../types/interfaces"
 
 
 
@@ -9,7 +9,7 @@ const APIService = (
     const BASE_URL = "http://makeup-api.herokuapp.com/api/v1/products.json"
 
     async function fetchProducts(
-      params: FetchProductParams
+      params: IFetchProductParams
     ): Promise<IProduct[]> {
       const url = buildURL(BASE_URL, params)
     

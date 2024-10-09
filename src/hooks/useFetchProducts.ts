@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { FetchProductParams } from "../types/interfaces";
+import { IFetchProductParams } from "../types/interfaces";
 import APIService from "../services/APIService";
 import { setError, setLoading, setProducts } from "../redux/productsSlice";
 import { useDispatch } from "react-redux";
 
-function useFetchProducts(params: FetchProductParams) {
+function useFetchProducts(params: IFetchProductParams) {
 
     const dispatch = useDispatch()
 
