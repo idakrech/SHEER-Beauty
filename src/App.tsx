@@ -1,19 +1,27 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home'
 import CartPage from './pages/CartPage'
-import ProductPage from './pages/ProductPage'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 function App() {
 
   return (
-    <BrowserRouter>
+    
+    <>
+
+      <Navbar/>
+
       <Routes>
         <Route path='/' element={<Home/>}></Route>
         <Route path='cart-page' element={<CartPage/>}></Route>
-        <Route path='product-page' element={<ProductPage/>}></Route>
+        {/* <Route path='product-page/:id' element={<ProductPage/>}></Route> */}
       </Routes>
-    </BrowserRouter>
+
+      <Footer/>
+      
+      </>
   )
 }
 
