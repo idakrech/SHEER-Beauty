@@ -1,29 +1,16 @@
-import React from "react";
-import ProductGrid from "../components/ProductGrid";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import useFetchProducts from "../hooks/useFetchProducts";
 import { useSelector } from "react-redux";
 import { AppState } from "../redux";
+import { filterProducts } from "../utils/filterProducts";
 
 const Home = () => {
-  
-  useFetchProducts({ product_tags: "Organic"})
-  useFetchProducts({ rating_greater_than: 4})
-  useFetchProducts({product_category: "lip_gloss"})
+  const state = useSelector((state: AppState) => state)
+  const filterParams = state.filters.map((f) => f.fetchParams)
 
-  const organicProducts = useSelector((state: AppState) => state.products.products.filter(product => product.tag_list.filter(tag => tag == 'Organic')))
-  const highestRatedProducts = useSelector((state: AppState) => state.products.products.filter(product => ((product.rating && product.rating >= 4))))
-  const lipglossProducts = useSelector((state: AppState) => state.products.products.filter(product => ((product.category && product.category == 'lip_gloss'))))
+  useFetchProducts(filterParams) 
 
-  return (
-    <>
-      <h1>Organic Products</h1>
-      <ProductGrid products={organicProducts}/>
-      <h1>Highest rated</h1>
-      <ProductGrid products={highestRatedProducts}/>
-      <h1>Time to shine!</h1>
-      <ProductGrid products={lipglossProducts}/>
-    </>
-  )
+  return <>{filterProducts(state)}</>
 }
 
-export default Home;
+export default Home
