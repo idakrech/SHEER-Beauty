@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IProduct } from "../types/interfaces";
 
-export interface ProductsState {
+export interface IProductsState {
   products: IProduct[];
   loading: boolean;
   error: Error | null;
 }
 
-export const initialState: ProductsState = {
+export const initialState: IProductsState = {
   products: [],
   loading: false,
   error: null,
