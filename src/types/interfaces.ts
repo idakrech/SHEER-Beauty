@@ -35,5 +35,9 @@ export interface IProduct {
   api_featured_image: string;
   product_colors: IProductColor[];
 }
-  
+
+export interface IProductType {
+  name: string,
+  categories: string[] | null
+}
   
