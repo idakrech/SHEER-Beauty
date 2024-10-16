@@ -19,11 +19,11 @@ export const filterProducts = (state: AppState) => {
         }
         return isNewer && isIncluded
       })
-      console.log("Filtered products", filteredProducts)
+      //console.log("Filtered products", filteredProducts)
       return (
         <div key={grid.gridID}>
           <h2>{grid.title}</h2>
-          <ProductGrid products={filteredProducts} maxLimit={6} isExpanded={false} />
+          <ProductGrid products={filteredProducts} maxLimit={6} isExpanded={false} category={grid.gridID} />
         </div>
       )
     })

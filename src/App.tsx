@@ -4,8 +4,10 @@ import Home from './pages/Home'
 import CartPage from './pages/CartPage'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import CategoryPage from './pages/CategoryPage'
 
 function App() {
+
 
   return (
     
@@ -16,7 +18,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}></Route>
         <Route path='cart-page' element={<CartPage/>}></Route>
-        {/* <Route path='product-page/:id' element={<ProductPage/>}></Route> */}
+        <Route path='category-page' element={<CategoryPage/>}></Route>
       </Routes>
 
       <Footer/>

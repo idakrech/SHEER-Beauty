@@ -74,7 +74,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, isExpanded, categor
           )}
 
           { !isExpanded && (
-            <button onClick={() => navigate(`${category}/${isExpanded}`)}>More</button>
+            <button onClick={() => navigate(`/category-page?gridID=${category}`)}>More</button>
           )}
     </div>
   );
