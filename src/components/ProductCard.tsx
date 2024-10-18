@@ -1,17 +1,25 @@
-import React, { useEffect, useState } from "react"
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useState } from "react"
 import { IProduct } from "../interfaces/interfaces"
 import checkIfImageExists from "../helpers/checkImage"
 import PlaceholderImg from "../assets/placeholder.png"
 import { Link } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { addProductID } from "../redux/cartSlice"
 
 const ProductCard = (props: IProduct) => {
   const [imgExists, setImgExists] = useState<boolean | null>(null)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     checkIfImageExists(props.image_link, (exists: boolean) => {
       setImgExists(exists)
     })
   }, [])
+  
+  const handleAddToCartBtn = () => {
+    dispatch(addProductID(props.id))
+  }
 
   return (
     // <div className='flex justify-center align-center'>
@@ -46,6 +54,7 @@ const ProductCard = (props: IProduct) => {
               {props.price_sign ? props.price_sign : "$"}
               {props.price}
             </p>
+            <button onClick={() => handleAddToCartBtn()}>ADD</button>
 
             {/* for old price */}
             {/* <del>
