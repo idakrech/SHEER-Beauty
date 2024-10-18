@@ -1,4 +1,4 @@
-import { IFetchProductParams } from "../types/interfaces"
+import { IFetchProductParams } from "../interfaces/interfaces"
 
 function buildURL (baseURL: string, params: IFetchProductParams) {
     const url = new URL(baseURL)

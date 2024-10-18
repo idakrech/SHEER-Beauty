@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from "react";
-import { IFetchProductParams, IProduct } from "../types/interfaces";
+import { IFetchProductParams, IProduct } from "../interfaces/interfaces";
 import APIService from "../services/APIService";
 import { setError, setLoading, setProducts } from "../redux/productsSlice";
 import { useDispatch, useSelector } from "react-redux";

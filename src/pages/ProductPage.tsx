@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
-import { IProduct } from '../types/interfaces'
+import { IProduct } from '../interfaces/interfaces'
 import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { AppState } from '../redux'

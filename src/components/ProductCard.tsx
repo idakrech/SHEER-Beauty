@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { IProduct } from "../types/interfaces"
+import { IProduct } from "../interfaces/interfaces"
 import checkIfImageExists from "../helpers/checkImage"
 import PlaceholderImg from "../assets/placeholder.png"
 import { Link } from "react-router-dom"

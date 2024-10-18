@@ -1,6 +1,6 @@
 import axios from "axios"
 import buildURL from "../helpers/buildURL"
-import { IFetchProductParams, IProduct } from "../types/interfaces"
+import { IFetchProductParams, IProduct } from "../interfaces/interfaces"
 
 
 

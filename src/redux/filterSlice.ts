@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IFetchProductParams } from "../types/interfaces";
+import { IFetchProductParams } from "../interfaces/interfaces";
 
 export interface IGridFilter {
   gridID: string;
