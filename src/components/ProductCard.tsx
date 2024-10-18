@@ -1,7 +1,18 @@
-import React from "react";
-import { Product } from "../types/interfaces";
+import React, { useEffect, useState } from "react"
+import { IProduct } from "../types/interfaces"
+import checkIfImageExists from "../helpers/checkImage"
+import PlaceholderImg from "../assets/placeholder.png"
+import { Link } from "react-router-dom"
 
-const ProductCard = (props: Product) => {
+const ProductCard = (props: IProduct) => {
+  const [imgExists, setImgExists] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    checkIfImageExists(props.image_link, (exists: boolean) => {
+      setImgExists(exists)
+    })
+  }, [])
+
   return (
     // <div className='flex justify-center align-center'>
     //     <img src={props.image_link} className='object-cover'/>
@@ -9,15 +20,20 @@ const ProductCard = (props: Product) => {
     //     <p>{props.brand}</p>
     //     <h3>{props.price}</h3>
     // </div>
+    <Link to={`/product-page?id=${props.id}`}>
     <div className="w-72 bg-white duration-500 hover:scale-105 border border-gray-300">
       <a href="#">
-        <div className="flex justify-center py-10">
-          <img
-            src={props.image_link}
-            alt="Product"
-            // className="h-80 w-72 object-cover"
-          />
-        </div>
+        
+          <div className="flex justify-center py-10">
+            {imgExists === null ? (
+              <p>Loading...</p>
+            ) : imgExists ? (
+              <img src={props.image_link} alt="Product photo" />
+            ) : (
+              <img src={PlaceholderImg} />
+            )}
+          </div>
+        
         <div className="px-4 py-3 w-72 bg-gray-100">
           <span className="text-gray-400 mr-3 uppercase text-xs">
             {props.brand}
@@ -27,7 +43,7 @@ const ProductCard = (props: Product) => {
           </p>
           <div className="flex items-center">
             <p className="text-lg font-semibold text-black cursor-auto my-3">
-              ${props.price_sign}
+              {props.price_sign ? props.price_sign : "$"}
               {props.price}
             </p>
 
@@ -56,7 +72,8 @@ const ProductCard = (props: Product) => {
         </div>
       </a>
     </div>
-  );
-};
+    </Link>
+  )
+}
 
-export default ProductCard;
+export default ProductCard
