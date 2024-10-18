@@ -34,6 +34,12 @@ export const cartSlice = createSlice({
           state.productIDs = [...state.productIDs, action.payload]
         } 
     },
+    deleteProductID(state, action: PayloadAction<number>) {
+      if (state.productIDs.some((id) => action.payload === id)) {
+        const updatedProductIDs = state.productIDs.filter((id) => id != action.payload)
+        state.productIDs = [...updatedProductIDs]
+      }
+    },
     setError(state, action: PayloadAction<Error>) {
         state.error = action.payload
         state.loading = false
@@ -44,4 +50,4 @@ export const cartSlice = createSlice({
   }
 })
 
-export const { setProductIDs, addProductID, setError, setLoading } = cartSlice.actions
+export const { setProductIDs, addProductID, deleteProductID, setError, setLoading } = cartSlice.actions
