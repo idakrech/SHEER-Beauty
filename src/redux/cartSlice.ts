@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { IProductRefState } from "../interfaces/interfaces"
+import { 
+  setProductIDsHelper, 
+  addProductIDHelper, 
+  deleteProductIDHelper, 
+  setErrorHelper, 
+  setLoadingHelper 
+} from "../helpers/stateHelpers"
 
-export interface ICartState {
-  productIDs: number[]
-  loading: boolean
-  error: Error | null
-}
-
-export const initialState: ICartState = {
+const initialState: IProductRefState = {
   productIDs: [],
   loading: false,
   error: null,
@@ -18,34 +20,19 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     setProductIDs(state, action: PayloadAction<number[]>) {
-      if (state.productIDs.length > 0) {
-        const updatedIDs = state.productIDs.filter(
-          (id) => !action.payload.some((num) => num === id)
-        )
-        state.productIDs = [...updatedIDs, ...action.payload]
-      } else {
-        state.productIDs = action.payload
-      }
-      state.loading = false
-      state.error = null
+      setProductIDsHelper(state, action)
     },
     addProductID(state, action: PayloadAction<number>) {
-        if (!state.productIDs.some((id) => action.payload === id)) {
-          state.productIDs = [...state.productIDs, action.payload]
-        } 
+       addProductIDHelper(state, action)
     },
     deleteProductID(state, action: PayloadAction<number>) {
-      if (state.productIDs.some((id) => action.payload === id)) {
-        const updatedProductIDs = state.productIDs.filter((id) => id != action.payload)
-        state.productIDs = [...updatedProductIDs]
-      }
+      deleteProductIDHelper(state, action)
     },
     setError(state, action: PayloadAction<Error>) {
-        state.error = action.payload
-        state.loading = false
+        setErrorHelper(state, action)
     },
     setLoading(state, action: PayloadAction<boolean>) {
-        state.loading = action.payload
+        setLoadingHelper(state, action)
     }
   }
 })
