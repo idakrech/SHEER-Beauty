@@ -25,9 +25,10 @@ const ProductCard = (props: IProduct) => {
       setImgExists(exists)
     })
     setIsFavorite(checkIfFavorite)
-  }, [])
+  }, [props.id, favProductIDs])
 
   const checkIfFavorite = (): boolean => {
+    console.log("hello from useEffect")
     return favProductIDs.some((id) => props.id === id)
   }
 
