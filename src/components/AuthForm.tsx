@@ -55,6 +55,7 @@ const AuthForm = () => {
       <button onClick={() => setIsRegister(!isRegister)}>
         {isRegister ? "Switch to Login" : "Switch to Register"}
       </button>
+      <button onClick={() => handleLogout()}>Log out</button>
 
     {/* to be implemented later with redux - a variable 'isLoggedIn' is needed first to conditionally display this button*/}
       {/* <button onClick={handleLogout}>Logout</button> */}
