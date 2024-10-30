@@ -1,11 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import {
-  addProductIDHelper,
-  deleteProductIDHelper,
-  setErrorHelper,
-  setLoadingHelper,
-  setProductIDsHelper,
-} from "../helpers/stateHelpers"
 
 export interface IFavoritesState {
   productIDs: number[]
