@@ -40,10 +40,4 @@ export interface IProductType {
   name: string,
   categories: string[] | null
 }
-
-export interface IProductRefState {
-  productIDs: number []
-  loading: boolean
-  error: Error | null
-}
   
