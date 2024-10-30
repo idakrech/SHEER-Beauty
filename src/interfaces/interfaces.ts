@@ -40,4 +40,13 @@ export interface IProductType {
   name: string,
   categories: string[] | null
 }
+
+export interface IAddress {
+  name: string,
+  street: string,
+  city: string,
+  state?: string,
+  zipCode: string,
+  country: string
+}
   
