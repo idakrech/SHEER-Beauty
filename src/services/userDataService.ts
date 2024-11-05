@@ -1,43 +1,59 @@
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore"
 import { db } from "../firebaseConfig"
-import { IAddress } from "../interfaces/interfaces"
-
-interface IUserData {
-    userID: string
-    email: string
-    address?: IAddress
-    favorites?: number[]
-    cart?: {
-        productId: number
-        quantity: number
-    }[]
-}
+import { IAddress, IUserData } from "../interfaces/interfaces"
 
 export const userDataService = {
-
-    async initializeUserData(userData: IUserData) {
-        const userRef = doc(db, "users", userData.userID)
-        await setDoc(userRef, userData, {merge: true})
-    },
-
-    async getUserData(userId: string) {
-        const userRef = doc(db, "users", userId)
-        const userDoc = await getDoc(userRef)
-        return userDoc.exists() ? userDoc.data() : null
-    },
-
-    async updateUserCart(userId: string, cart: {productId: number, quantity: number}[]) {
-        const userRef = doc(db, "users", userId)
-        await updateDoc(userRef, { cart })
-    },
-
-    async updateUserFavorites(userId: string, favorites: number[]) {
-        const userRef = doc(db, "users", userId)
-        await updateDoc(userRef, { favorites })
-    },
-    
-    async updateUserAddress(userId: string, address: IAddress) {
-        const userRef = doc(db, "users", userId)
-        await updateDoc(userRef, {address})
+  async initializeUserData(userData: IUserData) {
+    try {
+      const userRef = doc(db, "users", userData.userID)
+      await setDoc(userRef, userData, { merge: true })
+    } catch (error) {
+      console.error("Error initializing user data", error)
+      throw error
     }
+  },
+
+  async getUserData(userId: string) {
+    try {
+      const userRef = doc(db, "users", userId)
+      const userDoc = await getDoc(userRef)
+      return userDoc.exists() ? userDoc.data() : null
+    } catch (error) {
+      console.error("Error retrieving user data", error)
+      throw error
+    }
+  },
+
+  async updateUserCart(
+    userId: string,
+    cart: { productId: number; quantity: number }[]
+  ) {
+    try {
+      const userRef = doc(db, "users", userId)
+      await updateDoc(userRef, { cart })
+    } catch (error) {
+      console.error("Error updating user cart", error)
+      throw error
+    }
+  },
+
+  async updateUserFavorites(userId: string, favorites: number[]) {
+    try {
+      const userRef = doc(db, "users", userId)
+      await updateDoc(userRef, { favorites })
+    } catch (error) {
+      console.error("Wrror updating user favorites", error)
+      throw error
+    }
+  },
+
+  async updateUserAddress(userId: string, address: IAddress) {
+    try {
+      const userRef = doc(db, "users", userId)
+      await updateDoc(userRef, { address })
+    } catch (error) {
+      console.error("Error updating user address", error)
+      throw error
+    }
+  },
 }
