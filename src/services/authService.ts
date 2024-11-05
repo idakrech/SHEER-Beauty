@@ -1,5 +1,7 @@
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { app }  from "../firebaseConfig"
+import { userDataService } from "./userDataService"
+import { IUserData } from "../interfaces/interfaces"
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -8,6 +10,18 @@ const auth = getAuth(app)
 export const registerWithEmail = async (email: string, password: string) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        const user = userCredential.user
+        if (user) {
+            const userData: IUserData = {
+                userID: user.uid,
+                email: user.email || email,
+                address: null,
+                favorites: [],
+                cart: [],
+                transactionIDs: []
+            }
+            await userDataService.initializeUserData(userData)
+        }
         return userCredential.user
     } catch (error) {
         console.log("Error while registering user", error)

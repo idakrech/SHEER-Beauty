@@ -49,4 +49,15 @@ export interface IAddress {
   zipCode: string,
   country: string
 }
-  
+
+export interface IUserData {
+  userID: string
+  email: string
+  address: IAddress | null
+  favorites?: number[]
+  cart?: {
+      productId: number
+      quantity: number
+  }[]
+  transactionIDs?: string[]
+}
