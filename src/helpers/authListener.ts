@@ -2,7 +2,7 @@
 import { setLoading, setUser } from "../redux/authSlice";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { AppDispatch } from "../redux";
-import app from "../firebaseConfig";
+import { app } from "../firebaseConfig";
 
 export const listenToAuth = () => (dispatch: AppDispatch) => {
     dispatch(setLoading(true))
