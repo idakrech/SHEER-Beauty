@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppState } from "../redux"
 import ProductCard from "../components/ProductCard"
-import { deleteProductID } from "../redux/cartSlice"
+import { deleteProduct } from "../redux/cartSlice"
 
 const CartPage = () => {
-  const productIDs = useSelector((state: AppState) => state.cart.productIDs)
+  const cartProductIDs = useSelector((state: AppState) => state.cart.products).map((product) => product.id)
   const products = useSelector((state: AppState) => state.products.products)
   const cartProducts = products.filter((product) =>
-    productIDs.includes(product.id)
+    cartProductIDs.includes(product.id)
   )
   const dispatch = useDispatch()
 
   const handleDeleteBtn = (productID: number) => {
-    dispatch(deleteProductID(productID))
+    dispatch(deleteProduct(productID))
   }
 
   return (

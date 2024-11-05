@@ -5,7 +5,7 @@ import checkIfImageExists from "../helpers/checkImage"
 import PlaceholderImg from "../assets/placeholder.png"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { addProductID as addToCart } from "../redux/cartSlice"
+import { addProduct as addToCart } from "../redux/cartSlice"
 import {
   addProductID as addToFavs,
   deleteProductID as removeFromFavs,
