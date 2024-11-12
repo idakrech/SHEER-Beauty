@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore"
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore"
 import { db } from "../firebaseConfig"
 import { IAddress, IUserData } from "../interfaces/interfaces"
 
@@ -24,7 +24,7 @@ export const userDataService = {
     }
   },
 
-  async updateUserCart(
+  async addToCart(
     userId: string,
     cartProduct: { productId: number; quantity: number }
   ) {
@@ -35,7 +35,7 @@ export const userDataService = {
       const currentCart = userData?.cart || []
   
       const existingProductIndex = currentCart.findIndex(
-        (product: { productId: number; quantity: number }) => product.productId === cartProduct.productId
+        (product: { productId: number, quantity: number }) => product.productId === cartProduct.productId
       )
   
       if (existingProductIndex !== -1) {
@@ -46,17 +46,83 @@ export const userDataService = {
   
       await updateDoc(userRef, { cart: currentCart })
     } catch (error) {
-      console.error("Error updating user cart", error)
+      console.error("Error adding to cart in db", error)
       throw error
     }
   },
 
-  async updateUserFavorites(userId: string, favorites: number[]) {
+  async decrementProductQuantity(userId: string, productId: number) {
     try {
       const userRef = doc(db, "users", userId)
-      await updateDoc(userRef, { favorites })
+      const userDoc = await getDoc(userRef)
+      const userData = userDoc.data()
+      const currentCart = userData?.cart || []
+  
+      const existingProductIndex = currentCart.findIndex(
+        (product: { productId: number, quantity: number }) => product.productId === productId
+      )
+  
+      if (existingProductIndex !== -1) {
+        const updatedCart = [...currentCart]
+        const existingProduct = updatedCart[existingProductIndex]
+
+        if (existingProduct.quantity > 1) {
+          existingProduct.quantity -= 1
+        } else {
+          updatedCart.splice(existingProductIndex, 1)
+        }
+        await updateDoc(userRef, { cart: updatedCart })
+      } 
+
     } catch (error) {
-      console.error("Wrror updating user favorites", error)
+      console.error("Error decrementing product quantity in cart in db", error)
+      throw error
+    }
+  },
+  async removeFromCart(userId: string, productId: number) {
+    try {
+      const userRef = doc(db, "users", userId)
+      const userDoc = await getDoc(userRef)
+      const userData = userDoc.data()
+      const currentCart = userData?.cart || []
+  
+      const updatedCart = currentCart.filter((product: { productId: number }) => product.productId !== productId)
+      
+      await updateDoc(userRef, { cart: updatedCart })
+    } catch (error) {
+      console.error("Error removing product from cart in db", error)
+      throw error
+    }
+  },
+
+  async addFavorite(userId: string, favoriteId: number) {
+    try {
+      const userRef = doc(db, "users", userId)
+      const userDoc = await getDoc(userRef)
+      const userData = userDoc.data()
+      const currentFavs = userData?.favorites || []
+
+      if (!currentFavs.includes(favoriteId)) {
+        await updateDoc(userRef, { favorites: arrayUnion(favoriteId) })
+      }
+    } catch (error) {
+      console.error("Error adding to favorites in db", error)
+      throw error
+    }
+  },
+
+  async removeFavorite(userId: string, favoriteId: number) {
+    try {
+      const userRef = doc(db, "users", userId)
+      const userDoc = await getDoc(userRef)
+      const userData = userDoc.data()
+      const currentFavs = userData?.favorites || []
+  
+      if (currentFavs.includes(favoriteId)) {
+        await updateDoc(userRef, { favorites: currentFavs.filter((id: number) => id !== favoriteId) })
+      }
+    } catch (error) {
+      console.error("Error removing from favorites in db", error)
       throw error
     }
   },

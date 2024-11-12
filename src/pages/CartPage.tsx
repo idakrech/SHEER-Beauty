@@ -2,26 +2,48 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppState } from "../redux"
 import ProductCard from "../components/ProductCard"
-import { deleteProduct } from "../redux/cartSlice"
+import { decrementProductQuantity, deleteProduct } from "../redux/cartSlice"
+import { userDataService } from "../services/userDataService"
 
 const CartPage = () => {
-  const cartProductIDs = useSelector((state: AppState) => state.cart.products).map((product) => product.id)
+  const user = useSelector((state: AppState) => state.auth.user)
+  const cartProducts = useSelector((state: AppState) => state.cart.products)
   const products = useSelector((state: AppState) => state.products.products)
-  const cartProducts = products.filter((product) =>
-    cartProductIDs.includes(product.id)
-  )
+  const fullCartProducts = cartProducts
+    .map((cartItem) => {
+      const productData = products.find((product) => product.id === cartItem.id)
+      return productData
+        ? { ...productData, quantity: cartItem.quantity }
+        : null
+    })
+    .filter(Boolean) as ((typeof products)[0] & { quantity: number })[]
+  // filter(Boolean) filters out null and undefined
+  // (typeof products)[0] & { quantity: number } is a 'type intersection'
+
   const dispatch = useDispatch()
 
   const handleDeleteBtn = (productID: number) => {
     dispatch(deleteProduct(productID))
+    if (user !== null) {
+      userDataService.removeFromCart(user.uid, productID)
+    }
+  }
+
+  const handleDecrementBtn = (productID: number) => {
+    dispatch(decrementProductQuantity(productID))
+    if (user !== null) {
+      userDataService.decrementProductQuantity(user.uid, productID)
+    }
   }
 
   return (
     <div>
-      {cartProducts.map((product) => (
-        <div>
+      {fullCartProducts.map((product) => (
+        <div key={product.id}>
           <ProductCard {...product} />
-          <button onClick={() => handleDeleteBtn(product.id)}>REMOVE</button>
+          <p>Quantity: {product.quantity}</p>
+          <button onClick={() => handleDeleteBtn(product.id)}>Remove</button>
+          <button onClick={() => handleDecrementBtn(product.id)}>Decrement</button>
         </div>
       ))}
     </div>

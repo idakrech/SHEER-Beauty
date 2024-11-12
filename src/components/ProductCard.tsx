@@ -38,19 +38,24 @@ const ProductCard = (props: IProduct) => {
   const handleAddToCartBtn = () => {
     dispatch(addToCart(props.id))
     if (user !== null) {
-      userDataService.updateUserCart(user.uid, {productId: props.id, quantity: 1})
+      userDataService.addToCart(user.uid, {productId: props.id, quantity: 1})
     }
   }
 
   const handleAddToFavsBtn = () => {
-    if (!isFavorite) {
-      dispatch(addToFavs(props.id))
-      setIsFavorite(true)
-    } else {
-      dispatch(removeFromFavs(props.id))
-      setIsFavorite(false)
+    const newIsFavorite = !isFavorite
+    dispatch(newIsFavorite ? addToFavs(props.id) : removeFromFavs(props.id))
+    setIsFavorite(newIsFavorite)
+
+    if (user !== null) {
+      if (newIsFavorite) {
+         userDataService.addFavorite(user.uid, props.id)
+      } else {
+        userDataService.removeFavorite(user.uid, props.id)
+      }
     }
   }
+  
 
   return (
     // <div className='flex justify-center align-center'>
