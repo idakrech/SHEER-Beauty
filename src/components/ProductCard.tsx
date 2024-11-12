@@ -11,6 +11,7 @@ import {
   deleteProductID as removeFromFavs,
 } from "../redux/favoritesSlice"
 import { AppState } from "../redux"
+import { userDataService } from "../services/userDataService"
 
 const ProductCard = (props: IProduct) => {
   const [imgExists, setImgExists] = useState<boolean | null>(null)
@@ -18,6 +19,7 @@ const ProductCard = (props: IProduct) => {
   const favProductIDs = useSelector(
     (state: AppState) => state.favorites.productIDs
   )
+  const user = useSelector((state: AppState) => state.auth.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -32,8 +34,12 @@ const ProductCard = (props: IProduct) => {
     return favProductIDs.some((id) => props.id === id)
   }
 
+
   const handleAddToCartBtn = () => {
     dispatch(addToCart(props.id))
+    if (user !== null) {
+      userDataService.updateUserCart(user.uid, {productId: props.id, quantity: 1})
+    }
   }
 
   const handleAddToFavsBtn = () => {
