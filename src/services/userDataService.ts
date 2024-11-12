@@ -26,11 +26,25 @@ export const userDataService = {
 
   async updateUserCart(
     userId: string,
-    cart: { productId: number; quantity: number }[]
+    cartProduct: { productId: number; quantity: number }
   ) {
     try {
       const userRef = doc(db, "users", userId)
-      await updateDoc(userRef, { cart })
+      const userDoc = await getDoc(userRef)
+      const userData = userDoc.data()
+      const currentCart = userData?.cart || []
+  
+      const existingProductIndex = currentCart.findIndex(
+        (product: { productId: number; quantity: number }) => product.productId === cartProduct.productId
+      )
+  
+      if (existingProductIndex !== -1) {
+        currentCart[existingProductIndex].quantity += cartProduct.quantity
+      } else {
+        currentCart.push(cartProduct)
+      }
+  
+      await updateDoc(userRef, { cart: currentCart })
     } catch (error) {
       console.error("Error updating user cart", error)
       throw error
