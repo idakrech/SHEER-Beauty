@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { setProductIDs } from "./filterSlice"
 
 interface ICartState {
   products: {
@@ -79,6 +78,7 @@ export const cartSlice = createSlice({
 })
 
 export const {
+  setProducts,
   addProduct,
   deleteProduct,
   decrementProductQuantity,
