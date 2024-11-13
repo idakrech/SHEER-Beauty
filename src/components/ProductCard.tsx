@@ -10,7 +10,7 @@ import {
   addProductID as addToFavs,
   deleteProductID as removeFromFavs,
 } from "../redux/favoritesSlice"
-import { AppState } from "../redux"
+import { AppDispatch, AppState } from "../redux"
 import { userDataService } from "../services/userDataService"
 
 const ProductCard = (props: IProduct) => {
@@ -20,7 +20,7 @@ const ProductCard = (props: IProduct) => {
     (state: AppState) => state.favorites.productIDs
   )
   const user = useSelector((state: AppState) => state.auth.user)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     checkIfImageExists(props.image_link, (exists: boolean) => {

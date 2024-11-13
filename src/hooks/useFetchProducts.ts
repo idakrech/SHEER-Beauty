@@ -4,12 +4,12 @@ import { IFetchProductParams, IProduct } from "../interfaces/interfaces";
 import APIService from "../services/APIService";
 import { setError, setLoading, setProducts } from "../redux/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AppState } from "../redux";
+import { AppDispatch, AppState } from "../redux";
 import { setProductIDs } from "../redux/filterSlice";
 
 function useFetchProducts(params: IFetchProductParams[]) {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const filters = useSelector((state: AppState) => state.filters)
 
     useEffect(() => {

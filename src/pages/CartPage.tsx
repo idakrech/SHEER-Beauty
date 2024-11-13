@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDispatch, useSelector } from "react-redux"
-import { AppState } from "../redux"
+import { AppDispatch, AppState } from "../redux"
 import ProductCard from "../components/ProductCard"
 import { decrementProductQuantity, deleteProduct } from "../redux/cartSlice"
 import { userDataService } from "../services/userDataService"
@@ -20,7 +20,7 @@ const CartPage = () => {
   // filter(Boolean) filters out null and undefined
   // (typeof products)[0] & { quantity: number } is a 'type intersection'
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   const handleDeleteBtn = (productID: number) => {
     dispatch(deleteProduct(productID))
