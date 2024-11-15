@@ -18,7 +18,9 @@ export const favoritesSlice = createSlice({
   reducers: {
     //for products fetched from user data db
     setProductIDs(state, action: PayloadAction<number[]>) {
-      if (state.productIDs.length > 0) {
+      if (action.payload.length === 0) {
+        state.productIDs = []
+      } else if (state.productIDs.length > 0) {
         const updatedIDs = state.productIDs.filter(
           (id) => !action.payload.some((num) => num === id)
         )

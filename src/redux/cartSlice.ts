@@ -30,13 +30,16 @@ export const cartSlice = createSlice({
         }[]
       >
     ) {
-      if (state.products.length > 0) {
-        const updatedProducts = state.products.filter(
-          (product) => !action.payload.some((p) => p === product)
-        )
-        state.products = [...updatedProducts, ...action.payload]
+      if (action.payload.length === 0) {
+        state.products = []
       } else {
-        state.products = action.payload
+        const newProducts = action.payload.filter(
+          (newProduct) =>
+            !state.products.some(
+              (existingProduct) => existingProduct.id === newProduct.id
+            )
+        )
+        state.products = [...state.products, ...newProducts]
       }
       state.loading = false
       state.error = null

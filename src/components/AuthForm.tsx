@@ -5,11 +5,16 @@ import {
   logOut,
   registerWithEmail,
 } from "../services/authService"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, AppState } from "../redux"
+import { setProducts } from "../redux/cartSlice"
+import { setProductIDs } from "../redux/favoritesSlice"
 
 const AuthForm = () => {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [isRegister, setIsRegister] = useState<boolean>(false)
+  const dispatch = useDispatch<AppDispatch>()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,6 +34,8 @@ const AuthForm = () => {
   const handleLogout = async () => {
     try {
       await logOut()
+      dispatch(setProducts([]))
+      dispatch(setProductIDs([]))
       console.log("User logged out")
     } catch (error) {
       alert(`An error occured: ${error}`)
