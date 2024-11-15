@@ -28,39 +28,59 @@ function App() {
     dispatch(listenToAuth())
   }, [dispatch])
 
-  // useEffect(() => {
-  //   if (initialRender) {
-  //     initialRender = false
-  //     return
-  //   }
+  useEffect(() => {
+    if (initialRender) {
+      initialRender = false
+      return
+    }
 
-  //   const lastUpdate = new Date().getTime()
+    const lastUpdate = new Date().getTime()
 
-  //   localStorage.setItem(
-  //     "beautyWebshop_appState",
-  //     JSON.stringify({
-  //       lastUpdate,
-  //       user,
-  //       cart,
-  //       favorites,
-  //     })
-  //   )
-  // }, [user, cart])
+    localStorage.setItem(
+      "beautyWebshop_appState",
+      JSON.stringify({
+        lastUpdate,
+        user,
+        cart,
+        favorites,
+      })
+    )
+  }, [user, cart])
 
   useEffect(() => {
+    
+    if (!user) return
+
     const fetchUserData = async () => {
       if (user) {
         try {
           const userData = await userDataService.getUserData(user.uid)
           
           if (userData) {
+
             if (userData.favorites) {
               dispatch(setProductIDs(userData.favorites))
+
+              const localFavorites = favorites.filter(
+                (fav) => !userData.favorites.includes(fav)
+              )
+  
+              for (const fav of localFavorites) {
+                await userDataService.addFavorite(user.uid, fav)
+              }
             }
 
             if (userData.cart) {
               dispatch(setProducts(userData.cart))
+
+              const localCartProducts = cart.filter((stateProduct) => !userData.cart.some((userProduct: {id: number, quantity: number}) => userProduct.id === stateProduct.id))
+
+              for (const product of localCartProducts) {
+                await userDataService.addToCart(user.uid, {id: product.id, quantity: product.quantity})
+              }
             }
+
+            // TODO: dispatch user info (address, transaction history and possibly more)
           }
         } catch (error) {
           console.error("Error fetching user data:", error)
@@ -68,8 +88,8 @@ function App() {
       }
     }
 
-    fetchUserData();
-  }, [user, dispatch]);
+    fetchUserData()
+  }, [user])
 
   return (
     <>
