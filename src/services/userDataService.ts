@@ -26,7 +26,7 @@ export const userDataService = {
 
   async addToCart(
     userId: string,
-    cartProduct: { productId: number; quantity: number }
+    cartProduct: { id: number; quantity: number }
   ) {
     try {
       const userRef = doc(db, "users", userId)
@@ -35,7 +35,7 @@ export const userDataService = {
       const currentCart = userData?.cart || []
   
       const existingProductIndex = currentCart.findIndex(
-        (product: { productId: number, quantity: number }) => product.productId === cartProduct.productId
+        (product: { id: number, quantity: number }) => product.id === cartProduct.id
       )
   
       if (existingProductIndex !== -1) {
@@ -79,14 +79,14 @@ export const userDataService = {
       throw error
     }
   },
-  async removeFromCart(userId: string, productId: number) {
+  async removeFromCart(userId: string, id: number) {
     try {
       const userRef = doc(db, "users", userId)
       const userDoc = await getDoc(userRef)
       const userData = userDoc.data()
       const currentCart = userData?.cart || []
   
-      const updatedCart = currentCart.filter((product: { productId: number }) => product.productId !== productId)
+      const updatedCart = currentCart.filter((product: { id: number }) => product.id !== id)
       
       await updateDoc(userRef, { cart: updatedCart })
     } catch (error) {

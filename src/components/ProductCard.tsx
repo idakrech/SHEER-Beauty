@@ -38,7 +38,7 @@ const ProductCard = (props: IProduct) => {
   const handleAddToCartBtn = () => {
     dispatch(addToCart(props.id))
     if (user !== null) {
-      userDataService.addToCart(user.uid, {productId: props.id, quantity: 1})
+      userDataService.addToCart(user.uid, {id: props.id, quantity: 1})
     }
   }
 
