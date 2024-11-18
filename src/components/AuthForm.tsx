@@ -15,7 +15,7 @@ const AuthForm = () => {
   const [password, setPassword] = useState<string>("")
   const [isRegister, setIsRegister] = useState<boolean>(false)
   const user = useSelector((state: AppState) => state.auth.user)
-  const userFirstName = useSelector((state: AppState) => state.auth.userFirstName)
+  const userFirstName = useSelector((state: AppState) => state.auth.user?.displayName)
   const dispatch = useDispatch<AppDispatch>()
 
   const handleSubmit = async (e: React.FormEvent) => {

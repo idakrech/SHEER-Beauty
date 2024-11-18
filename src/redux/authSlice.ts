@@ -4,14 +4,12 @@ import { User } from "firebase/auth"
 
 interface IAuthState {
   user: User | null
-  userFirstName: string
   loading: boolean
   error: string | null
 }
 
 const initialState: IAuthState = {
   user: null,
-  userFirstName: "",
   loading: false,
   error: null,
 }
@@ -26,7 +24,9 @@ export const authSlice = createSlice({
       state.error = null
     },
     setUserFirstName(state, action: PayloadAction<string>) {
-      state.userFirstName = action.payload
+      if (state.user) {
+        state.user.displayName = action.payload
+      }
     },
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload
@@ -43,4 +43,5 @@ export const authSlice = createSlice({
   },
 })
 
-export const { setUser, setUserFirstName, setLoading, setError, logout } = authSlice.actions
+export const { setUser, setUserFirstName, setLoading, setError, logout } =
+  authSlice.actions

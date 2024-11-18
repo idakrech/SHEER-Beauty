@@ -18,6 +18,11 @@ import { setProducts } from "./redux/cartSlice"
 import AddressForm from "./components/AddressForm"
 import { setUserFirstName } from "./redux/authSlice"
 
+// NEXT UP: three libraries: 
+// - password strength & email validity
+// - address validation
+// - phone country codes (api?)
+
 function App() {
   const dispatch = useDispatch<AppDispatch>()
   const user = useSelector((state: AppState) => state.auth.user)
