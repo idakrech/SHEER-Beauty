@@ -41,7 +41,6 @@ const AddressForm = () => {
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddressValues({ ...addressValues, [e.target.name]: e.target.value })
-    console.log("Address state:", addressValues)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
