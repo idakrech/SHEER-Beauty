@@ -14,6 +14,7 @@ const AuthForm = () => {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [isRegister, setIsRegister] = useState<boolean>(false)
+  const user = useSelector((state: AppState) => state.auth.user)
   const dispatch = useDispatch<AppDispatch>()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,28 +45,36 @@ const AuthForm = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">{isRegister ? "Register" : "Login"}</button>
-      </form>
-      <button onClick={() => setIsRegister(!isRegister)}>
-        {isRegister ? "Switch to Login" : "Switch to Register"}
-      </button>
-      <button onClick={() => handleLogout()}>Log out</button>
+      {!user && (
+        <div>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="submit">{isRegister ? "Register" : "Login"}</button>
+          </form>
+          <button onClick={() => setIsRegister(!isRegister)}>
+            {isRegister ? "Switch to Login" : "Switch to Register"}
+          </button>
+        </div>
+      )}
 
-    {/* to be implemented later with redux - a variable 'isLoggedIn' is needed first to conditionally display this button*/}
-      {/* <button onClick={handleLogout}>Logout</button> */}
+      {user && (
+        <div>
+          {/* TODO: implement name from user address */}
+          <h3>Welcome ABC!</h3> 
+        <button onClick={() => handleLogout()}>Logout</button>
+        </div>
+        )}
     </div>
   )
 }
