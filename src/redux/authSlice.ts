@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { User } from "firebase/auth"
-import { logOut } from "../services/authService"
 
 interface IAuthState {
   user: User | null
+  userFirstName: string
   loading: boolean
   error: string | null
 }
 
 const initialState: IAuthState = {
   user: null,
+  userFirstName: "",
   loading: false,
   error: null,
 }
@@ -23,6 +24,9 @@ export const authSlice = createSlice({
       state.user = action.payload
       state.loading = false
       state.error = null
+    },
+    setUserFirstName(state, action: PayloadAction<string>) {
+      state.userFirstName = action.payload
     },
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload
@@ -39,4 +43,4 @@ export const authSlice = createSlice({
   },
 })
 
-export const { setUser, setLoading, setError, logout } = authSlice.actions
+export const { setUser, setUserFirstName, setLoading, setError, logout } = authSlice.actions

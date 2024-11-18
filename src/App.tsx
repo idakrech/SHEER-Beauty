@@ -16,6 +16,7 @@ import { userDataService } from "./services/userDataService"
 import { setProductIDs } from "./redux/favoritesSlice"
 import { setProducts } from "./redux/cartSlice"
 import AddressForm from "./components/AddressForm"
+import { setUserFirstName } from "./redux/authSlice"
 
 let initialRender = true
 
@@ -81,7 +82,9 @@ function App() {
               }
             }
 
-            // TODO: dispatch user info (address, transaction history and possibly more)
+            if (userData.address.firstName) {
+              dispatch(setUserFirstName(userData.address.firstName))
+            }
           }
         } catch (error) {
           console.error("Error fetching user data:", error)

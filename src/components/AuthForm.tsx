@@ -15,6 +15,7 @@ const AuthForm = () => {
   const [password, setPassword] = useState<string>("")
   const [isRegister, setIsRegister] = useState<boolean>(false)
   const user = useSelector((state: AppState) => state.auth.user)
+  const userFirstName = useSelector((state: AppState) => state.auth.userFirstName)
   const dispatch = useDispatch<AppDispatch>()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -70,8 +71,7 @@ const AuthForm = () => {
 
       {user && (
         <div>
-          {/* TODO: implement name from user address */}
-          <h3>Welcome ABC!</h3> 
+          <h3>Welcome {userFirstName}!</h3> 
         <button onClick={() => handleLogout()}>Logout</button>
         </div>
         )}
