@@ -15,6 +15,7 @@ import AuthForm from "./components/AuthForm"
 import { userDataService } from "./services/userDataService"
 import { setProductIDs } from "./redux/favoritesSlice"
 import { setProducts } from "./redux/cartSlice"
+import AddressForm from "./components/AddressForm"
 
 let initialRender = true
 
@@ -100,6 +101,7 @@ function App() {
         <Route path="cart-page" element={<CartPage />}></Route>
         <Route path="category-page" element={<CategoryPage />}></Route>
         <Route path="product-page" element={<ProductPage />}></Route>
+        <Route path="user-page" element={<AddressForm/>}></Route>
       </Routes>
 
       <Footer />
