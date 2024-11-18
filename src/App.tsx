@@ -18,8 +18,6 @@ import { setProducts } from "./redux/cartSlice"
 import AddressForm from "./components/AddressForm"
 import { setUserFirstName } from "./redux/authSlice"
 
-let initialRender = true
-
 function App() {
   const dispatch = useDispatch<AppDispatch>()
   const user = useSelector((state: AppState) => state.auth.user)
@@ -31,42 +29,45 @@ function App() {
   }, [dispatch])
 
   useEffect(() => {
-    if (initialRender) {
-      initialRender = false
-      return
-    }
-
     const lastUpdate = new Date().getTime()
 
-    localStorage.setItem(
-      "beautyWebshop_appState",
-      JSON.stringify({
-        lastUpdate,
-        user,
-        cart,
-        favorites,
-      })
-    )
-  }, [user, cart])
+    if (user) {
+      const uid = user.uid
+      localStorage.setItem(
+        "beautyWebshop_appState",
+        JSON.stringify({
+          lastUpdate,
+          uid,
+        })
+      )
+    } else {
+      localStorage.setItem(
+        "beautyWebshop_appState",
+        JSON.stringify({
+          lastUpdate,
+          cart,
+          favorites,
+        })
+      )
+    }
+  }, [user, cart, favorites])
 
   useEffect(() => {
-    
     if (!user) return
 
     const fetchUserData = async () => {
       if (user) {
         try {
           const userData = await userDataService.getUserData(user.uid)
-          
-          if (userData) {
 
+          if (userData) {
             if (userData.favorites) {
               dispatch(setProductIDs(userData.favorites))
 
               const localFavorites = favorites.filter(
                 (fav) => !userData.favorites.includes(fav)
               )
-  
+
               for (const fav of localFavorites) {
                 await userDataService.addFavorite(user.uid, fav)
               }
@@ -75,10 +76,19 @@ function App() {
             if (userData.cart) {
               dispatch(setProducts(userData.cart))
 
-              const localCartProducts = cart.filter((stateProduct) => !userData.cart.some((userProduct: {id: number, quantity: number}) => userProduct.id === stateProduct.id))
+              const localCartProducts = cart.filter(
+                (stateProduct) =>
+                  !userData.cart.some(
+                    (userProduct: { id: number; quantity: number }) =>
+                      userProduct.id === stateProduct.id
+                  )
+              )
 
               for (const product of localCartProducts) {
-                await userDataService.addToCart(user.uid, {id: product.id, quantity: product.quantity})
+                await userDataService.addToCart(user.uid, {
+                  id: product.id,
+                  quantity: product.quantity,
+                })
               }
             }
 
@@ -104,7 +114,7 @@ function App() {
         <Route path="cart-page" element={<CartPage />}></Route>
         <Route path="category-page" element={<CategoryPage />}></Route>
         <Route path="product-page" element={<ProductPage />}></Route>
-        <Route path="user-page" element={<AddressForm/>}></Route>
+        <Route path="user-page" element={<AddressForm />}></Route>
       </Routes>
 
       <Footer />
