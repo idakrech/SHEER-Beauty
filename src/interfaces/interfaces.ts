@@ -42,12 +42,15 @@ export interface IProductType {
 }
 
 export interface IAddress {
-  name: string,
-  street: string,
-  city: string,
-  state?: string,
-  zipCode: string,
+  firstName: string
+  lastName: string
+  street: string
+  city: string
+  state?: string
+  zipCode: string
   country: string
+  phoneCountryCode: string
+  phoneNumber: number | null
 }
 
 export interface IUserData {
