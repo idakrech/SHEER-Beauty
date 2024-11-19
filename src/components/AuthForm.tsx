@@ -9,14 +9,25 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, AppState } from "../redux"
 import { setProducts } from "../redux/cartSlice"
 import { setProductIDs } from "../redux/favoritesSlice"
+import { checkPasswordStrength } from "../helpers/passwordCheck"
 
 const AuthForm = () => {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [isRegister, setIsRegister] = useState<boolean>(false)
+  const [passwordStrength, setPasswordStrength] = useState<number | null>(null)
   const user = useSelector((state: AppState) => state.auth.user)
-  const userFirstName = useSelector((state: AppState) => state.auth.user?.displayName)
+  const userFirstName = useSelector(
+    (state: AppState) => state.auth.user?.displayName
+  )
   const dispatch = useDispatch<AppDispatch>()
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const password = e.target.value
+    setPassword(password)
+    const score = checkPasswordStrength(password)
+    setPasswordStrength(score)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -59,8 +70,20 @@ const AuthForm = () => {
               type="password"
               placeholder="Password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
             />
+            {passwordStrength !== null && (
+              <div>
+                <p>
+                  Strength:{" "}
+                  {
+                    ["Very Weak", "Weak", "Medium", "Strong", "Very Strong"][
+                      passwordStrength
+                    ]
+                  }
+                </p>
+              </div>
+            )}
             <button type="submit">{isRegister ? "Register" : "Login"}</button>
           </form>
           <button onClick={() => setIsRegister(!isRegister)}>
@@ -71,10 +94,10 @@ const AuthForm = () => {
 
       {user && (
         <div>
-          <h3>Welcome {userFirstName}!</h3> 
-        <button onClick={() => handleLogout()}>Logout</button>
+          <h3>Welcome {userFirstName}!</h3>
+          <button onClick={() => handleLogout()}>Logout</button>
         </div>
-        )}
+      )}
     </div>
   )
 }
