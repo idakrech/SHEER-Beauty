@@ -22,53 +22,17 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, isExpanded, categor
             .slice(0, maxLimit)
             .map(
               (product) =>
-                product.image_link != null && (
+                product.image_link !== null && (
                   <ProductCard
-                    brand={product.brand}
-                    name={product.name}
-                    price={product.price}
-                    image_link={product.image_link}
-                    id={product.id}
-                    price_sign={product.price_sign}
-                    currency={product.currency}
-                    product_link={product.product_link}
-                    website_link={product.website_link}
-                    description={product.description}
-                    rating={product.rating}
-                    category={product.category}
-                    product_type={product.product_type}
-                    tag_list={product.tag_list}
-                    created_at={product.created_at}
-                    updated_at={product.updated_at}
-                    product_api_url={product.product_api_url}
-                    api_featured_image={product.api_featured_image}
-                    product_colors={product.product_colors}
+                    {...product}
                   />
                 )
             )
         : products.map(
             (product) =>
-              product.image_link != null && (
+              product.image_link !== null && (
                 <ProductCard
-                  brand={product.brand}
-                  name={product.name}
-                  price={product.price}
-                  image_link={product.image_link}
-                  id={product.id}
-                  price_sign={product.price_sign}
-                  currency={product.currency}
-                  product_link={product.product_link}
-                  website_link={product.website_link}
-                  description={product.description}
-                  rating={product.rating}
-                  category={product.category}
-                  product_type={product.product_type}
-                  tag_list={product.tag_list}
-                  created_at={product.created_at}
-                  updated_at={product.updated_at}
-                  product_api_url={product.product_api_url}
-                  api_featured_image={product.api_featured_image}
-                  product_colors={product.product_colors}
+                  {...product}
                 />
               )
           )}
