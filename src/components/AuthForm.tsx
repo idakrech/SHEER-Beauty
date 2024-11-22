@@ -25,8 +25,10 @@ const AuthForm = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const password = e.target.value
     setPassword(password)
-    const score = checkPasswordStrength(password)
-    setPasswordStrength(score)
+    if (isRegister) {
+      const score = checkPasswordStrength(password)
+      setPasswordStrength(score)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,7 +74,7 @@ const AuthForm = () => {
               value={password}
               onChange={handlePasswordChange}
             />
-            {passwordStrength !== null && (
+            {isRegister && passwordStrength !== null && (
               <div>
                 <p>
                   Strength:{" "}
@@ -94,7 +96,7 @@ const AuthForm = () => {
 
       {user && (
         <div>
-          <h3>Welcome {userFirstName}!</h3>
+          {userFirstName && <h3>Welcome {userFirstName}!</h3>}
           <button onClick={() => handleLogout()}>Logout</button>
         </div>
       )}
