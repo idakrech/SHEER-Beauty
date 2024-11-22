@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useSelector } from "react-redux"
-import { AppState } from "../redux"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, AppState } from "../redux"
 import ProductGrid from "../components/ProductGrid"
 import { useLocation } from "react-router-dom"
 import useFetchProducts from "../hooks/useFetchProducts"
+import { useEffect } from "react"
+import { resetProducts } from "../redux/productsSlice"
 
 const CategoryPage = () => {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
+
+  const dispatch = useDispatch<AppDispatch>()
 
   // when opened from grid @ Home
   const gridID = searchParams.get("gridID")
@@ -34,6 +38,16 @@ const CategoryPage = () => {
     (product) => product.category == category
   )
 
+  // useEffect(() => {
+  //   dispatch(resetProducts())
+  // }, [location.pathname, dispatch])
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetProducts())
+    }
+  }, [dispatch])
+  
   return (
     <ProductGrid
       products={

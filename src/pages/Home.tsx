@@ -1,16 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import useFetchProducts from "../hooks/useFetchProducts"
-import { useSelector } from "react-redux"
-import { AppState } from "../redux"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, AppState } from "../redux"
 import { filterProducts } from "../utils/filterProducts"
-import { useNavigate } from "react-router-dom"
 import NavigationList from "../components/NavigationList"
+import { useEffect } from "react"
+import { resetProducts } from "../redux/productsSlice"
 
 const Home = () => {
   const state = useSelector((state: AppState) => state)
   const filterParams = state.filters.map((f) => f.fetchParams)
+  const dispatch = useDispatch<AppDispatch>()
 
   useFetchProducts(filterParams)
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetProducts())
+    }
+  }, [dispatch])
+  
 
   return (
     <>

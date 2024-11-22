@@ -35,7 +35,10 @@ export const productsSlice = createSlice({
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;
     },
+    resetProducts(state) {
+      state.products = []
+    },
   },
 });
 
-export const { setProducts, setError, setLoading } = productsSlice.actions;
+export const { setProducts, setError, setLoading, resetProducts } = productsSlice.actions;
