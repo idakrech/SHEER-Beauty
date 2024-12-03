@@ -14,7 +14,6 @@ import { AppDispatch, AppState } from "../redux"
 import { userDataService } from "../services/userDataService"
 
 const ProductCard = (props: IProduct) => {
-  const [imgExists, setImgExists] = useState<boolean | null>(null)
   const [isFavorite, setIsFavorite] = useState<boolean>()
   const favProductIDs = useSelector(
     (state: AppState) => state.favorites.productIDs
@@ -23,9 +22,6 @@ const ProductCard = (props: IProduct) => {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    checkIfImageExists(props.image_link, (exists: boolean) => {
-      setImgExists(exists)
-    })
     setIsFavorite(checkIfFavorite)
   }, [props.id, favProductIDs])
 
@@ -68,13 +64,7 @@ const ProductCard = (props: IProduct) => {
       <div className="w-72 bg-white duration-500 hover:scale-105 border border-gray-300">
         <a href="#">
           <div className="flex justify-center py-10">
-            {imgExists === null ? (
-              <p>Loading...</p>
-            ) : imgExists ? (
-              <img src={props.image_link} alt="Product photo" />
-            ) : (
-              <img src={PlaceholderImg} />
-            )}
+          <img src={props.image_link} alt={`${props.name} image`} className="object-cover" />
           </div>
 
           <div className="px-4 py-3 w-72 bg-gray-100">
