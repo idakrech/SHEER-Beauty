@@ -4,7 +4,8 @@ import CategoryList from "./CategoryList" // Import komponentu kategorii
 import UserMenu from "./UserMenu"
 
 const Navbar = () => {
-  const [showDropdown, setShowDropdown] = useState(false)
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState<boolean>(false)
+  const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false)
 
   return (
     <div className="w-full bg-gray-800 text-white flex items-center px-4 py-2">
@@ -14,11 +15,11 @@ const Navbar = () => {
         {/* Dropdown Categories */}
         <div
           className="relative"
-          onMouseEnter={() => setShowDropdown(true)}
-          onMouseLeave={() => setShowDropdown(false)}
+          onMouseEnter={() => setShowCategoryDropdown(true)}
+          onMouseLeave={() => setShowCategoryDropdown(false)}
         >
           <button className="text-lg font-bold">Categories</button>
-          {showDropdown && (
+          {showCategoryDropdown && (
             <div className="absolute bg-white text-black rounded shadow-lg mt-2">
               <CategoryList />
             </div>
@@ -54,18 +55,14 @@ const Navbar = () => {
           Cart
         </NavLink>
 
-        {/* <NavLink to="/user-page" className="text-lg font-bold">
-          Account
-        </NavLink> */}
-
         {/* Dropdown Account */}
         <div
           className="relative"
-          onMouseEnter={() => setShowDropdown(true)}
-          onMouseLeave={() => setShowDropdown(false)}
+          onMouseEnter={() => setShowUserDropdown(true)}
+          onMouseLeave={() => setShowUserDropdown(false)}
         >
           <button className="text-lg font-bold">Account</button>
-          {showDropdown && (
+          {showUserDropdown && (
             <div className="absolute bg-white text-black rounded shadow-lg mt-2">
               <UserMenu />
             </div>
