@@ -4,12 +4,12 @@ import {
   loginWithEmail,
   logOut,
   registerWithEmail,
-} from "../services/authService"
+} from "../../services/authService"
 import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, AppState } from "../redux"
-import { setProducts } from "../redux/cartSlice"
-import { setProductIDs } from "../redux/favoritesSlice"
-import { checkPasswordStrength } from "../helpers/passwordCheck"
+import { AppDispatch, AppState } from "../../redux"
+import { setProducts } from "../../redux/cartSlice"
+import { setProductIDs } from "../../redux/favoritesSlice"
+import { checkPasswordStrength } from "../../helpers/passwordCheck"
 
 const AuthForm = () => {
   const [email, setEmail] = useState<string>("")

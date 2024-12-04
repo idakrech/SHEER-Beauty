@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import ProductCard from "./ProductCard"
-import { IProduct } from "../interfaces/interfaces"
+import { IProduct } from "../../interfaces/interfaces"
 import { useNavigate } from "react-router-dom";
-import checkIfImageExists from "../helpers/checkImage";
+import checkIfImageExists from "../../helpers/checkImage";
 
 interface IProductGridProps {
   products: IProduct[],

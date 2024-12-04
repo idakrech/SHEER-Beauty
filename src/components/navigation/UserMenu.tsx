@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
-import { AppState } from "../redux"
-import AuthForm from "./AuthForm"
+import { AppState } from "../../redux"
+import AuthForm from "../user-page/AuthForm"
 
 const UserMenu = () => {
 

@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom"
 import "./App.css"
 import Home from "./pages/Home"
 import CartPage from "./pages/CartPage"
-import Navbar from "./components/Navbar"
+import Navbar from "./components/navigation/Navbar"
 import Footer from "./components/Footer"
 import CategoryPage from "./pages/CategoryPage"
 import ProductPage from "./pages/ProductPage"
@@ -11,15 +11,14 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { listenToAuth } from "./helpers/authListener"
 import { AppDispatch, AppState } from "./redux"
-import AuthForm from "./components/AuthForm"
+import AuthForm from "./components/user-page/AuthForm"
 import { userDataService } from "./services/userDataService"
 import { setProductIDs } from "./redux/favoritesSlice"
 import { setProducts } from "./redux/cartSlice"
-import AddressForm from "./components/AddressForm"
 import { setUserFirstName } from "./redux/authSlice"
+import AddressForm from "./components/user-page/AddressForm"
 
 // NEXT UP: three libraries: 
-// - password strength & email validity
 // - address validation
 // - phone country codes (api?)
 

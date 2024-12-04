@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, AppState } from "../redux"
-import ProductGrid from "../components/ProductGrid"
+import ProductGrid from "../components/product-display/ProductGrid"
 import { useLocation } from "react-router-dom"
 import useFetchProducts from "../hooks/useFetchProducts"
 import { useEffect } from "react"

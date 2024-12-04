@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AppState } from "../redux"
-import ProductGrid from "../components/ProductGrid"
+import ProductGrid from "../components/product-display/ProductGrid"
 
 export const filterProducts = (state: AppState) => {
 
