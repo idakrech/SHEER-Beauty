@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react"
-import { IProduct } from "../interfaces/interfaces"
-import checkIfImageExists from "../helpers/checkImage"
-import PlaceholderImg from "../assets/placeholder.png"
+import { IProduct } from "../../interfaces/interfaces"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { addProduct as addToCart } from "../redux/cartSlice"
+import { addProduct as addToCart } from "../../redux/cartSlice"
 import {
   addProductID as addToFavs,
   deleteProductID as removeFromFavs,
-} from "../redux/favoritesSlice"
-import { AppDispatch, AppState } from "../redux"
-import { userDataService } from "../services/userDataService"
+} from "../../redux/favoritesSlice"
+import { AppDispatch, AppState } from "../../redux"
+import { userDataService } from "../../services/userDataService"
 
 const ProductCard = (props: IProduct) => {
   const [isFavorite, setIsFavorite] = useState<boolean>()

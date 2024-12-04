@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react'
-import { IProduct } from '../interfaces/interfaces'
 import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { AppState } from '../redux'
-import ProductCard from '../components/ProductCard'
+import ProductCard from '../components/product-display/ProductCard'
 
 
 const ProductPage = () => {

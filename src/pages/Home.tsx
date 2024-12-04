@@ -3,7 +3,6 @@ import useFetchProducts from "../hooks/useFetchProducts"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, AppState } from "../redux"
 import { filterProducts } from "../utils/filterProducts"
-import CategoryList from "../components/CategoryList"
 import { useEffect } from "react"
 import { resetProducts } from "../redux/productsSlice"
 

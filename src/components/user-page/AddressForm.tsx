@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { AppState } from "../redux"
-import { IAddress } from "../interfaces/interfaces"
-import { userDataService } from "../services/userDataService"
+import { AppState } from "../../redux"
+import { IAddress } from "../../interfaces/interfaces"
+import { userDataService } from "../../services/userDataService"
 
 const AddressForm = () => {
   const user = useSelector((state: AppState) => state.auth.user)
