@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, AppState } from "../redux"
-import ProductCard from "../components/ProductCard"
+import ProductCard from "../components/product-display/ProductCard"
 import { decrementProductQuantity, deleteProduct } from "../redux/cartSlice"
 import { userDataService } from "../services/userDataService"
 

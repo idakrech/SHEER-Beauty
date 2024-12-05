@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link } from "react-router-dom"
-import { productTypes } from "../constants/productTypes"
-import { formatParamName } from "../utils/formatParamNames"
+import { productTypes } from "../../constants/productTypes"
+import { formatParamName } from "../../utils/formatParamNames"
 
 const CategoryList = () => {
   const types = productTypes
