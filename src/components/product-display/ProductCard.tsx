@@ -10,12 +10,16 @@ import {
 } from "../../redux/favoritesSlice"
 import { AppDispatch, AppState } from "../../redux"
 import { userDataService } from "../../services/userDataService"
+import {
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  ShoppingCartOutlined,
+} from "@mui/icons-material"
+import { removeFirstWord } from "../../helpers/removeFirstWord"
 
 const ProductCard = (props: IProduct) => {
   const [isFavorite, setIsFavorite] = useState<boolean>()
-  const favProducts = useSelector(
-    (state: AppState) => state.favorites.products
-  )
+  const favProducts = useSelector((state: AppState) => state.favorites.products)
   const user = useSelector((state: AppState) => state.auth.user)
   const dispatch = useDispatch<AppDispatch>()
 
@@ -28,11 +32,10 @@ const ProductCard = (props: IProduct) => {
     return favProducts.some((product) => props.id === product.id)
   }
 
-
   const handleAddToCartBtn = () => {
     dispatch(addToCart(props))
     if (user !== null) {
-      userDataService.addToCart(user.uid, {product: props, quantity: 1})
+      userDataService.addToCart(user.uid, { product: props, quantity: 1 })
     }
   }
 
@@ -43,71 +46,54 @@ const ProductCard = (props: IProduct) => {
 
     if (user !== null) {
       if (newIsFavorite) {
-         userDataService.addFavorite(user.uid, props)
+        userDataService.addFavorite(user.uid, props)
       } else {
         userDataService.removeFavorite(user.uid, props)
       }
     }
   }
-  
 
   return (
-    // <div className='flex justify-center align-center'>
-    //     <img src={props.image_link} className='object-cover'/>
-    //     <h3>{props.name}</h3>
-    //     <p>{props.brand}</p>
-    //     <h3>{props.price}</h3>
-    // </div>
-    <Link to={`/product-page?id=${props.id}`}>
-      <div className="w-72 bg-white duration-500 hover:scale-105 border border-gray-300">
-        <a href="#">
-          <div className="flex justify-center py-10">
-          <img src={props.image_link} alt={`${props.name} image`} className="object-cover" />
-          </div>
+    <div className="w-full bg-white duration-500 hover:scale-105">
+      <a href="#">
+        <div className="flex justify-center py-10">
+          <Link to={`/product-page?id=${props.id}`}>
+            <img
+              src={props.image_link}
+              alt={`${props.name} image`}
+              className="object-cover"
+            />
+          </Link>
+        </div>
 
-          <div className="px-4 py-3 w-72 bg-gray-100">
-            <span className="text-gray-400 mr-3 uppercase text-xs">
-              {props.brand}
-            </span>
-            <p className="text-lg font-bold text-black truncate block capitalize">
-              {props.name}
+        <div className="px-4 py-3 w-full bg-white border-b border-l border-r border-red-300">
+          <span className="text-gray-400 mr-3 uppercase text-xs">
+            {props.brand}
+          </span>
+          <p className="text-md font-semibold text-black truncate block capitalize">
+            {removeFirstWord(props.name)}
+          </p>
+          <div className="flex justify-between items-center">
+            <p className="text-lg font-semibold text-black cursor-auto my-3">
+              {props.price_sign ? props.price_sign : "$"}
+              {props.price}
             </p>
-            <div className="flex items-center">
-              <p className="text-lg font-semibold text-black cursor-auto my-3">
-                {props.price_sign ? props.price_sign : "$"}
-                {props.price}
-              </p>
-              <button onClick={() => handleAddToCartBtn()}>TO CART</button>
+            <div className="flex">
               <button onClick={() => handleAddToFavsBtn()}>
-                {!isFavorite ? <p>ADD FAV</p> : <p>REMOVE FAV</p>}
+                {!isFavorite ? (
+                  <FavoriteBorderOutlined />
+                ) : (
+                  <FavoriteOutlined />
+                )}
               </button>
-
-              {/* for old price */}
-              {/* <del>
-                        <p className="text-sm text-gray-600 cursor-auto ml-2">$199</p>
-                    </del> */}
-
-              <div className="ml-auto">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="currentColor"
-                  className="bi bi-bag-plus"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5z"
-                  />
-                  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
-                </svg>
-              </div>
+              <button onClick={() => handleAddToCartBtn()}>
+                <ShoppingCartOutlined />
+              </button>
             </div>
           </div>
-        </a>
-      </div>
-    </Link>
+        </div>
+      </a>
+    </div>
   )
 }
 
