@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { IProduct } from "../interfaces/interfaces"
 
 interface ICartState {
   products: {
-    id: number
+    product: IProduct
     quantity: number
   }[]
   loading: boolean
@@ -25,7 +26,7 @@ export const cartSlice = createSlice({
       state,
       action: PayloadAction<
         {
-          id: number
+          product: IProduct
           quantity: number
         }[]
       >
@@ -36,7 +37,7 @@ export const cartSlice = createSlice({
         const newProducts = action.payload.filter(
           (newProduct) =>
             !state.products.some(
-              (existingProduct) => existingProduct.id === newProduct.id
+              (existingProduct) => existingProduct.product.id === newProduct.product.id
             )
         )
         state.products = [...state.products, ...newProducts]
@@ -44,29 +45,29 @@ export const cartSlice = createSlice({
       state.loading = false
       state.error = null
     },
-    addProduct(state, action: PayloadAction<number>) {
+    addProduct(state, action: PayloadAction<IProduct>) {
       const existingProduct = state.products.find(
-        (product) => product.id === action.payload
+        (existingProduct) => existingProduct.product.id === action.payload.id
       )
       if (existingProduct) {
         existingProduct.quantity += 1
       } else {
-        state.products.push({ id: action.payload, quantity: 1 })
+        state.products.push({ product: action.payload, quantity: 1 })
       }
     },
-    deleteProduct(state, action: PayloadAction<number>) {
+    deleteProduct(state, action: PayloadAction<IProduct>) {
       state.products = state.products.filter(
-        (product) => product.id !== action.payload
+        (existingProduct) => existingProduct.product.id !== action.payload.id
       )
     },
-    decrementProductQuantity(state, action: PayloadAction<number>) {
+    decrementProductQuantity(state, action: PayloadAction<IProduct>) {
       const product = state.products.find(
-        (product) => product.id === action.payload
+        (product) => product.product.id === action.payload.id
       )
       if (product) {
         product.quantity -= 1
         if (product.quantity === 0) {
-          state.products = state.products.filter((p) => p.id !== action.payload)
+          state.products = state.products.filter((existingProduct) => existingProduct.product.id !== action.payload.id)
         }
       }
     },

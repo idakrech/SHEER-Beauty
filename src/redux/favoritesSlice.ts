@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { IProduct } from "../interfaces/interfaces"
 
 export interface IFavoritesState {
-  productIDs: number[]
+  products: IProduct[]
   loading: boolean
   error: Error | null
 }
 
 const initialState: IFavoritesState = {
-  productIDs: [],
+  products: [],
   loading: false,
   error: null,
 }
@@ -17,31 +18,31 @@ export const favoritesSlice = createSlice({
   initialState,
   reducers: {
     //for products fetched from user data db
-    setProductIDs(state, action: PayloadAction<number[]>) {
+    setProducts(state, action: PayloadAction<IProduct[]>) {
       if (action.payload.length === 0) {
-        state.productIDs = []
-      } else if (state.productIDs.length > 0) {
-        const updatedIDs = state.productIDs.filter(
-          (id) => !action.payload.some((num) => num === id)
+        state.products = []
+      } else if (state.products.length > 0) {
+        const updatedProducts = state.products.filter(
+          (product) => !action.payload.some((newProduct) => newProduct.id === product.id)
         )
-        state.productIDs = [...updatedIDs, ...action.payload]
+        state.products = [...updatedProducts, ...action.payload]
       } else {
-        state.productIDs = action.payload
+        state.products = action.payload
       }
       state.loading = false
       state.error = null
     },
-    addProductID(state, action: PayloadAction<number>) {
-      if (!state.productIDs.some((id) => action.payload === id)) {
-        state.productIDs = [...state.productIDs, action.payload]
+    addProduct(state, action: PayloadAction<IProduct>) {
+      if (!state.products.some((product) => action.payload.id === product.id)) {
+        state.products = [...state.products, action.payload]
       }
     },
-    deleteProductID(state, action: PayloadAction<number>) {
-      if (state.productIDs.some((id) => action.payload === id)) {
-        const updatedProductIDs = state.productIDs.filter(
-          (id) => id != action.payload
+    deleteProduct(state, action: PayloadAction<IProduct>) {
+      if (state.products.some((product) => action.payload.id === product.id)) {
+        const updatedProductIDs = state.products.filter(
+          (product) => product.id != action.payload.id
         )
-        state.productIDs = [...updatedProductIDs]
+        state.products = [...updatedProductIDs]
       }
     },
     setError(state, action: PayloadAction<Error>) {
@@ -55,9 +56,9 @@ export const favoritesSlice = createSlice({
 })
 
 export const {
-  setProductIDs,
-  addProductID,
-  deleteProductID,
+  setProducts,
+  addProduct,
+  deleteProduct,
   setError,
   setLoading,
 } = favoritesSlice.actions

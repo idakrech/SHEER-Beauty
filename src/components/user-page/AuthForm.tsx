@@ -7,8 +7,8 @@ import {
 } from "../../services/authService"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, AppState } from "../../redux"
-import { setProducts } from "../../redux/cartSlice"
-import { setProductIDs } from "../../redux/favoritesSlice"
+import { setProducts as setCartProducts } from "../../redux/cartSlice"
+import { setProducts as setFavProducts} from "../../redux/favoritesSlice"
 import { checkPasswordStrength } from "../../helpers/passwordCheck"
 
 const AuthForm = () => {
@@ -49,8 +49,8 @@ const AuthForm = () => {
   const handleLogout = async () => {
     try {
       await logOut()
-      dispatch(setProducts([]))
-      dispatch(setProductIDs([]))
+      dispatch(setFavProducts([]))
+      dispatch(setCartProducts([]))
       console.log("User logged out")
     } catch (error) {
       alert(`An error occured: ${error}`)

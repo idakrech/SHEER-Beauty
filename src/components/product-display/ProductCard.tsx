@@ -5,47 +5,47 @@ import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { addProduct as addToCart } from "../../redux/cartSlice"
 import {
-  addProductID as addToFavs,
-  deleteProductID as removeFromFavs,
+  addProduct as addToFavs,
+  deleteProduct as removeFromFavs,
 } from "../../redux/favoritesSlice"
 import { AppDispatch, AppState } from "../../redux"
 import { userDataService } from "../../services/userDataService"
 
 const ProductCard = (props: IProduct) => {
   const [isFavorite, setIsFavorite] = useState<boolean>()
-  const favProductIDs = useSelector(
-    (state: AppState) => state.favorites.productIDs
+  const favProducts = useSelector(
+    (state: AppState) => state.favorites.products
   )
   const user = useSelector((state: AppState) => state.auth.user)
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     setIsFavorite(checkIfFavorite)
-  }, [props.id, favProductIDs])
+  }, [props.id, favProducts])
 
   const checkIfFavorite = (): boolean => {
     console.log("hello from useEffect")
-    return favProductIDs.some((id) => props.id === id)
+    return favProducts.some((product) => props.id === product.id)
   }
 
 
   const handleAddToCartBtn = () => {
-    dispatch(addToCart(props.id))
+    dispatch(addToCart(props))
     if (user !== null) {
-      userDataService.addToCart(user.uid, {id: props.id, quantity: 1})
+      userDataService.addToCart(user.uid, {product: props, quantity: 1})
     }
   }
 
   const handleAddToFavsBtn = () => {
     const newIsFavorite = !isFavorite
-    dispatch(newIsFavorite ? addToFavs(props.id) : removeFromFavs(props.id))
+    dispatch(newIsFavorite ? addToFavs(props) : removeFromFavs(props))
     setIsFavorite(newIsFavorite)
 
     if (user !== null) {
       if (newIsFavorite) {
-         userDataService.addFavorite(user.uid, props.id)
+         userDataService.addFavorite(user.uid, props)
       } else {
-        userDataService.removeFavorite(user.uid, props.id)
+        userDataService.removeFavorite(user.uid, props)
       }
     }
   }

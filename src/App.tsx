@@ -13,10 +13,12 @@ import { listenToAuth } from "./helpers/authListener"
 import { AppDispatch, AppState } from "./redux"
 import AuthForm from "./components/user-page/AuthForm"
 import { userDataService } from "./services/userDataService"
-import { setProductIDs } from "./redux/favoritesSlice"
-import { setProducts } from "./redux/cartSlice"
+import { setProducts as setFavProducts } from "./redux/favoritesSlice"
+import { setProducts as setCartProducts} from "./redux/cartSlice"
 import { setUserFirstName } from "./redux/authSlice"
 import AddressForm from "./components/user-page/AddressForm"
+import UserPage from "./pages/UserPage"
+import { IProduct } from "./interfaces/interfaces"
 
 // NEXT UP: three libraries: 
 // - address validation
@@ -26,7 +28,7 @@ function App() {
   const dispatch = useDispatch<AppDispatch>()
   const user = useSelector((state: AppState) => state.auth.user)
   const cart = useSelector((state: AppState) => state.cart.products)
-  const favorites = useSelector((state: AppState) => state.favorites.productIDs)
+  const favorites = useSelector((state: AppState) => state.favorites.products)
 
   useEffect(() => {
     dispatch(listenToAuth())
@@ -66,7 +68,7 @@ function App() {
 
           if (userData) {
             if (userData.favorites) {
-              dispatch(setProductIDs(userData.favorites))
+              dispatch(setFavProducts(userData.favorites))
 
               const localFavorites = favorites.filter(
                 (fav) => !userData.favorites.includes(fav)
@@ -78,20 +80,20 @@ function App() {
             }
 
             if (userData.cart) {
-              dispatch(setProducts(userData.cart))
+              dispatch(setCartProducts(userData.cart))
 
               const localCartProducts = cart.filter(
                 (stateProduct) =>
                   !userData.cart.some(
-                    (userProduct: { id: number; quantity: number }) =>
-                      userProduct.id === stateProduct.id
+                    (userProduct: { product: IProduct, quantity: number }) =>
+                      userProduct.product.id === stateProduct.product.id
                   )
               )
 
-              for (const product of localCartProducts) {
+              for (const localProduct of localCartProducts) {
                 await userDataService.addToCart(user.uid, {
-                  id: product.id,
-                  quantity: product.quantity,
+                  product: localProduct.product,
+                  quantity: localProduct.quantity,
                 })
               }
             }
@@ -118,7 +120,7 @@ function App() {
         <Route path="cart-page" element={<CartPage />}></Route>
         <Route path="category-page" element={<CategoryPage />}></Route>
         <Route path="product-page" element={<ProductPage />}></Route>
-        <Route path="user-page" element={<AddressForm />}></Route>
+        <Route path="user-page/:tab" element={<UserPage />}></Route>
       </Routes>
 
       <Footer />

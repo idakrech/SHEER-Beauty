@@ -10,7 +10,7 @@ const UserPage = () => {
 
   const { tab } = useParams<{ tab: string }>()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const favorites = useSelector((state: AppState) => state.favorites.productIDs)
+  const favorites = useSelector((state: AppState) => state.favorites.products)
 
   return (
     <div>

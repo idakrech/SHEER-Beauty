@@ -1,6 +1,6 @@
 import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore"
 import { db } from "../firebaseConfig"
-import { IAddress, IUserData } from "../interfaces/interfaces"
+import { IAddress, IProduct, IUserData } from "../interfaces/interfaces"
 
 export const userDataService = {
   async initializeUserData(userData: IUserData) {
@@ -26,7 +26,7 @@ export const userDataService = {
 
   async addToCart(
     userId: string,
-    cartProduct: { id: number; quantity: number }
+    cartProduct: { product: IProduct; quantity: number }
   ) {
     try {
       const userRef = doc(db, "users", userId)
@@ -35,7 +35,7 @@ export const userDataService = {
       const currentCart = userData?.cart || []
   
       const existingProductIndex = currentCart.findIndex(
-        (product: { id: number, quantity: number }) => product.id === cartProduct.id
+        (existingProduct: { product: IProduct, quantity: number }) => existingProduct.product.id === cartProduct.product.id
       )
   
       if (existingProductIndex !== -1) {
@@ -51,7 +51,7 @@ export const userDataService = {
     }
   },
 
-  async decrementProductQuantity(userId: string, productId: number) {
+  async decrementProductQuantity(userId: string, product: IProduct) {
     try {
       const userRef = doc(db, "users", userId)
       const userDoc = await getDoc(userRef)
@@ -59,7 +59,7 @@ export const userDataService = {
       const currentCart = userData?.cart || []
   
       const existingProductIndex = currentCart.findIndex(
-        (product: { productId: number, quantity: number }) => product.productId === productId
+        (existingProduct: { product: IProduct, quantity: number }) => existingProduct.product.id === product.id
       )
   
       if (existingProductIndex !== -1) {
@@ -79,14 +79,15 @@ export const userDataService = {
       throw error
     }
   },
-  async removeFromCart(userId: string, id: number) {
+
+  async removeFromCart(userId: string, product: IProduct) {
     try {
       const userRef = doc(db, "users", userId)
       const userDoc = await getDoc(userRef)
       const userData = userDoc.data()
       const currentCart = userData?.cart || []
   
-      const updatedCart = currentCart.filter((product: { id: number }) => product.id !== id)
+      const updatedCart = currentCart.filter((remainingProduct: IProduct) => remainingProduct.id !== product.id)
       
       await updateDoc(userRef, { cart: updatedCart })
     } catch (error) {
@@ -95,15 +96,15 @@ export const userDataService = {
     }
   },
 
-  async addFavorite(userId: string, favoriteId: number) {
+  async addFavorite(userId: string, favorite: IProduct) {
     try {
       const userRef = doc(db, "users", userId)
       const userDoc = await getDoc(userRef)
       const userData = userDoc.data()
       const currentFavs = userData?.favorites || []
 
-      if (!currentFavs.includes(favoriteId)) {
-        await updateDoc(userRef, { favorites: arrayUnion(favoriteId) })
+      if (!currentFavs.includes((fav: IProduct) => fav.id === favorite.id)) {
+        await updateDoc(userRef, { favorites: arrayUnion(favorite) })
       }
     } catch (error) {
       console.error("Error adding to favorites in db", error)
@@ -111,15 +112,15 @@ export const userDataService = {
     }
   },
 
-  async removeFavorite(userId: string, favoriteId: number) {
+  async removeFavorite(userId: string, favorite: IProduct) {
     try {
-      const userRef = doc(db, "users", userId)
+      const userRef = doc(db, "users", userId) 
       const userDoc = await getDoc(userRef)
       const userData = userDoc.data()
       const currentFavs = userData?.favorites || []
   
-      if (currentFavs.includes(favoriteId)) {
-        await updateDoc(userRef, { favorites: currentFavs.filter((id: number) => id !== favoriteId) })
+      if (currentFavs.some((fav: IProduct) => fav.id === favorite.id)) {
+        await updateDoc(userRef, { favorites: currentFavs.filter((currentFav: IProduct) => currentFav.id !== favorite.id) })
       }
     } catch (error) {
       console.error("Error removing from favorites in db", error)
