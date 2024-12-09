@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux'
 import { AppState } from '../redux'
 import AddressForm from '../components/user-page/AddressForm'
 import AuthForm from '../components/user-page/AuthForm'
+import ProductGrid from '../components/product-display/ProductGrid'
 
 const UserPage = () => {
 
   const { tab } = useParams<{ tab: string }>()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const favorites = useSelector((state: AppState) => state.favorites.products)
 
   return (
@@ -18,7 +18,7 @@ const UserPage = () => {
     {tab === "account-details" && <AddressForm />}
     {tab === "order-history" && <OrderHistory />}
     {tab === "log-out" && <AuthForm />}
-    {/* {tab === "favorites" && <ProductGrid products={favorites} isExpanded={false}/>} */}
+    {tab === "favorites" && <ProductGrid products={favorites} isExpanded={false}/>}
     </div>
   )
 }
