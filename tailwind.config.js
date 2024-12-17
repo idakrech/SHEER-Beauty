@@ -11,7 +11,7 @@ export default {
       }
     },
     fontFamily: {
-      outfit: ["Outfit", 'sans-serif']
+      sans: ["Outfit", 'sans-serif']
     }
   },
   plugins: [],
