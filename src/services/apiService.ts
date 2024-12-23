@@ -9,9 +9,9 @@ const APIService = (
     const BASE_URL = "http://makeup-api.herokuapp.com/api/v1/products.json"
 
     async function fetchProducts(
-      params: IFetchProductParams
+      params?: IFetchProductParams
     ): Promise<IProduct[]> {
-      const url = buildURL(BASE_URL, params)
+      const url = params ? buildURL(BASE_URL, params) : BASE_URL
     
       try {
         const response = await axios.get(url)
