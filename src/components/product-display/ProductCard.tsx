@@ -54,9 +54,17 @@ const ProductCard = (props: IProduct) => {
   }
 
   return (
-    <div className="w-full bg-white duration-500 hover:scale-105">
-      <a href="#">
-        <div className="flex justify-center py-10">
+    <div className="w-full bg-white border border-slate-100 duration-500 hover:scale-105">
+        <div className="flex justify-end p-2">
+          <button onClick={() => handleAddToFavsBtn()}>
+            {!isFavorite ? (
+              <FavoriteBorderOutlined fontSize="small" sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}/>
+            ) : (
+              <FavoriteOutlined fontSize="small" sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}/>
+            )}
+          </button>
+        </div>
+        <div className="flex justify-center pb-5">
           <Link to={`/product-page?id=${props.id}`}>
             <img
               src={props.image_link}
@@ -66,33 +74,24 @@ const ProductCard = (props: IProduct) => {
           </Link>
         </div>
 
-        <div className="px-4 py-3 w-full bg-white border-b border-l border-r border-red-300">
-          <span className="text-gray-400 mr-3 uppercase text-xs">
+        <div className="px-4 py-3 w-full bg-slate-50">
+          <span className="font-outfit text-gray-400 uppercase text-xs">
             {props.brand}
           </span>
-          <p className="text-md font-semibold text-black truncate block capitalize">
+          <p className="font-outfit font-normal text-md text-left text-black truncate block capitalize">
             {removeFirstWord(props.name)}
           </p>
           <div className="flex justify-between items-center">
-            <p className="text-lg font-semibold text-black cursor-auto my-3">
+            <p className="text-md font-bold text-black cursor-auto my-3">
               {props.price_sign ? props.price_sign : "$"}
               {props.price}
             </p>
-            <div className="flex">
-              <button onClick={() => handleAddToFavsBtn()}>
-                {!isFavorite ? (
-                  <FavoriteBorderOutlined />
-                ) : (
-                  <FavoriteOutlined />
-                )}
-              </button>
-              <button onClick={() => handleAddToCartBtn()}>
-                <ShoppingCartOutlined />
-              </button>
-            </div>
+
+            <button onClick={() => handleAddToCartBtn()}>
+              <ShoppingCartOutlined fontSize="small" sx={{ stroke: "#ffffff", strokeWidth: 0.5 }} />
+            </button>
           </div>
         </div>
-      </a>
     </div>
   )
 }

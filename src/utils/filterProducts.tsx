@@ -23,7 +23,7 @@ export const filterProducts = (state: AppState) => {
       return (
         <div key={grid.gridID}>
           <h2>{grid.title}</h2>
-          <ProductGrid products={filteredProducts} maxLimit={6} isExpanded={false} category={grid.gridID} />
+          <ProductGrid products={filteredProducts} maxLimit={9} isExpanded={false} category={grid.gridID} />
         </div>
       )
     })

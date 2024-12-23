@@ -35,6 +35,7 @@ const CartPage = () => {
           <button onClick={() => handleDecrementBtn(product.product)}>Decrement</button>
         </div>
       ))}
+      <button>Checkout</button>
     </div>
   )
 }

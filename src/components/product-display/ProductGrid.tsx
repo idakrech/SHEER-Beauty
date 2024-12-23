@@ -36,7 +36,7 @@ const ProductGrid: React.FC<IProductGridProps> = ({ products, isExpanded, catego
   
 
   return (
-    <div className="grid grid-cols-4 gap-4 justify-items-center justify-center">
+    <div className="grid grid-cols-5 gap-4 justify-items-center justify-center py-5">
       {filteredProducts
         .slice(0, maxLimit ?? filteredProducts.length)
         .map((product) => (
