@@ -11,15 +11,14 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { listenToAuth } from "./helpers/authListener"
 import { AppDispatch, AppState } from "./redux"
-import AuthForm from "./components/user-page/AuthForm"
 import { userDataService } from "./services/userDataService"
 import { setProducts as setFavProducts } from "./redux/favoritesSlice"
 import { setProducts as setCartProducts } from "./redux/cartSlice"
 import { setUserFirstName } from "./redux/authSlice"
-import AddressForm from "./components/user-page/AddressForm"
 import UserPage from "./pages/UserPage"
 import { IProduct } from "./interfaces/interfaces"
 import CategoryList from "./components/navigation/CategoryList"
+import useFetchProducts from "./hooks/useFetchProducts"
 
 // NEXT UP: three libraries:
 // - address validation
@@ -32,6 +31,9 @@ function App() {
   const favorites = useSelector((state: AppState) => state.favorites.products)
   const [showCategoryDropdown, setShowCategoryDropdown] =
     useState<boolean>(false)
+  
+  
+  useFetchProducts()
 
   useEffect(() => {
     dispatch(listenToAuth())

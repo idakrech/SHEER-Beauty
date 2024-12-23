@@ -1,39 +1,31 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect } from "react";
-import { IFetchProductParams, IProduct } from "../interfaces/interfaces";
-import APIService from "../services/APIService";
-import { setError, setLoading, setProducts } from "../redux/productsSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, AppState } from "../redux";
-import { setProductIDs } from "../redux/filterSlice";
+import { useEffect } from "react"
+import APIService from "../services/APIService"
+import { setError, setLoading, setProducts } from "../redux/productsSlice"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "../redux"
 
-function useFetchProducts(params: IFetchProductParams[]) {
+function useFetchProducts() {
+  const dispatch = useDispatch<AppDispatch>()
 
-    const dispatch = useDispatch<AppDispatch>()
-    const filters = useSelector((state: AppState) => state.filters)
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(setLoading(true))
 
-    useEffect(() => {
-        const fetchData = async() => {
-            dispatch(setLoading(true))
+      try {
+        const data = await APIService.fetchProducts()
+        dispatch(setProducts(data))
+      } catch (error) {
+        dispatch(
+          setError(error instanceof Error ? error : new Error("Unknown error"))
+        )
+      } finally {
+        setLoading(false)
+      }
+    }
 
-            try {
-                params.forEach(async (p, index) => {
-                    const data = await APIService.fetchProducts(p)
-                    dispatch(setProducts(data))
-                    const productIDs = data.map((product: IProduct) => product.id)
-                    const gridID = filters[index].gridID
-                    dispatch(setProductIDs({gridID, productIDs}))
-                })
-                
-            } catch (error) {
-                dispatch(setError(error instanceof Error ? error : new Error('Unknown error')))
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchData()
-    }, [])
+    fetchData()
+  }, [dispatch])
 }
 
 export default useFetchProducts
