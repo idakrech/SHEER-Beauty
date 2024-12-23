@@ -5,7 +5,6 @@ export interface IGridFilter {
   gridID: string;
   title: string;
   fetchParams: IFetchProductParams;
-  createdAt?: string; //necessary for new arrivals section
 }
 
 export type IFilterState = IGridFilter[];
@@ -19,8 +18,7 @@ export const initialState: IFilterState = [
   {
     gridID: "grid2",
     title: "Maybelline mascaras",
-    fetchParams: { product_type: "Mascara", brand: "Maybelline" },
-    createdAt: "5/2/2014",
+    fetchParams: { product_type: "mascara", brand: "maybelline" },
   },
   {
     gridID: "grid3",
