@@ -9,15 +9,8 @@ import { resetProducts } from "../redux/productsSlice"
 const Home = () => {
   const state = useSelector((state: AppState) => state)
   const filterParams = state.filters.map((f) => f.fetchParams)
-  const dispatch = useDispatch<AppDispatch>()
 
   useFetchProducts(filterParams)
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetProducts())
-    }
-  }, [dispatch])
   
 
   return (
