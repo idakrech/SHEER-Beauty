@@ -28,7 +28,6 @@ const ProductCard = (props: IProduct) => {
   }, [props.id, favProducts])
 
   const checkIfFavorite = (): boolean => {
-    console.log("hello from useEffect")
     return favProducts.some((product) => props.id === product.id)
   }
 
