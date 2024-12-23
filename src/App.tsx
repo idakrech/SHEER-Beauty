@@ -8,19 +8,20 @@ import Footer from "./components/Footer"
 import CategoryPage from "./pages/CategoryPage"
 import ProductPage from "./pages/ProductPage"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { listenToAuth } from "./helpers/authListener"
 import { AppDispatch, AppState } from "./redux"
 import AuthForm from "./components/user-page/AuthForm"
 import { userDataService } from "./services/userDataService"
 import { setProducts as setFavProducts } from "./redux/favoritesSlice"
-import { setProducts as setCartProducts} from "./redux/cartSlice"
+import { setProducts as setCartProducts } from "./redux/cartSlice"
 import { setUserFirstName } from "./redux/authSlice"
 import AddressForm from "./components/user-page/AddressForm"
 import UserPage from "./pages/UserPage"
 import { IProduct } from "./interfaces/interfaces"
+import CategoryList from "./components/navigation/CategoryList"
 
-// NEXT UP: three libraries: 
+// NEXT UP: three libraries:
 // - address validation
 // - phone country codes (api?)
 
@@ -29,6 +30,8 @@ function App() {
   const user = useSelector((state: AppState) => state.auth.user)
   const cart = useSelector((state: AppState) => state.cart.products)
   const favorites = useSelector((state: AppState) => state.favorites.products)
+  const [showCategoryDropdown, setShowCategoryDropdown] =
+    useState<boolean>(false)
 
   useEffect(() => {
     dispatch(listenToAuth())
@@ -85,7 +88,7 @@ function App() {
               const localCartProducts = cart.filter(
                 (stateProduct) =>
                   !userData.cart.some(
-                    (userProduct: { product: IProduct, quantity: number }) =>
+                    (userProduct: { product: IProduct; quantity: number }) =>
                       userProduct.product.id === stateProduct.product.id
                   )
               )
@@ -113,8 +116,15 @@ function App() {
 
   return (
     <>
-      <Navbar />
-      <AuthForm />
+      <Navbar onCategoryToggle={setShowCategoryDropdown} />
+      {showCategoryDropdown && (
+        <div
+          className="z-10 bg-white shadow-md"
+          onMouseLeave={() => setShowCategoryDropdown(false)}
+        >
+          <CategoryList />
+        </div>
+      )}
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="cart-page" element={<CartPage />}></Route>
