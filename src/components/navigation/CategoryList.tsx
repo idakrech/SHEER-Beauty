@@ -6,7 +6,7 @@ import { formatParamName } from "../../utils/formatParamNames"
 const CategoryList = () => {
   const types = productTypes
 
-  // TODO: add "all" under category name, np "all blushes; powder; cream"
+  // STYLE: wrap categories into columns instead of one long list
   return (
     <ul className="p-5 text-left">
     {types.map((type, index) => (
@@ -15,6 +15,7 @@ const CategoryList = () => {
           <strong>{formatParamName(type.name)}</strong>
         </Link>
         <ul className="ml-2 text-left">
+          <li><Link to={`/category-page?type=${type.name}`}>All</Link></li>
           {type.categories?.map((cat, i) => (
             <li key={i} className="py-1">
               <Link to={`/category-page?type=${type.name}&category=${cat}`}>
