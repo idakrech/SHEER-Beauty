@@ -2,6 +2,7 @@ import { useSelector } from "react-redux"
 import { AppState } from "../../redux"
 import AuthForm from "../user-page/AuthForm"
 import { Link } from "react-router-dom"
+import { logOut } from "../../services/authService"
 
 const UserMenu = () => {
 
@@ -11,7 +12,6 @@ const UserMenu = () => {
     {label: "Account details", tab: "account-details"},
     {label: "Order history", tab: "order-history"},
     {label: "Favorites", tab: "favorites"},
-    {label: "Log out", tab: "log-out"}
   ]
 
   return (
@@ -24,6 +24,7 @@ const UserMenu = () => {
             </Link>
           </li>
         ))}
+        <li><button  onClick={() => logOut()}>Log out</button></li>
       </ul>
     ) : (
       <AuthForm/>
