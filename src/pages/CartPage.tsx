@@ -22,20 +22,30 @@ const CartPage = () => {
     dispatch(decrementProductQuantity(product))
     if (user !== null) {
       userDataService.decrementProductQuantity(user.uid, product)
-    }
+    } 
   }
 
   return (
     <div>
-      {cartProducts.map((product) => (
-        <div key={product.product.id}>
-          <ProductCard {...product.product} />
-          <p>Quantity: {product.quantity}</p>
-          <button onClick={() => handleDeleteBtn(product.product)}>Remove</button>
-          <button onClick={() => handleDecrementBtn(product.product)}>Decrement</button>
-        </div>
-      ))}
-      <button>Checkout</button>
+      {cartProducts.length > 0 ? (
+        <>
+          {cartProducts.map((product) => (
+            <div key={product.product.id}>
+              <ProductCard {...product.product} />
+              <p>Quantity: {product.quantity}</p>
+              <button onClick={() => handleDeleteBtn(product.product)}>
+                Remove
+              </button>
+              <button onClick={() => handleDecrementBtn(product.product)}>
+                Decrement
+              </button>
+            </div>
+          ))}
+          <button>Checkout</button>
+        </>
+      ) : (
+        <p>Your cart is empty</p>
+      )}
     </div>
   )
 }
