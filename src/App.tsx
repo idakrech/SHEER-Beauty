@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Route, Routes } from "react-router-dom"
+import { NavLink, Route, Routes } from "react-router-dom"
 import "./App.css"
 import Home from "./pages/Home"
 import CartPage from "./pages/CartPage"
@@ -19,10 +19,14 @@ import UserPage from "./pages/UserPage"
 import { IProduct } from "./interfaces/interfaces"
 import CategoryList from "./components/navigation/CategoryList"
 import useFetchProducts from "./hooks/useFetchProducts"
+import UserMenu from "./components/navigation/UserMenu"
 
 // NEXT UP: three libraries:
 // - address validation
 // - phone country codes (api?)
+
+//TODO: show user dropdown only if no user in state, otherwise navigate to user page 
+//TODO: catch invalid http and display "No such page found :("
 
 function App() {
   const dispatch = useDispatch<AppDispatch>()
@@ -31,8 +35,8 @@ function App() {
   const favorites = useSelector((state: AppState) => state.favorites.products)
   const [showCategoryDropdown, setShowCategoryDropdown] =
     useState<boolean>(false)
-  
-  
+  const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false)
+
   useFetchProducts()
 
   useEffect(() => {
@@ -118,13 +122,26 @@ function App() {
 
   return (
     <>
-      <Navbar onCategoryToggle={setShowCategoryDropdown} />
+      <Navbar
+        onCategoryToggle={setShowCategoryDropdown}
+        onUserToggle={setShowUserDropdown}
+      />
       {showCategoryDropdown && (
         <div
           className="z-10 bg-white shadow-md"
+          onMouseEnter={() => setShowUserDropdown(false)}
           onMouseLeave={() => setShowCategoryDropdown(false)}
         >
           <CategoryList />
+        </div>
+      )}
+      {showUserDropdown && (
+        <div
+          className="bg-white text-black rounded shadow-lg mt-2"
+          onMouseEnter={() => setShowCategoryDropdown(false)}
+          onMouseLeave={() => setShowUserDropdown(false)}
+        >
+          <UserMenu />
         </div>
       )}
       <Routes>
