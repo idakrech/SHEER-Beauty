@@ -86,9 +86,11 @@ export const userDataService = {
       const userDoc = await getDoc(userRef)
       const userData = userDoc.data()
       const currentCart = userData?.cart || []
+      const updatedCart = currentCart.filter(
+        (cartItem: { product: IProduct; quantity: number }) =>
+          cartItem.product.id !== product.id
+      )
   
-      const updatedCart = currentCart.filter((remainingProduct: IProduct) => remainingProduct.id !== product.id)
-      
       await updateDoc(userRef, { cart: updatedCart })
     } catch (error) {
       console.error("Error removing product from cart in db", error)
