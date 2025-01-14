@@ -5,6 +5,7 @@ import ProductGrid from "../components/product-display/ProductGrid"
 import { useLocation } from "react-router-dom"
 import { IProduct } from "../interfaces/interfaces"
 
+//BIG: create filter logic: brand, color, tags etc.; if type w/o category - also categories (liquid, powder etc)
 const CategoryPage = () => {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
@@ -50,6 +51,10 @@ const CategoryPage = () => {
   )
   
   return (
+    <div>
+      {grid?.title && <p>{grid.title}</p>}
+      {type && !category && <p>{type.charAt(0).toUpperCase() + type.slice(1)}</p>}
+      {type && category && <p>{`${type.charAt(0).toUpperCase() + type.slice(1)}: ${category.charAt(0).toUpperCase() + category.slice(1)}`}</p>}
     <ProductGrid
       products={
         gridID != null
@@ -60,6 +65,7 @@ const CategoryPage = () => {
       }
       isExpanded={true}
     />
+    </div>
   )
 }
 export default CategoryPage
