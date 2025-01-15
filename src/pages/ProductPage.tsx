@@ -1,14 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useLocation } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { AppState } from "../redux"
 import { removeFirstWord } from "../helpers/removeFirstWord"
-import {
-  addProduct as addToFavs,
-  deleteProduct as removeFromFavs,
-} from "../redux/favoritesSlice"
-import { userDataService } from "../services/userDataService"
-import { useEffect, useState } from "react"
 import {
   FavoriteBorderOutlined,
   FavoriteOutlined,
@@ -17,6 +10,7 @@ import {
 } from "@mui/icons-material"
 import { useShoppingCart } from "../hooks/useShoppingCart"
 import { useCartItem } from "../hooks/useCartItem"
+import { useFavorite } from "../hooks/useFavorite"
 
 const ProductPage = () => {
   const location = useLocation()
@@ -26,36 +20,9 @@ const ProductPage = () => {
   const product = useSelector((state: AppState) =>
     state.products.products.find((p) => p.id === parsedID)
   )
-  const [isFavorite, setIsFavorite] = useState<boolean>()
-  const favProducts = useSelector((state: AppState) => state.favorites.products)
-
   const { handleAddToCart, handleDecrement } = useShoppingCart()
   const { quantity } = useCartItem(product)
-
-
-  useEffect(() => {
-    setIsFavorite(checkIfFavorite)
-  }, [favProducts])
-
-  const checkIfFavorite = (): boolean => {
-    return favProducts.some((product) => product.id === product.id)
-  }
-
-  const handleAddToFavsBtn = () => {
-    const newIsFavorite = !isFavorite
-    if (product) {
-      dispatch(newIsFavorite ? addToFavs(product) : removeFromFavs(product))
-      setIsFavorite(newIsFavorite)
-
-      if (user !== null) {
-        if (newIsFavorite) {
-          userDataService.addFavorite(user.uid, product)
-        } else {
-          userDataService.removeFavorite(user.uid, product)
-        }
-      }
-    }
-  }
+  const {isFavorite, toggleFavorite} = useFavorite(product)
 
   return (
     <div>
@@ -78,7 +45,7 @@ const ProductPage = () => {
             <p className="text-xl font-semibold">{product.price}$</p>
             <p className="py-5">{product.description}</p>
             <div className="flex">
-              <button onClick={() => handleAddToFavsBtn()}>
+              <button onClick={() => toggleFavorite()}>
                 {!isFavorite ? (
                   <FavoriteBorderOutlined
                     fontSize="small"

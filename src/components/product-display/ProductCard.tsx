@@ -1,13 +1,5 @@
-import { useEffect, useState } from "react"
 import { IProduct } from "../../interfaces/interfaces"
 import { Link } from "react-router-dom"
-import { useSelector } from "react-redux"
-import {
-  addProduct as addToFavs,
-  deleteProduct as removeFromFavs,
-} from "../../redux/favoritesSlice"
-import { AppState } from "../../redux"
-import { userDataService } from "../../services/userDataService"
 import {
   FavoriteBorderOutlined,
   FavoriteOutlined,
@@ -17,39 +9,18 @@ import {
 import { removeFirstWord } from "../../helpers/removeFirstWord"
 import { useShoppingCart } from "../../hooks/useShoppingCart"
 import { useCartItem } from "../../hooks/useCartItem"
+import { useFavorite } from "../../hooks/useFavorite"
 
 const ProductCard = (props: IProduct) => {
   const { handleAddToCart, handleDecrement } = useShoppingCart()
   const { quantity } = useCartItem(props)
+  const {isFavorite, toggleFavorite} = useFavorite(props)
 
-  //TODO: separate this logic so it can be used also in product page
-  useEffect(() => {
-    setIsFavorite(checkIfFavorite)
-  }, [props.id, favProducts])
-
-  const checkIfFavorite = (): boolean => {
-    return favProducts.some((product) => props.id === product.id)
-  }
-
-
-  const handleAddToFavsBtn = () => {
-    const newIsFavorite = !isFavorite
-    dispatch(newIsFavorite ? addToFavs(props) : removeFromFavs(props))
-    setIsFavorite(newIsFavorite)
-
-    if (user !== null) {
-      if (newIsFavorite) {
-        userDataService.addFavorite(user.uid, props)
-      } else {
-        userDataService.removeFavorite(user.uid, props)
-      }
-    }
-  }
 
   return (
     <div className="w-full bg-white border border-slate-100 duration-500 hover:scale-105">
       <div className="flex justify-end p-2">
-        <button onClick={() => handleAddToFavsBtn()}>
+        <button onClick={() => toggleFavorite()}>
           {!isFavorite ? (
             <FavoriteBorderOutlined
               fontSize="small"
