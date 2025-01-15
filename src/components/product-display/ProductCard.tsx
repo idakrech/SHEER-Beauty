@@ -1,17 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react"
 import { IProduct } from "../../interfaces/interfaces"
 import { Link } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import {
-  addProduct as addToCart,
-  decrementProductQuantity,
-} from "../../redux/cartSlice"
+import { useSelector } from "react-redux"
 import {
   addProduct as addToFavs,
   deleteProduct as removeFromFavs,
 } from "../../redux/favoritesSlice"
-import { AppDispatch, AppState } from "../../redux"
+import { AppState } from "../../redux"
 import { userDataService } from "../../services/userDataService"
 import {
   FavoriteBorderOutlined,
@@ -20,16 +15,14 @@ import {
   ShoppingCartOutlined,
 } from "@mui/icons-material"
 import { removeFirstWord } from "../../helpers/removeFirstWord"
+import { useShoppingCart } from "../../hooks/useShoppingCart"
+import { useCartItem } from "../../hooks/useCartItem"
 
 const ProductCard = (props: IProduct) => {
-  const [isFavorite, setIsFavorite] = useState<boolean>()
-  const favProducts = useSelector((state: AppState) => state.favorites.products)
-  const cartProducts = useSelector((state: AppState) => state.cart.products)
-  const user = useSelector((state: AppState) => state.auth.user)
-  const dispatch = useDispatch<AppDispatch>()
-  const cartItem = cartProducts.find((item) => item.product.id === props.id)
-  const quantity = cartItem ? cartItem.quantity : 0
+  const { handleAddToCart, handleDecrement } = useShoppingCart()
+  const { quantity } = useCartItem(props)
 
+  //TODO: separate this logic so it can be used also in product page
   useEffect(() => {
     setIsFavorite(checkIfFavorite)
   }, [props.id, favProducts])
@@ -38,13 +31,6 @@ const ProductCard = (props: IProduct) => {
     return favProducts.some((product) => props.id === product.id)
   }
 
-  //TODO: separate this logic so it can be used also in product page
-  const handleAddToCartBtn = () => {
-    dispatch(addToCart(props))
-    if (user !== null) {
-      userDataService.addToCart(user.uid, { product: props, quantity: 1 })
-    }
-  }
 
   const handleAddToFavsBtn = () => {
     const newIsFavorite = !isFavorite
@@ -57,13 +43,6 @@ const ProductCard = (props: IProduct) => {
       } else {
         userDataService.removeFavorite(user.uid, props)
       }
-    }
-  }
-
-  const handleDecrementBtn = () => {
-    dispatch(decrementProductQuantity(props))
-    if (user !== null) {
-      userDataService.decrementProductQuantity(user.uid, props)
     }
   }
 
@@ -109,9 +88,9 @@ const ProductCard = (props: IProduct) => {
 
           {quantity > 0 ? (
             <div className="flex gap-1 text-md items-end">
-              <button onClick={() => handleDecrementBtn()}>-</button>
+              <button onClick={() => handleDecrement(props)}>-</button>
               <div>
-                <button onClick={() => handleAddToCartBtn()}>
+                <button onClick={() => handleAddToCart(props)}>
                   <ShoppingCart
                     fontSize="small"
                     sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}
@@ -119,10 +98,10 @@ const ProductCard = (props: IProduct) => {
                 </button>
                 <p>{quantity}</p>
               </div>
-              <button onClick={() => handleAddToCartBtn()}>+</button>
+              <button onClick={() => handleAddToCart(props)}>+</button>
             </div>
           ) : (
-            <button onClick={() => handleAddToCartBtn()}>
+            <button onClick={() => handleAddToCart(props)}>
               <ShoppingCartOutlined
                 fontSize="small"
                 sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}
