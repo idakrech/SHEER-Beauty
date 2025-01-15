@@ -38,7 +38,7 @@ const ProductPage = () => {
           <div className="w-1/2 text-left py-2 px-5">
             <p className="font-light uppercase">{product.brand}</p>
             <p className="text-xl font-semibold py-5">
-              {removeFirstWord(product.name)}
+              {removeFirstWord(product.name, product.brand)}
             </p>
             {/* TODO: rating as star icons */}
             {product.rating && <p>{product.rating}</p>}

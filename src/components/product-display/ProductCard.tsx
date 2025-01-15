@@ -49,7 +49,7 @@ const ProductCard = (props: IProduct) => {
           {props.brand}
         </span>
         <p className="font-outfit font-normal text-md text-left text-black truncate block capitalize">
-          {removeFirstWord(props.name)}
+          {removeFirstWord(props.name, props.brand)}
         </p>
         <div className="flex justify-between items-center">
           <p className="text-md font-bold text-black cursor-auto my-3">
