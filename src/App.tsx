@@ -20,12 +20,10 @@ import { IProduct } from "./interfaces/interfaces"
 import CategoryList from "./components/navigation/CategoryList"
 import useFetchProducts from "./hooks/useFetchProducts"
 import UserMenu from "./components/navigation/UserMenu"
+import SearchResultsPage from "./pages/SearchResults"
 
-// NEXT UP: three libraries:
-// - address validation
-// - phone country codes (api?)
-
-//TODO: show user dropdown only if no user in state, otherwise navigate to user page 
+//BIG: address validation
+//BIG: phone country codes (api?)
 //TODO: catch invalid http and display "No such page found :("
 
 function App() {
@@ -150,6 +148,7 @@ function App() {
         <Route path="category-page" element={<CategoryPage />}></Route>
         <Route path="product-page" element={<ProductPage />}></Route>
         <Route path="user-page/:tab" element={<UserPage />}></Route>
+        <Route path="search-results" element={<SearchResultsPage />}></Route>
       </Routes>
 
       <Footer />
