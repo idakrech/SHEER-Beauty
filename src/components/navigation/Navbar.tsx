@@ -1,9 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom"
-import {
-  ShoppingCartOutlined,
-  PersonOutline,
-  Search,
-} from "@mui/icons-material"
+import { ShoppingCartOutlined, PersonOutline, Search } from "@mui/icons-material"
 import { AppState } from "../../redux"
 import { useSelector } from "react-redux"
 import { useSearchProducts } from "../../hooks/useSearchProducts"
@@ -16,17 +12,13 @@ const Navbar = ({
   onUserToggle: (isOpen: boolean) => void
 }) => {
   const user = useSelector((state: AppState) => state.auth.user)
-
-  const navigate = useNavigate()
   const products = useSelector((state: AppState) => state.products.products)
-  const { searchTerm, setSearchTerm, filteredProducts } = useSearchProducts(products)
+  const { searchTerm, setSearchTerm, filteredProducts } =
+    useSearchProducts(products)
+  const navigate = useNavigate()
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
-  }
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
     navigate("/search-results", { state: { searchResults: filteredProducts } })
   }
 
@@ -42,19 +34,15 @@ const Navbar = ({
       </div>
 
       <div className="flex items-center space-x-4">
-        <div className="flex-grow flex justify-center">
-          <form className="flex" onSubmit={handleSearchSubmit}>
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="p-2 font-normal border border-slate-100"
-            />
-            <button type="submit" className="bg-slate-100 p-2">
-              <Search />
-            </button>
-          </form>
+        <div className="flex items-center">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="p-2 font-normal border border-slate-100 w-full"
+          />
+          <Search/>
         </div>
 
         <NavLink to="/cart-page" className="text-lg">

@@ -1,14 +1,19 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { IProduct } from "../interfaces/interfaces"
 
-//TODO: make search dynamic
-export function useSearchProducts(products: IProduct[]) {
+export function useSearchProducts(products: IProduct[], delay = 300) {
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [debouncedTerm, setDebouncedTerm] = useState<string>("")
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedTerm(searchTerm), delay)
+    return () => clearTimeout(handler)
+  }, [searchTerm, delay])
 
   const filteredProducts = useMemo(() => {
-    if (!searchTerm) return products
+    if (!debouncedTerm) return products
 
-    const normalizedSearchTerm = searchTerm.toLowerCase()
+    const normalizedSearchTerm = debouncedTerm.toLowerCase()
     const searchKeywords = normalizedSearchTerm.split(" ").filter(Boolean)
 
     return products.filter((product) => {
@@ -25,7 +30,7 @@ export function useSearchProducts(products: IProduct[]) {
         searchableFields.some((field) => field.includes(keyword))
       )
     })
-  }, [products, searchTerm])
+  }, [products, debouncedTerm])
 
   return { searchTerm, setSearchTerm, filteredProducts }
 }
