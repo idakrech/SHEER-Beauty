@@ -1,19 +1,25 @@
 import { useSelector } from "react-redux"
+import { IFilterState } from "../redux/filterSlice"
 import { AppState } from "../redux"
 
-export function useFilterProducts (type: string, category?: string) {
+export function useFilterProducts (filters: IFilterState) {
 
-    const products = useSelector((state: AppState) => state.products.products)
+  const products = useSelector((state: AppState) => state.products.products)
+    
+    const filteredProducts = products.filter((product) => {
+        return (
+          (filters.selectedBrands.length === 0 || filters.selectedBrands.includes(product.brand)) &&
+          (filters.selectedTags.length === 0 || product.tag_list.some((tag) => filters.selectedTags.includes(tag))) &&
+          (filters.selectedColors.length === 0 ||
+            product.product_colors.some((color) => filters.selectedColors.includes(color.hex_value))) &&
+          parseFloat(product.price) >= filters.priceRange.min &&
+          parseFloat(product.price) <= filters.priceRange.max 
+          //TODO: include categories in filtering
+          // &&
+          // product.product_type === type &&
+          // (!category || product.category === category)
+        )
+      })
 
-    const typeProducts = 
-        category ? products.filter((product) => product.product_type === type && product.category === category)
-        : products.filter((product) => product.product_type === type)
-
-    const uniqueTypes = Array.from(new Set(typeProducts.map((product) => product.product_type)))
-    const uniqueCategories = Array.from(new Set(typeProducts.map((product) => product.category)))
-    const uniqueBrands = Array.from(new Set(typeProducts.map((product) => product.brand)))
-    const uniqueTags = Array.from(new Set(typeProducts.flatMap((product) => product.tag_list || [])))
-    const uniqueColors = Array.from(new Set(typeProducts.flatMap((product) => product.product_colors.map((color) => color.hex_value))))
-
-    return {uniqueTypes, uniqueCategories, uniqueBrands, uniqueTags, uniqueColors}
+    return {filteredProducts}
 }
