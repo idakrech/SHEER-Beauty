@@ -1,12 +1,10 @@
-import { useSelector } from "react-redux"
 import ProductGrid from "../components/product-display/ProductGrid"
 import { useEffect, useState } from "react"
 import { IProduct } from "../interfaces/interfaces"
 import APIService from "../services/APIService"
-import { AppState } from "../redux"
+import { gridConfig } from "../config/gridConfig"
 
 const Home = () => {
-  const state = useSelector((state: AppState) => state)
   const [productsByFilter, setProductsByFilter] = useState<{
     [key: string]: IProduct[]
   }>({}) // example:
@@ -20,38 +18,41 @@ const Home = () => {
   // This is due to long loading time when saving all api products in app state on app launch.
   // That long process of uploading api products into state runs in the background while products in Home page appear right away.
   useEffect(() => {
-    state.filters.forEach(async (filter) => {
-      try {
-        const products = await APIService.fetchProducts(filter.fetchParams)
+    const fetchProducts = async () => {
+      const updatedProducts: { [key: string]: IProduct[] } = {}
 
-        setProductsByFilter((prevState) => ({
-          ...prevState,
-          [filter.gridID]: products,
-        }))
-      } catch (error) {
-        console.error(
-          "Error fetching products for filter:",
-          filter.gridID,
-          error
-        )
+      for (const grid of gridConfig) {
+        try {
+          const products = await APIService.fetchProducts(grid.filters)
+
+          updatedProducts[grid.title] = products;
+        } catch (error) {
+          console.error(
+            "Error fetching products for filter:",
+            grid.title,
+            error
+          )
+        }
       }
-    })
-  }, [state.filters])
+
+      setProductsByFilter(updatedProducts)
+    }
+
+    fetchProducts()
+  }, [])
 
   return (
     <>
-      {Object.keys(productsByFilter).map((gridID) => {
-        const filter = state.filters.find((f) => f.gridID === gridID)
-
-        if (!filter) return null
+      {gridConfig.map((grid) => {
+        const products = productsByFilter[grid.title] || []
 
         return (
-          <div key={gridID}>
-            <h1>{filter.title}</h1>
+          <div key={grid.title}>
+            <h1>{grid.title}</h1>
             <ProductGrid
-              products={productsByFilter[gridID]}
+              products={products}
               isExpanded={false}
-              category={gridID}
+              category={grid.title}
               maxLimit={9}
             />
           </div>
@@ -60,5 +61,4 @@ const Home = () => {
     </>
   )
 }
-
 export default Home
