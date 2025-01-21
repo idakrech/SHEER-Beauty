@@ -16,7 +16,9 @@ export function useFilterProducts (filters: IFilterState) {
       filters.selectedBrands.includes(product.brand?.toLowerCase())
     const matchesTags =
       filters.selectedTags.length === 0 ||
-      filters.selectedTags.some((tag) => product.tag_list?.includes(tag.toLowerCase()))
+      filters.selectedTags.some((tag) =>
+        product.tag_list?.map(t => t.toLowerCase()).includes(tag.toLowerCase())
+      )
     const matchesPrice =
       parseFloat(product?.price) >= filters.priceRange.min &&
       parseFloat(product?.price) <= filters.priceRange.max
