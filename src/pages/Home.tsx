@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 import { IProduct } from "../interfaces/interfaces"
 import APIService from "../services/APIService"
 import { gridConfig } from "../config/gridConfig"
+import checkIfImageExists from "../helpers/checkImage"
+import { IFilterState } from "../redux/filterSlice"
 
 //RANO: Dlaczego filtracja z paramów na category page nie działa? + commity
 
@@ -21,6 +23,7 @@ const Home = () => {
   // This is due to long loading time when saving all api products in app state on app launch.
   // That long process of uploading api products into state runs in the background while products in Home page appear right away.
 
+  //TODO: check if initialRender. If not, fetch grid products from state
   useEffect(() => {
     const fetchProducts = async () => {
       const updatedProducts: { [key: string]: IProduct[] } = {}
@@ -36,7 +39,19 @@ const Home = () => {
             price_greater_than: grid.priceRange.min,
           })
 
-          updatedProducts[grid.title] = products
+          const productsWithValidImages = await Promise.all(
+            products.map(
+              (product) =>
+                new Promise<IProduct | null>((resolve) => {
+                  checkIfImageExists(product.image_link, (exists) => {
+                    resolve(exists ? product : null)
+                  })
+                })
+            )
+          )
+          const productsWithBrandAndImg = productsWithValidImages.filter((product) => product !== null && product.brand)
+
+          updatedProducts[grid.title] = productsWithBrandAndImg as IProduct[]
         } catch (error) {
           console.error(
             "Error fetching products for filter:",
@@ -50,12 +65,20 @@ const Home = () => {
     }
 
     fetchProducts()
-  }, [])
+  }, [productsByFilter])
 
   return (
     <>
       {gridConfig.map((grid) => {
         const products = productsByFilter[grid.title] || []
+        const filters: IFilterState = {
+          type: grid.type,
+          category: grid.category,
+          selectedBrands: grid.brand ? [grid.brand] : [],
+          selectedColors: [],
+          selectedTags: grid.tags,
+          priceRange: grid.priceRange
+        }
 
         return (
           <div key={grid.title}>
@@ -64,6 +87,7 @@ const Home = () => {
               isExpanded={false}
               maxLimit={9}
               title={grid.title}
+              filters={filters}
             />
           </div>
         )

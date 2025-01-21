@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from "react"
 import APIService from "../services/APIService"
 import { setError, setLoading, setProducts } from "../redux/productsSlice"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "../redux"
+import { IProduct } from "../interfaces/interfaces"
+import checkIfImageExists from "../helpers/checkImage"
 
 function useFetchProducts() {
   const dispatch = useDispatch<AppDispatch>()
@@ -14,7 +15,18 @@ function useFetchProducts() {
 
       try {
         const data = await APIService.fetchProducts()
-        dispatch(setProducts(data))
+        const productsWithValidImages = await Promise.all(
+          data.map(
+            (product) =>
+              new Promise<IProduct | null>((resolve) => {
+                checkIfImageExists(product.image_link, (exists) => {
+                  resolve(exists ? product : null)
+                })
+              })
+          )
+        )
+        const productsWithBrandAndImg = productsWithValidImages.filter((product) => product !== null && product.brand)
+        dispatch(setProducts(productsWithBrandAndImg as IProduct[]))
       } catch (error) {
         dispatch(
           setError(error instanceof Error ? error : new Error("Unknown error"))
