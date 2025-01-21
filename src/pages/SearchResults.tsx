@@ -13,8 +13,8 @@ const SearchResultsPage = () => {
         <ProductGrid
           products={searchResults}
           isExpanded={true}
-          category="search-results"
           maxLimit={searchResults.length}
+          title="Search results"
         />
       ) : (
         <p>No products found. Try another search term.</p>
