@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface IFilterState {
+  type: string
+  category: string
   selectedBrands: string[]
   selectedTags: string[]
   selectedColors: string[]
@@ -8,6 +10,8 @@ export interface IFilterState {
 }
 
 const initialState: IFilterState = {
+  type: "",
+  category: "",
   selectedBrands: [],
   selectedTags: [],
   selectedColors: [],
@@ -18,7 +22,12 @@ export const filterSlice = createSlice({
   name: "productFilter",
   initialState,
   reducers: {
-    //TODO: toggle categories if only type products
+    setType(state, action: PayloadAction<string>) {
+      state.type = action.payload;
+    },
+    setCategory(state, action: PayloadAction<string>) {
+      state.category = action.payload;
+    },
     toggleBrand: (state, action: PayloadAction<string>) => {
       const index = state.selectedBrands.indexOf(action.payload)
       if (index > -1) {
@@ -56,6 +65,8 @@ export const filterSlice = createSlice({
 })
 
 export const {
+  setType,
+  setCategory,
   toggleBrand,
   toggleTag,
   toggleColor,
