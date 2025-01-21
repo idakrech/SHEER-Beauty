@@ -1,71 +1,53 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useSelector } from "react-redux"
-import { AppState } from "../redux"
-import ProductGrid from "../components/product-display/ProductGrid"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { setType, setCategory } from "../redux/filterSlice"
 import { useLocation } from "react-router-dom"
-import { IProduct } from "../interfaces/interfaces"
+import { useFilterProducts } from "../hooks/useFilterProducts"
+import { AppState } from "../redux"
+import Sidebar from "../components/Sidebar"
+import ProductGrid from "../components/product-display/ProductGrid"
 
-//BIG: create filter logic: brand, color, tags etc.; if type w/o category - also categories (liquid, powder etc)
 const CategoryPage = () => {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
 
-  // when opened from grid @ Home Page
-  const gridID = searchParams.get("gridID")
-  const filters = useSelector((state: AppState) => state.filters)
-  const products = useSelector((state: AppState) => state.products.products)
-  const grid = filters.find((grid) => grid.gridID === gridID)
+  const type = searchParams.get("type") || ""
+  const category = searchParams.get("category") || ""
 
-  const filteredProducts = grid
-  ? products.filter((product) => {
-      const fetchParams = grid.fetchParams
+  const dispatch = useDispatch()
 
-      // Iteration of fetchParams
-      return Object.entries(fetchParams).every(([key, value]) => {
-        if (key === "product_tags" && Array.isArray(value)) {
-          return value.some((tag) => product.tag_list.includes(tag))
-        } else if (key === "rating_greater_than" && typeof value === "number") {
-          return product.rating != null && product.rating > value
-        } else if (key === "rating_less_than" && typeof value === "number") {
-          return product.rating != null && product.rating < value
-        } else if (key === "price_greater_than" && typeof value === "number") {
-          return parseFloat(product.price) > value
-        } else if (key === "price_less_than" && typeof value === "number") {
-          return parseFloat(product.price) < value
-        } else {
-          return product[key as keyof IProduct] === value
-        }
-      })
-    })
-  : []
+  useEffect(() => {
+    if (type) {
+      dispatch(setType(type))
+    }
+    if (category) {
+      dispatch(setCategory(category))
+    }
+  }, [type, category, dispatch])
 
-  // when opened from categories menu
-  const type = searchParams.get("type")
-  const category = searchParams.get("category")
-  
-  const typeProducts = useSelector((state: AppState) =>
-    state.products.products.filter((product) => product.product_type === type)
-  )
-  const categoryProducts = typeProducts.filter(
-    (product) => product.category == category
-  )
-  
+  const filters = useSelector((state: AppState) => state.productFilter)
+  const { filteredProducts } = useFilterProducts(filters)
+
   return (
-    <div>
-      {grid?.title && <p>{grid.title}</p>}
-      {type && !category && <p>{type.charAt(0).toUpperCase() + type.slice(1)}</p>}
-      {type && category && <p>{`${type.charAt(0).toUpperCase() + type.slice(1)}: ${category.charAt(0).toUpperCase() + category.slice(1)}`}</p>}
-    <ProductGrid
-      products={
-        gridID != null
-          ? filteredProducts
-          : category
-          ? categoryProducts
-          : typeProducts
-      }
-      isExpanded={true}
-    />
+    <div className="flex">
+      {type.length !== 0 && <Sidebar type={type} category={category} />}
+      <div className="flex">
+        <ProductGrid
+          products={filteredProducts}
+          isExpanded={true}
+          title={
+            type && !category
+              ? type.charAt(0).toUpperCase() + type.slice(1)
+              : type && category
+              ? `${type.charAt(0).toUpperCase() + type.slice(1)}: ${
+                  category.charAt(0).toUpperCase() + category.slice(1)
+                }`
+              : ""
+          }
+        />
+      </div>
     </div>
   )
 }
+
 export default CategoryPage
