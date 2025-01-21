@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "../redux"
 import {
+  toggleCategory,
   toggleBrand,
   toggleColor,
   toggleTag,
@@ -14,13 +15,15 @@ const Sidebar = ({ type, category }: { type: string; category?: string }) => {
 
   return (
     <div>
-      {category && (
+      {!category && (
         <div>
           <h3>Subcategories</h3>
           <ul>
-            {/* TODO: dispatch category change */}
-            {uniqueCategories.map((category) => (
-              <li key={category}>{category}</li>
+            {uniqueCategories.map((cat) => (
+              <li key={cat}>
+                <input type="checkbox" onChange={() => dispatch(toggleCategory(cat || ""))}/>
+                {cat}
+              </li>
             ))}
           </ul>
         </div>

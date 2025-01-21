@@ -17,7 +17,7 @@ export function useExtractFilters(type: string, category?: string) {
   )
   const uniqueCategories = Array.from(
     new Set(typeProducts.map((product) => product.category))
-  )
+  ).filter((cat) => cat && cat.trim() !== "")
   const uniqueBrands = Array.from(
     new Set(typeProducts.map((product) => product.brand))
   )
