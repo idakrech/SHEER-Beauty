@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { setType, setCategory } from "../redux/filterSlice"
+import { setType, toggleCategory } from "../redux/filterSlice"
 import { useLocation } from "react-router-dom"
 import { useFilterProducts } from "../hooks/useFilterProducts"
 import { AppState } from "../redux"
@@ -21,7 +21,7 @@ const CategoryPage = () => {
       dispatch(setType(type))
     }
     if (category) {
-      dispatch(setCategory(category))
+      dispatch(toggleCategory(category))
     }
   }, [type, category, dispatch])
 

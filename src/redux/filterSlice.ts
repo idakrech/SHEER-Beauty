@@ -23,10 +23,14 @@ export const filterSlice = createSlice({
   initialState,
   reducers: {
     setType(state, action: PayloadAction<string>) {
-      state.type = action.payload;
+      state.type = action.payload
     },
-    setCategory(state, action: PayloadAction<string>) {
-      state.category = action.payload;
+    toggleCategory(state, action: PayloadAction<string>) {
+      if (state.category === action.payload) {
+        state.category = ""
+      } else {
+        state.category = action.payload
+      }
     },
     toggleBrand: (state, action: PayloadAction<string>) => {
       const index = state.selectedBrands.indexOf(action.payload)
@@ -66,7 +70,7 @@ export const filterSlice = createSlice({
 
 export const {
   setType,
-  setCategory,
+  toggleCategory,
   toggleBrand,
   toggleTag,
   toggleColor,
