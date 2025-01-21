@@ -1,18 +1,35 @@
-export const gridConfig = [
+export interface IGridConfig {
+  title: string
+  type: string
+  category: string
+  brand: string
+  tags: string[]
+  priceRange: { min: number; max: number }
+}
+
+export const gridConfig: IGridConfig[] = [
     {
-      gridID: "grid1",
       title: "Vegan products",
-      filters: { product_type: "eyeshadow", tag_list: ["Vegan"] },
+      type: "",
+      category: "",
+      brand: "",
+      tags: ["vegan"],
+      priceRange: {min: 0, max: Infinity},
     },
     {
-      gridID: "grid2",
       title: "Maybelline mascaras",
-      filters: { product_type: "mascara", brand: "maybelline" },
+      type: "mascara",
+      category: "",
+      brand: "maybelline",
+      tags: [],
+      priceRange: {min: 0, max: Infinity},
     },
     {
-      gridID: "grid3",
-      title: "Highest rated Nyx products",
-      filters: { rating_greater_than: 4, brand: "nyx" },
+      title: "Our cheapest powder blushes",
+      type: "blush",
+      category: "powder",
+      brand: "",
+      tags: [],
+      priceRange: {min: 0, max: 12.0},
     },
-  ];
-  
+  ]
