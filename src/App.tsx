@@ -21,6 +21,7 @@ import CategoryList from "./components/navigation/CategoryList"
 import useFetchProducts from "./hooks/useFetchProducts"
 import UserMenu from "./components/navigation/UserMenu"
 import SearchResultsPage from "./pages/SearchResults"
+import PromotedProductsPage from "./pages/PromotedProductsPage"
 
 //BIG: address validation
 //BIG: phone country codes (api?)
@@ -149,6 +150,7 @@ function App() {
         <Route path="product-page" element={<ProductPage />}></Route>
         <Route path="user-page/:tab" element={<UserPage />}></Route>
         <Route path="search-results" element={<SearchResultsPage />}></Route>
+        <Route path="promoted" element={<PromotedProductsPage/>}></Route>
       </Routes>
 
       <Footer />
