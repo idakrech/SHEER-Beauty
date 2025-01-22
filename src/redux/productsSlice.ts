@@ -1,17 +1,20 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IProduct } from "../interfaces/interfaces";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { IProduct } from "../interfaces/interfaces"
 
 export interface IProductsState {
-  products: IProduct[];
-  loading: boolean;
-  error: Error | null;
+  products: IProduct[]
+  loading: boolean
+  isInitialized: boolean
+  error: Error | null
 }
 
 export const initialState: IProductsState = {
   products: [],
   loading: false,
+  isInitialized: false,
   error: null,
-};
+}
+
 export const productsSlice = createSlice({
   name: "products",
   initialState,
@@ -20,25 +23,28 @@ export const productsSlice = createSlice({
       if (state.products.length > 0) {
         const updatedProducts = state.products.filter(
           (product) => !action.payload.some((p) => p.id === product.id)
-        );
-        state.products = [...updatedProducts, ...action.payload];
+        )
+        state.products = [...updatedProducts, ...action.payload]
       } else {
-        state.products = action.payload;
+        state.products = action.payload
       }
-      state.loading = false;
-      state.error = null;
+      state.loading = false
+      state.error = null
     },
     setError(state, action: PayloadAction<Error>) {
       state.error = action.payload;
-      state.loading = false;
+      state.loading = false
     },
     setLoading(state, action: PayloadAction<boolean>) {
-      state.loading = action.payload;
+      state.loading = action.payload
+    },
+    setIsInitialized(state, action: PayloadAction<boolean>) {
+      state.isInitialized = action.payload
     },
     resetProducts(state) {
       state.products = []
     },
   },
-});
+})
 
-export const { setProducts, setError, setLoading, resetProducts } = productsSlice.actions;
+export const { setProducts, setError, setLoading, setIsInitialized, resetProducts } = productsSlice.actions

@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import APIService from "../services/APIService"
-import { setError, setLoading, setProducts } from "../redux/productsSlice"
+import { setError, setIsInitialized, setLoading, setProducts } from "../redux/productsSlice"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "../redux"
 import { IProduct } from "../interfaces/interfaces"
@@ -27,6 +27,7 @@ function useFetchProducts() {
         )
         const productsWithBrandAndImg = productsWithValidImages.filter((product) => product !== null && product.brand)
         dispatch(setProducts(productsWithBrandAndImg as IProduct[]))
+        dispatch(setIsInitialized(true))
       } catch (error) {
         dispatch(
           setError(error instanceof Error ? error : new Error("Unknown error"))
