@@ -70,7 +70,7 @@ export function useGridProducts(isInitialized: boolean) {
             const filters: IFilterState = {
               type: grid.type,
               category: grid.category,
-              selectedBrands: [grid.brand],
+              selectedBrands: grid.brand ? [grid.brand] : [],
               selectedTags: grid.tags,
               selectedColors: [],
               priceRange: {min: grid.priceRange.min, max: grid.priceRange.max}
@@ -96,6 +96,7 @@ export function useGridProducts(isInitialized: boolean) {
           }
           setGridProducts(updatedProducts)
         }
+
       }, [isInitialized, products])
 
       return gridProducts
