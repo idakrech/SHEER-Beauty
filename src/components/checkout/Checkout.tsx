@@ -1,5 +1,5 @@
-import { useUserData } from "../hooks/useUserData"
-import AddressForm from "../components/user-page/AddressForm"
+import { useUserData } from "../../hooks/useUserData"
+import AddressForm from "../user-page/AddressForm"
 
 const Checkout = () => {
   const { userDataFromDb, loading } = useUserData()
@@ -12,8 +12,8 @@ const Checkout = () => {
     <div>
       <h3>Checkout</h3>
       {userDataFromDb?.address ? <AddressForm address={userDataFromDb?.address}/> : <AddressForm/>}
-      {/* delivery form */}
-      {/* payment form */}
+      {/* TODO: delivery form */}
+      {/* TODO: payment form */}
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import CartItem from "../components/product-display/CardItem"
 import { useShoppingCart } from "../hooks/useShoppingCart"
-import Checkout from "./Checkout"
+import Checkout from "../components/checkout/Checkout"
 
 const CartPage = () => {
   const { cartProducts, handleDelete, handleDecrement } = useShoppingCart()
