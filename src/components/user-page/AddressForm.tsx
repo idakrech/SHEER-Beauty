@@ -4,7 +4,7 @@ import { AppState } from "../../redux"
 import { IAddress } from "../../interfaces/interfaces"
 import { userDataService } from "../../services/userDataService"
 
-const AddressForm = () => {
+const AddressForm = ({address}: {address?: IAddress}) => {
   const user = useSelector((state: AppState) => state.auth.user)
   const [addressValues, setAddressValues] = useState<IAddress>({
     firstName: "",
@@ -16,28 +16,12 @@ const AddressForm = () => {
     phoneCountryCode: "",
     phoneNumber: null,
   })
-  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (user) {
-        try {
-          const userData = await userDataService.getUserData(user.uid)
-          if (userData?.address) {
-            setAddressValues(userData.address)
-          }
-        } catch (error) {
-          console.error("Error fetching address data", error)
-        } finally {
-          setLoading(false)
-        }
-      } else {
-        setLoading(false)
-      }
+    if (address) {
+      setAddressValues(address)
     }
-
-    fetchUserData()
-  }, [])
+  }, [address])
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddressValues({ ...addressValues, [e.target.name]: e.target.value })
@@ -56,13 +40,8 @@ const AddressForm = () => {
     }
   }
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
   return (
     <div>
-      {user ? (
         <div>
           <form onSubmit={handleSubmit}>
             <input
@@ -122,12 +101,10 @@ const AddressForm = () => {
               value={addressValues.phoneNumber ? addressValues.phoneNumber : ""}
               onChange={changeHandler}
             />
+            {/* TODO: if it's checkout, then don't show save btn? */}
             <button type="submit">Save</button>
           </form>
         </div>
-      ) : (
-        <h1>Register to create an account or log in</h1>
-      )}
     </div>
   )
 }
