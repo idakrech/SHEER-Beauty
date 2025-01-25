@@ -4,7 +4,8 @@ import { AppState } from "../../redux"
 import { IAddress } from "../../interfaces/interfaces"
 import { userDataService } from "../../services/userDataService"
 
-const AddressForm = ({address}: {address?: IAddress}) => {
+//TODO: replace my own address interface with Shippo interface
+const AddressForm = ({address, onAddressChange}: {address?: IAddress, onAddressChange: (address: IAddress) => void}) => {
   const user = useSelector((state: AppState) => state.auth.user)
   const [addressValues, setAddressValues] = useState<IAddress>({
     firstName: "",
@@ -25,6 +26,7 @@ const AddressForm = ({address}: {address?: IAddress}) => {
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddressValues({ ...addressValues, [e.target.name]: e.target.value })
+    onAddressChange({ ...addressValues, [e.target.name]: e.target.value })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -79,6 +81,7 @@ const AddressForm = ({address}: {address?: IAddress}) => {
               value={addressValues.zipCode}
               onChange={changeHandler}
             />
+            {/* TODO: country dropdown */}
             <input
               name="country"
               type="text"
@@ -86,7 +89,7 @@ const AddressForm = ({address}: {address?: IAddress}) => {
               value={addressValues.country}
               onChange={changeHandler}
             />
-            {/* TODO: dropdown of country codes */}
+            {/* TODO: dropdown of country codes; generate placeholder based on country input above */}
             <input
               name="phoneCountryCode"
               type="text"
