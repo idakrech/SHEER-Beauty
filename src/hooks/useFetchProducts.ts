@@ -1,15 +1,18 @@
 import { useEffect } from "react"
 import APIService from "../services/APIService"
 import { setError, setIsInitialized, setLoading, setProducts } from "../redux/productsSlice"
-import { useDispatch } from "react-redux"
-import { AppDispatch } from "../redux"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, AppState } from "../redux"
 import { IProduct } from "../interfaces/interfaces"
 import checkIfImageExists from "../helpers/checkImage"
 
 function useFetchProducts() {
   const dispatch = useDispatch<AppDispatch>()
+  const isInitialized = useSelector((state: AppState) => state.products.isInitialized)
 
   useEffect(() => {
+    if (isInitialized) return
+    
     const fetchData = async () => {
       dispatch(setLoading(true))
 
