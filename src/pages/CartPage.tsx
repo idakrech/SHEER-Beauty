@@ -1,6 +1,7 @@
 import CartItem from "../components/product-display/CardItem"
 import { useShoppingCart } from "../hooks/useShoppingCart"
-import Checkout from "../components/checkout/Checkout"
+import Delivery from "../components/checkout/Delivery"
+import Payment from "../components/checkout/Payment"
 
 const CartPage = () => {
   const { cartProducts, handleDelete, handleDecrement } = useShoppingCart()
@@ -18,7 +19,8 @@ const CartPage = () => {
               handleDecrement={handleDecrement}
             />
           ))}
-          <Checkout/>
+          <Delivery/>
+          <Payment/>
         </>
       ) : (
         <p>Your cart is empty</p>
