@@ -17,7 +17,7 @@ const UserPage = () => {
           {tab === "account-details" && <AddressForm />}
           {tab === "order-history" && <OrderHistory />}
           {tab === "favorites" && (
-            <ProductGrid products={favorites} isExpanded={false} />
+            <ProductGrid products={favorites} isExpanded={false} title="Favorites"/>
           )}
         </>
       ) : (
