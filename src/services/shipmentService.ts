@@ -2,7 +2,7 @@ import {
   AddressCreateRequest,
   DistanceUnitEnum,
   ParcelCreateRequest,
-  Rate,
+  Shipment,
   Shippo,
   WeightUnitEnum,
 } from "shippo"
@@ -11,9 +11,9 @@ import { companyAddress } from "../constants/companyAddress"
 
 const shippo = new Shippo({ apiKeyHeader: import.meta.env.VITE_SHIPPO_API_KEY })
 
-export const getShipmentRates = async (
+export const getShipment = async (
   address: IAddress
-): Promise<Rate[]> => {
+): Promise<Shipment> => {
   try {
     const addressFrom: AddressCreateRequest = {...companyAddress}
 
@@ -24,6 +24,7 @@ export const getShipmentRates = async (
       state: address.state,
       zip: address.zipCode,
       country: address.country,
+      validate: true
     }
 
     const parcel: ParcelCreateRequest = {
@@ -41,7 +42,8 @@ export const getShipmentRates = async (
       parcels: [parcel],
       async: false,
     })
-    return shipment.rates
+    console.log(shipment)
+    return shipment
   } catch (error) {
     console.error("Error fetching shipment rates:", error)
     throw new Error("Failed to fetch shipment rates")
