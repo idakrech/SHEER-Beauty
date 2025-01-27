@@ -78,7 +78,7 @@ const Delivery = () => {
           <ul>
             {rates.map((rate) => (
               <li key={rate.servicelevel.token}>
-                {rate.servicelevel.name} - {rate.amount} {rate.currency}
+                {rate.servicelevel.name} - {rate.amount} {rate.currency} {`(${rate.amountLocal} ${rate.currencyLocal})`}
               </li>
             ))}
           </ul>
