@@ -1,3 +1,5 @@
+import { Address } from "shippo";
+
 export interface IFetchProductParams {
   brand?: string;
   product_type?: string;
@@ -41,17 +43,7 @@ export interface IProductType {
   categories: string[] | null
 }
 
-export interface IAddress {
-  firstName: string
-  lastName: string
-  street: string
-  city: string
-  state?: string
-  zipCode: string
-  country: string
-  phoneCountryCode: string
-  phoneNumber: number | null
-}
+export type IAddress = Address
 
 export interface IUserData {
   userID: string
