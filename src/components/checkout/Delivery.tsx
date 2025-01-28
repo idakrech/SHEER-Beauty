@@ -4,6 +4,7 @@ import { IAddress } from "../../interfaces/interfaces"
 import { AddressValidationResultsMessage, Rate } from "shippo"
 import { useUserData } from "../../hooks/useUserData"
 import AddressForm from "../user-page/AddressForm"
+import { getFriendlyMessage } from "../../helpers/formatValidationMessage"
 
 const Delivery = () => {
   const { userDataFromDb, loading } = useUserData()
@@ -19,7 +20,7 @@ const Delivery = () => {
     if (userDataFromDb?.address) {
       setAddress(userDataFromDb?.address)
     }
-  }, [])
+  }, [userDataFromDb?.address])
 
   const fetchRates = async () => {
     setShipmentLoading(true)
@@ -28,14 +29,16 @@ const Delivery = () => {
       if (address) {
         const shipment = await getShipment(address)
         setRates(shipment.rates)
-        if (!shipment.addressTo.validationResults?.isValid) {
-          setAddressValidationMessages(
-            shipment.addressTo.validationResults?.messages
-          )
-        }
+        setAddressValidationMessages(
+          shipment.addressTo.validationResults?.messages
+        )
+        setAddress(shipment.addressTo)
       }
-    } catch {
-      setError("Failed to fetch shipment rates")
+    } catch (error) {
+      console.log("Error fetching shipment rates:", error)
+      setError(
+        "An error occured. Please make sure to provide all the necessary address information"
+      )
     } finally {
       setShipmentLoading(false)
     }
@@ -49,14 +52,7 @@ const Delivery = () => {
         <>
           <div>
             <h3>Checkout</h3>
-            {userDataFromDb?.address ? (
-              <AddressForm
-                address={userDataFromDb?.address}
-                onAddressChange={setAddress}
-              />
-            ) : (
-              <AddressForm onAddressChange={setAddress} />
-            )}
+            <AddressForm address={address} onAddressChange={setAddress} />
           </div>
           {addressValidationMessages &&
             addressValidationMessages.length > 0 && (
@@ -64,13 +60,15 @@ const Delivery = () => {
                 <h4>Address Suggestions:</h4>
                 <ul>
                   {addressValidationMessages.map((message, index) => (
-                    <li key={index}>{message.text}</li>
+                    <li key={index}>
+                      {message.text && getFriendlyMessage(message.text)}
+                    </li>
                   ))}
                 </ul>
               </div>
             )}
           <h1>Shipping Options</h1>
-          <button onClick={fetchRates} disabled={shipmentLoading}>
+          <button onClick={fetchRates}>
             {shipmentLoading ? "Loading..." : "Get Shipping Rates"}
           </button>
           {shipmentLoading && <p>Fetching shipment rates...</p>}
@@ -78,7 +76,8 @@ const Delivery = () => {
           <ul>
             {rates.map((rate) => (
               <li key={rate.servicelevel.token}>
-                {rate.servicelevel.name} - {rate.amount} {rate.currency} {`(${rate.amountLocal} ${rate.currencyLocal})`}
+                {rate.servicelevel.name} - {rate.amount} {rate.currency}{" "}
+                {`(${rate.amountLocal} ${rate.currencyLocal})`}
               </li>
             ))}
           </ul>
