@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { User } from "firebase/auth"
+import { IUser } from "../interfaces/interfaces"
 
 interface IAuthState {
-  user: User | null
+  user: IUser | null
   loading: boolean
   error: string | null
 }
@@ -18,7 +17,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser(state, action: PayloadAction<User | null>) {
+    setUser(state, action: PayloadAction<IUser | null>) {
       state.user = action.payload
       state.loading = false
       state.error = null
