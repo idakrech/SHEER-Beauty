@@ -4,7 +4,6 @@ import { AppState } from "../../redux"
 import { IAddress } from "../../interfaces/interfaces"
 import { userDataService } from "../../services/userDataService"
 
-//TODO: replace my own address interface with Shippo interface
 const AddressForm = ({
   address,
   onAddressChange,
@@ -14,14 +13,13 @@ const AddressForm = ({
 }) => {
   const user = useSelector((state: AppState) => state.auth.user)
   const [addressValues, setAddressValues] = useState<IAddress>({
-    firstName: "",
-    lastName: "",
-    street: "",
+    name: "",
+    street1: "",
     city: "",
-    zipCode: "",
+    zip: "",
+    state: "",
     country: "",
-    phoneCountryCode: "",
-    phoneNumber: null,
+    phone: "",
   })
 
   useEffect(() => {
@@ -46,6 +44,7 @@ const AddressForm = ({
       }
     } catch (error) {
       console.log("Error saving address", error)
+      //TODO: useState error instead of alert
       alert("An error occured")
     }
   }
@@ -54,24 +53,17 @@ const AddressForm = ({
       <div>
         <form onSubmit={handleSubmit}>
           <input
-            name="firstName"
+            name="name"
             type="text"
-            placeholder="First Name"
-            value={addressValues.firstName}
+            placeholder="Name"
+            value={addressValues.name}
             onChange={changeHandler}
           />
           <input
-            name="lastName"
-            type="text"
-            placeholder="Last Name"
-            value={addressValues.lastName}
-            onChange={changeHandler}
-          />
-          <input
-            name="street"
+            name="street1"
             type="text"
             placeholder="Street"
-            value={addressValues.street}
+            value={addressValues.street1}
             onChange={changeHandler}
           />
           <input
@@ -82,10 +74,17 @@ const AddressForm = ({
             onChange={changeHandler}
           />
           <input
-            name="zipCode"
+            name="zip"
             type="text"
             placeholder="Zip Code"
-            value={addressValues.zipCode}
+            value={addressValues.zip}
+            onChange={changeHandler}
+          />
+          <input
+            name="state"
+            type="text"
+            placeholder="State/Provice"
+            value={addressValues.state}
             onChange={changeHandler}
           />
           {/* TODO: country dropdown */}
@@ -98,17 +97,10 @@ const AddressForm = ({
           />
           {/* TODO: dropdown of country codes; generate placeholder based on country input above */}
           <input
-            name="phoneCountryCode"
-            type="text"
-            placeholder="Country code"
-            value={addressValues.phoneCountryCode}
-            onChange={changeHandler}
-          />
-          <input
-            name="phoneNumber"
+            name="phone"
             type="number"
             placeholder="Phone number"
-            value={addressValues.phoneNumber ? addressValues.phoneNumber : ""}
+            value={addressValues.phone}
             onChange={changeHandler}
           />
           {/* TODO: if it's checkout, then don't show save btn? */}

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { NavLink, Route, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import "./App.css"
 import Home from "./pages/Home"
 import CartPage from "./pages/CartPage"
@@ -23,9 +22,9 @@ import UserMenu from "./components/navigation/UserMenu"
 import SearchResultsPage from "./pages/SearchResults"
 import PromotedProductsPage from "./pages/PromotedProductsPage"
 
-//BIG: address validation
 //BIG: phone country codes (api?)
 //TODO: catch invalid http and display "No such page found :("
+//STYLE: change Vite icon by Website name (in browser tab) into make up icon
 
 function App() {
   const dispatch = useDispatch<AppDispatch>()
@@ -106,8 +105,8 @@ function App() {
               }
             }
 
-            if (userData.address.firstName) {
-              dispatch(setUserFirstName(userData.address.firstName))
+            if (userData.address?.name) {
+              dispatch(setUserFirstName(userData.address.name))
             }
           }
         } catch (error) {

@@ -18,12 +18,7 @@ export const getShipment = async (
     const addressFrom: AddressCreateRequest = {...companyAddress}
 
     const addressTo: AddressCreateRequest = {
-      name: `${address.firstName} ${address.lastName}`,
-      street1: address.street,
-      city: address.city,
-      state: address.state,
-      zip: address.zipCode,
-      country: address.country,
+      ...address,
       validate: true
     }
 
@@ -42,7 +37,7 @@ export const getShipment = async (
       parcels: [parcel],
       async: false,
     })
-    console.log(shipment)
+    
     return shipment
   } catch (error) {
     console.error("Error fetching shipment rates:", error)
