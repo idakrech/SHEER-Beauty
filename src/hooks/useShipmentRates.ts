@@ -59,6 +59,7 @@ export const useShipmentRates = () => {
     addressValidationMessages,
     address,
     fetchRates,
-    setAddress
+    setAddress,
+    setRates
   }
 }

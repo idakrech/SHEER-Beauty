@@ -7,7 +7,7 @@ import { useUserData } from "../../hooks/useUserData"
 
 const Delivery = () => {
   const {loading} = useUserData()
-  const {rates, shipmentLoading, error, addressValidationMessages, address, fetchRates, setAddress} = useShipmentRates()
+  const {rates, shipmentLoading, error, addressValidationMessages, address, fetchRates, setAddress, setRates} = useShipmentRates()
   const isAddressComplete = useRef<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
 
@@ -43,6 +43,7 @@ const Delivery = () => {
                 setAddress(updatedAddress)
                 checkIfAddressComplete(updatedAddress)
                 setIsEditing(editing)
+                if (editing) {setRates([])}
               }}
               onAddressCompletion={(isComplete) => {
                 isAddressComplete.current = isComplete
