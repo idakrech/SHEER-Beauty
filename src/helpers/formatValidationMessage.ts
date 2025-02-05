@@ -1,35 +1,62 @@
-export function getFriendlyMessage(shippoMessage: string): string {
-    const patterns: { regex: RegExp; friendlyMessage: string }[] = [
-      {
-        regex: /address\.street1 can not be empty/i,
-        friendlyMessage: "The address could not be verified. Please provide the street name.",
-      },
-      {
-        regex: /The address could not be verified at least up to the postal code level|The submitted postal code was not found in the Geocode database/i,
-        friendlyMessage: "The address could not be verified. Please check the postal code.",
-      },
-      {
-        regex: /The postal code was added or changed/i,
-        friendlyMessage: "The postal code has been modified in address verification. Please make sure it's updated correctly.",
-      },
-      {
-        regex: /The administrative area \(state or province\) was added or changed/i,
-        friendlyMessage: "The state or province has been added or updated. Please make sure it's updated correctly.",
-      },
-      {
-        regex: /The address has been partially verified to the City Level, which is not the highest level possible/i,
-        friendlyMessage: "The address could only be verified to the city level. Please provide correct street information.",
-      }
-      
-    ]
-  
-    for (const { regex, friendlyMessage } of patterns) {
-      if (regex.test(shippoMessage)) {
-        return friendlyMessage
+import { AddressValidationResultsMessage } from "shippo";
+
+export function getSummaryMessage(shippoMessages: AddressValidationResultsMessage[]): string {
+  const patterns: { regex: RegExp; category: string }[] = [
+    {
+      regex: /address\.street1 can not be empty|length should be more than 2/i,
+      category: "missingFields",
+    },
+    {
+      regex:
+        /postal code.*not found|address could not be verified.*postal code/i,
+      category: "missingFields",
+    },
+    {
+      regex: /The postal code was added or changed/i,
+      category: "adjustments",
+    },
+    {
+      regex:
+        /administrative area.*added or changed|locality.*added or changed/i,
+      category: "adjustments",
+    },
+    {
+      regex: /address could not be verified/i,
+      category: "generalError",
+    },
+  ]
+
+  const categories = new Set<string>()
+  const messageTexts = shippoMessages.map((msg) => msg.text).filter((text) => !!text)
+  for (const message of messageTexts) {
+    for (const { regex, category } of patterns) {
+      if (message && regex.test(message)) {
+        categories.add(category)
       }
     }
-  
-    return "An error occured. Please make sure you have provided all the necessary address information. If you have done it and the error still occurs, plase try again later"
   }
-  
-  
+
+  const summaryMessages: Record<string, string> = {
+    missingFields:
+      "Please ensure that all required fields are filled out correctly, including the street, postal code, city, and country.",
+    adjustments:
+      "Some address fields were updated during verification. Please review the postal code, state/province, and locality for accuracy.",
+    partialVerification:
+      "The address could only be verified partially. Ensure that the street and postal code are correct.",
+    generalError:
+      "The address could not be verified. Please check all fields and try again.",
+  }
+
+  const summary: string[] = []
+
+  for (const category of categories) {
+    if (summaryMessages[category]) {
+      summary.push(summaryMessages[category])
+    }
+  }
+
+  return summary.length > 0
+    ? summary.join(" ")
+    : "An error occurred. Please make sure you have provided all the necessary address information."
+
+}
