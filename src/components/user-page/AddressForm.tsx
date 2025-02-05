@@ -4,6 +4,7 @@ import { AppState } from "../../redux"
 import { IAddress } from "../../interfaces/interfaces"
 import { userDataService } from "../../services/userDataService"
 import { checkIfAddressComplete } from "../../helpers/checkAddressCompletion"
+import { countries } from "../../constants/countries"
 
 const AddressForm = ({
   address,
@@ -24,7 +25,7 @@ const AddressForm = ({
     country: "",
     phone: "",
   })
-
+  const [countryCode, setCountryCode] = useState<string>("")
   useEffect(() => {
     if (address) {
       setAddressValues(address)
@@ -36,6 +37,28 @@ const AddressForm = ({
     setAddressValues(updatedAddress)
     onAddressChange?.(updatedAddress, true)
     onAddressCompletion?.(checkIfAddressComplete(updatedAddress))
+  }
+
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCountry = e.target.value
+    setAddressValues({...addressValues, country: selectedCountry})
+
+    const country = countries.find(country => country.value === selectedCountry)
+    if (country) {
+      setCountryCode(country.dialCode)
+    }
+  }
+
+  const handlePhoneFocus = () => {
+    if (!addressValues.phone) {
+      setAddressValues({...addressValues, phone: countryCode})
+    }
+  }
+
+  const handlePhoneBlur = () => {
+    if (addressValues.phone === countryCode) {
+      setAddressValues({...addressValues, phone: ""})
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -97,25 +120,27 @@ const AddressForm = ({
           value={addressValues.state}
           onChange={changeHandler}
         />
-        {/* TODO: country dropdown */}
-        <input
+        <select
           name="country"
-          type="text"
-          placeholder="Country"
           value={addressValues.country}
-          onChange={changeHandler}
+          onChange={handleCountryChange}
           required
-        />
-        {/* TODO: dropdown of country codes; generate placeholder based on country input above */}
+        >
+          <option value="">Select country</option>
+          {countries.map(country => (
+            <option key={country.value} value={country.value}>{country.label}</option>
+          ))}
+        </select>
         <input
           name="phone"
-          type="number"
-          placeholder="Phone number"
+          type="text"
+          placeholder={countryCode ? `${countryCode} Phone number` : "Phone number"}
           value={addressValues.phone}
+          onFocus={handlePhoneFocus}
+          onBlur={handlePhoneBlur}
           onChange={changeHandler}
           required
         />
-        {/* TODO: if it's checkout, then don't show save btn? */}
         <button type="submit">Save</button>
       </form>
     </div>
