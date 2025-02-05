@@ -1,29 +1,15 @@
 import { useEffect, useRef, useState } from "react"
-import { getShipment } from "../../services/shipmentService"
 import { IAddress } from "../../interfaces/interfaces"
-import { AddressValidationResultsMessage, Rate } from "shippo"
-import { useUserData } from "../../hooks/useUserData"
 import AddressForm from "../user-page/AddressForm"
 import { getSummaryMessage } from "../../helpers/formatValidationMessage"
+import { useShipmentRates } from "../../hooks/useShipmentRates"
+import { useUserData } from "../../hooks/useUserData"
 
 const Delivery = () => {
-  const { userDataFromDb, loading } = useUserData()
-  const [address, setAddress] = useState<IAddress>()
-  const [rates, setRates] = useState<Rate[]>([])
-  const [shipmentLoading, setShipmentLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [addressValidationMessages, setAddressValidationMessages] = useState<
-    AddressValidationResultsMessage[] | undefined
-  >([])
+  const {loading} = useUserData()
+  const {rates, shipmentLoading, error, addressValidationMessages, address, fetchRates, setAddress} = useShipmentRates()
   const isAddressComplete = useRef<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (userDataFromDb?.address) {
-      setAddress(userDataFromDb?.address)
-      isAddressComplete.current = true
-    }
-  }, [userDataFromDb?.address])
 
   const checkIfAddressComplete = (address: IAddress) => {
     const isComplete =
@@ -42,29 +28,6 @@ const Delivery = () => {
       checkIfAddressComplete(address)
     }
   }, [address])
-
-  const fetchRates = async () => {
-    setShipmentLoading(true)
-    setError(null)
-    try {
-      if (address) {
-        const shipment = await getShipment(address)
-        setRates(shipment.rates)
-        setAddressValidationMessages(
-          shipment.addressTo?.validationResults?.messages
-        )
-        setAddress(shipment.addressTo)
-      }
-    } catch (error) {
-      console.log("Error fetching shipment rates:", error)
-      setError(
-        "An error occured. Please make sure to provide all the necessary address information"
-      )
-      setAddressValidationMessages([])
-    } finally {
-      setShipmentLoading(false)
-    }
-  }
 
   return (
     <div>
@@ -93,7 +56,7 @@ const Delivery = () => {
           <h1>Shipping Options</h1>
           <div className={`${isEditing ? "opacity-50 pointer-events-none" : "opacity-100 pointer-events-auto"}`}>
             {/* TODO: make save btn also fetch rates btn */}
-            <button onClick={fetchRates} disabled={isEditing}> 
+            <button onClick={() => fetchRates(address)} disabled={isEditing}> 
               {/* !isAddressComplete.current */}
               {shipmentLoading ? "Loading..." : "Get Shipping Rates"}
             </button>
