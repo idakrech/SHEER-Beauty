@@ -1,31 +1,28 @@
 import { useEffect, useRef, useState } from "react"
-import { IAddress } from "../../interfaces/interfaces"
 import AddressForm from "../user-page/AddressForm"
 import { getSummaryMessage } from "../../helpers/formatValidationMessage"
 import { useShipmentRates } from "../../hooks/useShipmentRates"
 import { useUserData } from "../../hooks/useUserData"
+import { checkIfAddressComplete } from "../../helpers/checkAddressCompletion"
 
 const Delivery = () => {
-  const {loading} = useUserData()
-  const {rates, shipmentLoading, error, addressValidationMessages, address, fetchRates, setAddress, setRates} = useShipmentRates()
+  const { loading } = useUserData()
+  const {
+    rates,
+    shipmentLoading,
+    error,
+    addressValidationMessages,
+    address,
+    fetchRates,
+    setAddress,
+    setRates,
+  } = useShipmentRates()
   const isAddressComplete = useRef<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
 
-  const checkIfAddressComplete = (address: IAddress) => {
-    const isComplete =
-      !!address.name &&
-      !!address.street1 &&
-      !!address.city &&
-      !!address.zip &&
-      !!address.state &&
-      !!address.country &&
-      !!address.phone
-    isAddressComplete.current = isComplete
-  }
-
   useEffect(() => {
     if (address) {
-      checkIfAddressComplete(address)
+      isAddressComplete.current = checkIfAddressComplete(address)
     }
   }, [address])
 
@@ -43,7 +40,10 @@ const Delivery = () => {
                 setAddress(updatedAddress)
                 checkIfAddressComplete(updatedAddress)
                 setIsEditing(editing)
-                if (editing) {setRates([])}
+                isAddressComplete.current = checkIfAddressComplete(updatedAddress)
+                if (editing) {
+                  setRates([])
+                }
               }}
               onAddressCompletion={(isComplete) => {
                 isAddressComplete.current = isComplete
@@ -55,9 +55,15 @@ const Delivery = () => {
               <div>{getSummaryMessage(addressValidationMessages)}</div>
             )}
           <h1>Shipping Options</h1>
-          <div className={`${isEditing ? "opacity-50 pointer-events-none" : "opacity-100 pointer-events-auto"}`}>
+          <div
+            className={`${
+              isEditing
+                ? "opacity-50 pointer-events-none"
+                : "opacity-100 pointer-events-auto"
+            }`}
+          >
             {/* TODO: make save btn also fetch rates btn */}
-            <button onClick={() => fetchRates(address)} disabled={isEditing}> 
+            <button onClick={() => fetchRates(address)} disabled={isEditing}>
               {/* !isAddressComplete.current */}
               {shipmentLoading ? "Loading..." : "Get Shipping Rates"}
             </button>

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 import { AppState } from "../../redux"
 import { IAddress } from "../../interfaces/interfaces"
 import { userDataService } from "../../services/userDataService"
+import { checkIfAddressComplete } from "../../helpers/checkAddressCompletion"
 
 const AddressForm = ({
   address,
@@ -33,21 +34,8 @@ const AddressForm = ({
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedAddress = { ...addressValues, [e.target.name]: e.target.value }
     setAddressValues(updatedAddress)
-    if (onAddressChange) {
-      onAddressChange(updatedAddress, true)
-    }
-
-    const isComplete =
-      !!updatedAddress.name &&
-      !!updatedAddress.street1 &&
-      !!updatedAddress.city &&
-      !!updatedAddress.zip &&
-      !!updatedAddress.country &&
-      !!updatedAddress.phone
-    
-    if (onAddressCompletion) {
-      onAddressCompletion(isComplete)
-    }
+    onAddressChange?.(updatedAddress, true)
+    onAddressCompletion?.(checkIfAddressComplete(updatedAddress))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -62,23 +50,9 @@ const AddressForm = ({
       //TODO: useState error instead of alert
       alert("An error occured")
     }
-    if (onAddressCompletion) {
-      if (
-        !!addressValues.name ||
-        !!addressValues.street1 ||
-        !!addressValues.city ||
-        !!addressValues.zip ||
-        !!addressValues.country ||
-        !!addressValues.phone
-      ) {
-        onAddressCompletion(false)
-      } else {
-        onAddressCompletion(true)
-      }
-    }
-    if (onAddressChange) {
-      onAddressChange(addressValues, false)
-    }
+
+    onAddressCompletion?.(checkIfAddressComplete(addressValues))
+    onAddressChange?.(addressValues, false)
   }
 
   return (
