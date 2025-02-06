@@ -26,6 +26,8 @@ const AddressForm = ({
     phone: "",
   })
   const [countryCode, setCountryCode] = useState<string>("")
+  const [savingError, setSavingError] = useState<string>("")
+
   useEffect(() => {
     if (address) {
       setAddressValues(address)
@@ -70,8 +72,7 @@ const AddressForm = ({
       }
     } catch (error) {
       console.log("Error saving address", error)
-      //TODO: useState error instead of alert
-      alert("An error occured")
+      setSavingError("An error occured when saving the address")
     }
 
     onAddressCompletion?.(checkIfAddressComplete(addressValues))
@@ -142,6 +143,7 @@ const AddressForm = ({
           required
         />
         <button type="submit">Save</button>
+        {savingError && <p>{savingError}</p>}
       </form>
     </div>
   )
