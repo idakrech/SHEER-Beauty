@@ -8,6 +8,7 @@ export function useUserData() {
   const userId = useSelector((state: AppState) => state.auth.user?.uid)
   const [userDataFromDb, setUserDataFromDb] = useState<IUserData | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string>("")
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -18,8 +19,9 @@ export function useUserData() {
       try {
         const data = await userDataService.getUserData(userId)
         setUserDataFromDb(data as IUserData)
-      } catch {
-        console.log("Failed to fetch user data")
+      } catch (error) {
+        console.log("Failed to fetch user data", error)
+        setError("A problem has occurred when loading the address")
       } finally {
         setLoading(false)
       }
@@ -28,5 +30,5 @@ export function useUserData() {
     fetchUserData()
   }, [userId])
 
-  return { userDataFromDb, loading }
+  return { userDataFromDb, loading, error }
 }

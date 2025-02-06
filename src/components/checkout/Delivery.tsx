@@ -6,7 +6,7 @@ import { useUserData } from "../../hooks/useUserData"
 import { checkIfAddressComplete } from "../../helpers/checkAddressCompletion"
 
 const Delivery = () => {
-  const { loading } = useUserData()
+  const { loading, error: dbAddressError } = useUserData()
   const {
     rates,
     shipmentLoading,
@@ -29,7 +29,7 @@ const Delivery = () => {
   return (
     <div>
       {loading ? (
-        <div>Loading user data...</div>
+        <div>Loading your address...</div>
       ) : (
         <>
           <div>
@@ -49,6 +49,7 @@ const Delivery = () => {
                 isAddressComplete.current = isComplete
               }}
             />
+            {dbAddressError && <p>{dbAddressError}</p>}
           </div>
           {addressValidationMessages &&
             addressValidationMessages.length > 0 && (
@@ -62,9 +63,7 @@ const Delivery = () => {
                 : "opacity-100 pointer-events-auto"
             }`}
           >
-            {/* TODO: make save btn also fetch rates btn */}
             <button onClick={() => fetchRates(address)} disabled={isEditing}>
-              {/* !isAddressComplete.current */}
               {shipmentLoading ? "Loading..." : "Get Shipping Rates"}
             </button>
             {shipmentLoading && <p>Fetching shipment rates...</p>}
