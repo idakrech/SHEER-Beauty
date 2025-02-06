@@ -1,4 +1,4 @@
-import CartItem from "../components/product-display/CardItem"
+import CartItem from "../components/product-display/CartItem"
 import { useShoppingCart } from "../hooks/useShoppingCart"
 import Delivery from "../components/checkout/Delivery"
 import Payment from "../components/checkout/Payment"
