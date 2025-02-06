@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import ProductCard from "./ProductCard"
 import { IProduct } from "../../interfaces/interfaces"
 import { useNavigate } from "react-router-dom"
@@ -12,6 +12,8 @@ interface IProductGridProps {
   title: string
 }
 
+const PAGE_SIZE = 20
+
 const ProductGrid: React.FC<IProductGridProps> = ({
   products,
   isExpanded,
@@ -20,13 +22,19 @@ const ProductGrid: React.FC<IProductGridProps> = ({
   title,
 }) => {
   const navigate = useNavigate()
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+  
+
+  const loadMoreProducts = () => {
+    setVisibleCount((prev) => prev + PAGE_SIZE)
+  }
 
   return (
     <div>
       <h3>{title}</h3>
       <div className="grid grid-cols-5 gap-4 justify-items-center justify-center py-5">
         {products
-          .slice(0, maxLimit ?? products.length)
+          .slice(0, maxLimit ?? visibleCount)
           .map((product) => (
             <ProductCard key={product.id} {...product} />
           ))}
@@ -57,6 +65,14 @@ const ProductGrid: React.FC<IProductGridProps> = ({
             More
           </button>
         )}
+
+{visibleCount < products.length && (
+        <div className="flex justify-center mt-4">
+          <button onClick={loadMoreProducts} className="bg-blue-500 text-white px-4 py-2 rounded">
+            More
+          </button>
+        </div>
+      )}
       </div>
     </div>
   )
