@@ -1,7 +1,7 @@
 import CartItem from "../components/product-display/CartItem"
 import { useShoppingCart } from "../hooks/useShoppingCart"
 import Delivery from "../components/checkout/Delivery"
-import CardPayment from "../components/checkout/CardPayment"
+import PaymentMethods from "../components/checkout/PaymentMethods"
 
 const CartPage = () => {
   const { cartProducts, handleDelete, handleDecrement } = useShoppingCart()
@@ -20,7 +20,7 @@ const CartPage = () => {
             />
           ))}
           <Delivery/>
-          <CardPayment/>
+          <PaymentMethods/>
         </>
       ) : (
         <p>Your cart is empty</p>
