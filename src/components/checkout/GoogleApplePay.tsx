@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useStripe, PaymentRequestButtonElement } from "@stripe/react-stripe-js"
 
-const GoogleApplePay = () => {
+const GoogleApplePay = ({sum} : {sum: number}) => {
   const stripe = useStripe()
   //TODO: fix any in useState
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,7 +14,7 @@ const GoogleApplePay = () => {
     const pr = stripe.paymentRequest({
       country: "US",
       currency: "usd",
-      total: { label: "Demo Payment", amount: 1000 },
+      total: { label: "Demo Payment", amount: Math.round(sum * 100)},
       requestPayerName: true,
       requestPayerEmail: true,
     })
