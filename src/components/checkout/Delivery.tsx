@@ -5,7 +5,7 @@ import { useShipmentRates } from "../../hooks/useShipmentRates"
 import { useUserData } from "../../hooks/useUserData"
 import { checkIfAddressComplete } from "../../helpers/checkAddressCompletion"
 
-const Delivery = () => {
+const Delivery = ({ setSelectedRate }: { setSelectedRate: (rate: number) => void }) => {
   const { loading, error: dbAddressError } = useUserData()
   const {
     rates,
@@ -17,6 +17,7 @@ const Delivery = () => {
     setAddress,
     setRates,
   } = useShipmentRates()
+  const [selectedRate, setLocalSelectedRate] = useState<number | null>(null)
   const isAddressComplete = useRef<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
 
@@ -25,6 +26,13 @@ const Delivery = () => {
       isAddressComplete.current = checkIfAddressComplete(address)
     }
   }, [address])
+
+  useEffect(() => {
+    if (rates.length > 0) {
+      setLocalSelectedRate(parseFloat(rates[0].amount))
+      setSelectedRate(parseFloat(rates[0].amount))
+    }
+  }, [rates, setSelectedRate])
 
   return (
     <div>
@@ -71,8 +79,19 @@ const Delivery = () => {
             <ul>
               {rates.map((rate) => (
                 <li key={rate.servicelevel.token}>
+                  <label>
+                    <input 
+                      type="radio"
+                      name="shippingRate"
+                      value={rate.amount}
+                      checked={selectedRate === parseFloat(rate.amount)}
+                      onChange={() => {
+                        setLocalSelectedRate(parseFloat(rate.amount))
+                      }}
+                    />
                   {rate.servicelevel.name} - {rate.amount} {rate.currency}{" "}
                   {`(${rate.amountLocal} ${rate.currencyLocal})`}
+                  </label>
                 </li>
               ))}
             </ul>
