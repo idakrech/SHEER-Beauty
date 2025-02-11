@@ -34,5 +34,7 @@ export function useShoppingCart() {
     }
   }
 
-  return { cartProducts, handleDelete, handleDecrement, handleAddToCart }
+  const priceSum = cartProducts.reduce((sum, { product }) => sum + parseFloat(product.price), 0)
+
+  return { cartProducts, handleDelete, handleDecrement, handleAddToCart, priceSum}
 }
