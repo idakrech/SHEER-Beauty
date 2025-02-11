@@ -3,8 +3,8 @@ import { useStripe, PaymentRequestButtonElement } from "@stripe/react-stripe-js"
 
 const GoogleApplePay = () => {
   const stripe = useStripe()
+  //TODO: fix any in useState
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //TODO: fix any
   const [paymentRequest, setPaymentRequest] = useState<any>(null)
   const [canMakePayment, setCanMakePayment] = useState(false)
 
@@ -21,8 +21,8 @@ const GoogleApplePay = () => {
 
     pr.canMakePayment().then((result) => {
       if (result) {
-        setPaymentRequest(pr);
-        setCanMakePayment(true);
+        setPaymentRequest(pr)
+        setCanMakePayment(true)
       }
     })
   }, [stripe])
