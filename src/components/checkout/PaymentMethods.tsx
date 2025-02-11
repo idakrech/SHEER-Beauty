@@ -2,7 +2,7 @@ import { useState } from "react"
 import CardPayment from "./CardPayment"
 import GoogleApplePay from "./GoogleApplePay"
 
-const PaymentMethods = () => {
+const PaymentMethods = ({totalSum} : {totalSum: number}) => {
     const [selectedMethod, setSelectedMethod] = useState<string>("card")
   
     return (
@@ -13,8 +13,8 @@ const PaymentMethods = () => {
           <option value="google">Google Pay / Apple Pay</option>
         </select>
   
-        {selectedMethod === "card" && <CardPayment />}
-        {selectedMethod === "google" && <GoogleApplePay />}
+        {selectedMethod === "card" && <CardPayment/>}
+        {selectedMethod === "google" && <GoogleApplePay sum={totalSum}/>}
       </div>
     )
   }
