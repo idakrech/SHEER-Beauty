@@ -21,10 +21,17 @@ import useFetchProducts from "./hooks/useFetchProducts"
 import UserMenu from "./components/navigation/UserMenu"
 import SearchResultsPage from "./pages/SearchResults"
 import PromotedProductsPage from "./pages/PromotedProductsPage"
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js"
 
-//BIG: phone country codes (api?)
+//TODO: format all errors into more user friendly phrases
 //TODO: catch invalid http and display "No such page found :("
+//BIG: hide .env values somehow (backend?)
 //STYLE: change Vite icon by Website name (in browser tab) into make up icon
+
+const stripePromise = loadStripe(
+  "pk_test_51QrJt3HbWFF7jHYQueZbeHhnBjAiRHhcGn732ltRiXLDlybxn46k5cv6KsHvoidLavihavqIGDqrY9oReG2JE4yH00Q5J0ivAz"
+)
 
 function App() {
   const dispatch = useDispatch<AppDispatch>()
@@ -120,39 +127,41 @@ function App() {
 
   return (
     <>
-      <Navbar
-        onCategoryToggle={setShowCategoryDropdown}
-        onUserToggle={setShowUserDropdown}
-      />
-      {showCategoryDropdown && (
-        <div
-          className="z-10 bg-white shadow-md"
-          onMouseEnter={() => setShowUserDropdown(false)}
-          onMouseLeave={() => setShowCategoryDropdown(false)}
-        >
-          <CategoryList />
-        </div>
-      )}
-      {showUserDropdown && (
-        <div
-          className="bg-white text-black rounded shadow-lg mt-2"
-          onMouseEnter={() => setShowCategoryDropdown(false)}
-          onMouseLeave={() => setShowUserDropdown(false)}
-        >
-          <UserMenu />
-        </div>
-      )}
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="cart-page" element={<CartPage />}></Route>
-        <Route path="category-page" element={<CategoryPage />}></Route>
-        <Route path="product-page" element={<ProductPage />}></Route>
-        <Route path="user-page/:tab" element={<UserPage />}></Route>
-        <Route path="search-results" element={<SearchResultsPage />}></Route>
-        <Route path="promoted" element={<PromotedProductsPage/>}></Route>
-      </Routes>
+      <Elements stripe={stripePromise}>
+        <Navbar
+          onCategoryToggle={setShowCategoryDropdown}
+          onUserToggle={setShowUserDropdown}
+        />
+        {showCategoryDropdown && (
+          <div
+            className="z-10 bg-white shadow-md"
+            onMouseEnter={() => setShowUserDropdown(false)}
+            onMouseLeave={() => setShowCategoryDropdown(false)}
+          >
+            <CategoryList />
+          </div>
+        )}
+        {showUserDropdown && (
+          <div
+            className="bg-white text-black rounded shadow-lg mt-2"
+            onMouseEnter={() => setShowCategoryDropdown(false)}
+            onMouseLeave={() => setShowUserDropdown(false)}
+          >
+            <UserMenu />
+          </div>
+        )}
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="cart-page" element={<CartPage />}></Route>
+          <Route path="category-page" element={<CategoryPage />}></Route>
+          <Route path="product-page" element={<ProductPage />}></Route>
+          <Route path="user-page/:tab" element={<UserPage />}></Route>
+          <Route path="search-results" element={<SearchResultsPage />}></Route>
+          <Route path="promoted" element={<PromotedProductsPage />}></Route>
+        </Routes>
 
-      <Footer />
+        <Footer />
+      </Elements>
     </>
   )
 }
