@@ -6,7 +6,7 @@ import { useUserData } from "../../hooks/useUserData"
 import { checkIfAddressComplete } from "../../helpers/checkAddressCompletion"
 import { IAddress } from "../../interfaces/interfaces"
 
-const Delivery = ({ setSelectedRate }: { setSelectedRate: (rate: number) => void }) => {
+const Delivery = ({ setSelectedRate, setShipmentAddress } : { setSelectedRate: (rate: number) => void, setShipmentAddress: (address: IAddress) => void }) => {
   const { loading, error: dbAddressError, userDataFromDb } = useUserData()
   const {
     rates,
@@ -22,6 +22,7 @@ const Delivery = ({ setSelectedRate }: { setSelectedRate: (rate: number) => void
   useEffect(() => {
     if (userDataFromDb?.address) {
       setAddress(userDataFromDb.address)
+      setShipmentAddress(userDataFromDb.address)
       if (checkIfAddressComplete(userDataFromDb.address)) {
         fetchRates(userDataFromDb.address)
       }
@@ -37,6 +38,7 @@ const Delivery = ({ setSelectedRate }: { setSelectedRate: (rate: number) => void
 
   const handleAddressSave = async (savedAddress: IAddress) => {
     setAddress(savedAddress) 
+    setShipmentAddress(savedAddress)
     if (checkIfAddressComplete(savedAddress)) {
       await fetchRates(savedAddress)
     }
