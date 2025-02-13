@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import AddressForm from "../user-page/AddressForm"
 import { getSummaryMessage } from "../../helpers/formatValidationMessage"
 import { useShipmentRates } from "../../hooks/useShipmentRates"
 import { useUserData } from "../../hooks/useUserData"
 import { checkIfAddressComplete } from "../../helpers/checkAddressCompletion"
+import { IAddress } from "../../interfaces/interfaces"
 
 const Delivery = ({ setSelectedRate }: { setSelectedRate: (rate: number) => void }) => {
-  const { loading, error: dbAddressError } = useUserData()
+  const { loading, error: dbAddressError, userDataFromDb } = useUserData()
   const {
     rates,
     shipmentLoading,
@@ -14,25 +15,32 @@ const Delivery = ({ setSelectedRate }: { setSelectedRate: (rate: number) => void
     addressValidationMessages,
     address,
     fetchRates,
-    setAddress,
-    setRates,
+    setAddress
   } = useShipmentRates()
   const [selectedRate, setLocalSelectedRate] = useState<number | null>(null)
-  const isAddressComplete = useRef<boolean>(false)
-  const [isEditing, setIsEditing] = useState<boolean>(false)
 
   useEffect(() => {
-    if (address) {
-      isAddressComplete.current = checkIfAddressComplete(address)
+    if (userDataFromDb?.address) {
+      setAddress(userDataFromDb.address)
+      if (checkIfAddressComplete(userDataFromDb.address)) {
+        fetchRates(userDataFromDb.address)
+      }
     }
-  }, [address])
+  }, [userDataFromDb?.address])
 
   useEffect(() => {
     if (rates.length > 0) {
       setLocalSelectedRate(parseFloat(rates[0].amount))
       setSelectedRate(parseFloat(rates[0].amount))
     }
-  }, [rates, setSelectedRate])
+  }, [rates])
+
+  const handleAddressSave = async (savedAddress: IAddress) => {
+    setAddress(savedAddress) 
+    if (checkIfAddressComplete(savedAddress)) {
+      await fetchRates(savedAddress)
+    }
+  }
 
   return (
     <div>
@@ -44,18 +52,7 @@ const Delivery = ({ setSelectedRate }: { setSelectedRate: (rate: number) => void
             <h3>Checkout</h3>
             <AddressForm
               address={address}
-              onAddressChange={(updatedAddress, editing) => {
-                setAddress(updatedAddress)
-                checkIfAddressComplete(updatedAddress)
-                setIsEditing(editing)
-                isAddressComplete.current = checkIfAddressComplete(updatedAddress)
-                if (editing) {
-                  setRates([])
-                }
-              }}
-              onAddressCompletion={(isComplete) => {
-                isAddressComplete.current = isComplete
-              }}
+              onSave={handleAddressSave}
             />
             {dbAddressError && <p>{dbAddressError}</p>}
           </div>
@@ -64,16 +61,6 @@ const Delivery = ({ setSelectedRate }: { setSelectedRate: (rate: number) => void
               <div>{getSummaryMessage(addressValidationMessages)}</div>
             )}
           <h1>Shipping Options</h1>
-          <div
-            className={`${
-              isEditing
-                ? "opacity-50 pointer-events-none"
-                : "opacity-100 pointer-events-auto"
-            }`}
-          >
-            <button onClick={() => fetchRates(address)} disabled={isEditing}>
-              {shipmentLoading ? "Loading..." : "Get Shipping Rates"}
-            </button>
             {shipmentLoading && <p>Fetching shipment rates...</p>}
             {error && <p style={{ color: "red" }}>{error}</p>}
             <ul>
@@ -95,7 +82,6 @@ const Delivery = ({ setSelectedRate }: { setSelectedRate: (rate: number) => void
                 </li>
               ))}
             </ul>
-          </div>
         </>
       )}
     </div>
