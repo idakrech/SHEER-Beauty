@@ -1,6 +1,18 @@
-import { arrayUnion, doc, getDoc, setDoc, Timestamp, updateDoc } from "firebase/firestore"
+import {
+  arrayUnion,
+  doc,
+  getDoc,
+  setDoc,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore"
 import { db } from "../firebaseConfig"
-import { IAddress, IProduct, ITransaction, IUserData } from "../interfaces/interfaces"
+import {
+  IAddress,
+  IProduct,
+  ITransaction,
+  IUserData,
+} from "../interfaces/interfaces"
 
 export const userDataService = {
   async initializeUserData(userData: IUserData) {
@@ -33,17 +45,18 @@ export const userDataService = {
       const userDoc = await getDoc(userRef)
       const userData = userDoc.data()
       const currentCart = userData?.cart || []
-  
+
       const existingProductIndex = currentCart.findIndex(
-        (existingProduct: { product: IProduct, quantity: number }) => existingProduct.product.id === cartProduct.product.id
+        (existingProduct: { product: IProduct; quantity: number }) =>
+          existingProduct.product.id === cartProduct.product.id
       )
-  
+
       if (existingProductIndex !== -1) {
         currentCart[existingProductIndex].quantity += cartProduct.quantity
       } else {
         currentCart.push(cartProduct)
       }
-  
+
       await updateDoc(userRef, { cart: currentCart })
     } catch (error) {
       console.error("Error adding to cart in db", error)
@@ -57,11 +70,12 @@ export const userDataService = {
       const userDoc = await getDoc(userRef)
       const userData = userDoc.data()
       const currentCart = userData?.cart || []
-  
+
       const existingProductIndex = currentCart.findIndex(
-        (existingProduct: { product: IProduct, quantity: number }) => existingProduct.product.id === product.id
+        (existingProduct: { product: IProduct; quantity: number }) =>
+          existingProduct.product.id === product.id
       )
-  
+
       if (existingProductIndex !== -1) {
         const updatedCart = [...currentCart]
         const existingProduct = updatedCart[existingProductIndex]
@@ -72,8 +86,7 @@ export const userDataService = {
           updatedCart.splice(existingProductIndex, 1)
         }
         await updateDoc(userRef, { cart: updatedCart })
-      } 
-
+      }
     } catch (error) {
       console.error("Error decrementing product quantity in cart in db", error)
       throw error
@@ -90,7 +103,7 @@ export const userDataService = {
         (cartItem: { product: IProduct; quantity: number }) =>
           cartItem.product.id !== product.id
       )
-  
+
       await updateDoc(userRef, { cart: updatedCart })
     } catch (error) {
       console.error("Error removing product from cart in db", error)
@@ -116,13 +129,17 @@ export const userDataService = {
 
   async removeFavorite(userId: string, favorite: IProduct) {
     try {
-      const userRef = doc(db, "users", userId) 
+      const userRef = doc(db, "users", userId)
       const userDoc = await getDoc(userRef)
       const userData = userDoc.data()
       const currentFavs = userData?.favorites || []
-  
+
       if (currentFavs.some((fav: IProduct) => fav.id === favorite.id)) {
-        await updateDoc(userRef, { favorites: currentFavs.filter((currentFav: IProduct) => currentFav.id !== favorite.id) })
+        await updateDoc(userRef, {
+          favorites: currentFavs.filter(
+            (currentFav: IProduct) => currentFav.id !== favorite.id
+          ),
+        })
       }
     } catch (error) {
       console.error("Error removing from favorites in db", error)
@@ -143,17 +160,17 @@ export const userDataService = {
   async addTransaction(userId: string, transaction: ITransaction) {
     try {
       const transactionId = crypto.randomUUID()
-      
+
       const transactionRef = doc(db, "transactions", transactionId)
       await setDoc(transactionRef, {
         ...transaction,
         userId,
-        createdAt: Timestamp.now()
+        createdAt: Timestamp.now(),
       })
 
       const userRef = doc(db, "users", userId)
       await updateDoc(userRef, {
-        transactionIDs: arrayUnion(transactionId), 
+        transactionIDs: arrayUnion(transactionId),
       })
 
       console.log("Transaction saved successfully in db")
@@ -161,7 +178,18 @@ export const userDataService = {
       console.error("Error adding transaction to db", error)
       throw error
     }
-  }
+  },
 
-  //TODO: cart cleanup function to execute on successful payment
+  async clearCart(userId: string) {
+    try {
+      const userRef = doc(db, "users", userId)
+      await updateDoc(userRef, {
+        cart: []
+      })
+      console.log("Cart cleared successfully in db")
+    } catch (error) {
+      console.error("Error clearing cart in db", error)
+      throw error
+    }
+  },
 }

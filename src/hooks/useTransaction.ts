@@ -3,6 +3,7 @@ import { AppState } from "../redux"
 import { IAddress, ITransaction } from "../interfaces/interfaces"
 import { Timestamp } from "firebase/firestore"
 import { userDataService } from "../services/userDataService"
+import { setProducts } from "../redux/cartSlice"
 
 export function useTransaction(
   address: IAddress,
@@ -21,7 +22,9 @@ export function useTransaction(
   function createTransaction() {
     if (user) {
       userDataService.addTransaction(user?.uid, transaction)
-    } else return
+      userDataService.clearCart(user?.uid)
+    } 
+    setProducts([])
   }
 
   return {user, createTransaction}
