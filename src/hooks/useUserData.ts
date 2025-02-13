@@ -1,6 +1,6 @@
 import { userDataService } from "../services/userDataService"
-import { IUserData } from "../interfaces/interfaces"
-import { useEffect, useState } from "react"
+import { ITransaction, IUserData } from "../interfaces/interfaces"
+import { useCallback, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { AppState } from "../redux"
 
@@ -9,6 +9,8 @@ export function useUserData() {
   const [userDataFromDb, setUserDataFromDb] = useState<IUserData | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>("")
+  const [transactions, setTransactions] = useState<ITransaction[]>([])
+  const [transactionsLoading, setTransactionsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -30,5 +32,18 @@ export function useUserData() {
     fetchUserData()
   }, [userId])
 
-  return { userDataFromDb, loading, error }
+  const fetchTransactions = useCallback(async () => {
+    if (!userId) return
+    try {
+      const fetchedTransactions = await userDataService.getUserTransactions(userId)
+      setTransactions(fetchedTransactions)
+    } catch (error) {
+      console.error("Failed to fetch transactions from db", error)
+    } finally {
+      setTransactionsLoading(false)
+    }
+    
+  }, [userId])
+
+  return { userDataFromDb, loading, error, transactions, transactionsLoading, fetchTransactions }
 }

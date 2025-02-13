@@ -1,10 +1,14 @@
 import {
   arrayUnion,
+  collection,
   doc,
   getDoc,
+  getDocs,
+  query,
   setDoc,
   Timestamp,
   updateDoc,
+  where,
 } from "firebase/firestore"
 import { db } from "../firebaseConfig"
 import {
@@ -192,4 +196,23 @@ export const userDataService = {
       throw error
     }
   },
+
+  async getUserTransactions(userId: string) {
+    try {
+      const transactionsRef = collection(db, "transactions")
+      const q = query(transactionsRef, where("userId", "==", userId))
+      const querySnapshot = await getDocs(q)
+  
+      const transactions: ITransaction[] = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...(doc.data() as unknown as ITransaction),
+      }))
+  
+      return transactions
+    } catch (error) {
+      console.error("Error fetching user transactions", error)
+      throw error
+    }
+  }
+
 }
