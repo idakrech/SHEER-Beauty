@@ -1,6 +1,6 @@
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore"
+import { arrayUnion, doc, getDoc, setDoc, Timestamp, updateDoc } from "firebase/firestore"
 import { db } from "../firebaseConfig"
-import { IAddress, IProduct, IUserData } from "../interfaces/interfaces"
+import { IAddress, IProduct, ITransaction, IUserData } from "../interfaces/interfaces"
 
 export const userDataService = {
   async initializeUserData(userData: IUserData) {
@@ -139,4 +139,29 @@ export const userDataService = {
       throw error
     }
   },
+
+  async addTransaction(userId: string, transaction: ITransaction) {
+    try {
+      const transactionId = crypto.randomUUID()
+      
+      const transactionRef = doc(db, "transactions", transactionId)
+      await setDoc(transactionRef, {
+        ...transaction,
+        userId,
+        createdAt: Timestamp.now()
+      })
+
+      const userRef = doc(db, "users", userId)
+      await updateDoc(userRef, {
+        transactionIDs: arrayUnion(transactionId), 
+      })
+
+      console.log("Transaction saved successfully in db")
+    } catch (error) {
+      console.error("Error adding transaction to db", error)
+      throw error
+    }
+  }
+
+  //TODO: cart cleanup function to execute on successful payment
 }
