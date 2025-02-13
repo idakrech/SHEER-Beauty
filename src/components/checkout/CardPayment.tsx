@@ -1,17 +1,17 @@
-import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { AppState } from "../../redux"
 import { useState } from "react"
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import { IAddress } from "../../interfaces/interfaces"
+import { useTransaction } from "../../hooks/useTransaction"
+import { setProducts } from "../../redux/cartSlice"
 
-//BIG: fake payment api
-//TODO: pass total amount of delivery & shopping cart
-const CardPayment = () => {
+const CardPayment = ({shipmentAddress} : {shipmentAddress: IAddress}) => {
   const navigate = useNavigate()
-  const user = useSelector((state: AppState) => state.auth.user)
   const stripe = useStripe()
   const elements = useElements()
   const [paymentStatus, setPaymentStatus] = useState<string | null>(null)
+  const [isPaymentComplete, setIsPaymentComplete] = useState<boolean>(false)
+  const {createTransaction, user} = useTransaction(shipmentAddress, "card")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -21,6 +21,9 @@ const CardPayment = () => {
 
     setTimeout(() => {
       setPaymentStatus("Payment successful! 🎉")
+      setIsPaymentComplete(true)
+      createTransaction()
+      setProducts([])
     }, 2000)
   }
 
@@ -32,8 +35,9 @@ const CardPayment = () => {
         <button type="submit" disabled={!stripe}>Pay Now</button>
       </form>
       {paymentStatus && <p>{paymentStatus}</p>}
-      {user && (
-        <button onClick={() => navigate("/user-page/order-history")}>
+      {user && isPaymentComplete && (
+        <button onClick={() => {
+          navigate("/user-page/order-history")}}>
           Go to orders
         </button>
       )}
