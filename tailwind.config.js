@@ -7,11 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#F7F7F7"
+        primary: "#FCF8FB",
+        secondary: "#D1D0EF",
+        accent: "#EEC1DD",
+        dark: "#969BE7"
       }
     },
     fontFamily: {
-      sans: ["Outfit", 'sans-serif']
+      sans: ["Outfit", 'sans-serif'],
+      serif: ["Fraunces", 'serif']
     }
   },
   plugins: [],
