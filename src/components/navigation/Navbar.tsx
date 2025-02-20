@@ -1,5 +1,9 @@
 import { NavLink, useNavigate } from "react-router-dom"
-import { ShoppingCartOutlined, PersonOutline, Search } from "@mui/icons-material"
+import {
+  ShoppingCartOutlined,
+  PersonOutline,
+  Search,
+} from "@mui/icons-material"
 import { AppState } from "../../redux"
 import { useSelector } from "react-redux"
 import { useSearchProducts } from "../../hooks/useSearchProducts"
@@ -23,14 +27,21 @@ const Navbar = ({
   }
 
   return (
-    <div className="w-full bg-white font-semibold flex justify-between px-10 py-2">
+    <div className="w-full bg-accent font-medium text-md text-gray-600 flex justify-between px-10 py-3">
       <div className="flex items-center space-x-4">
         <div className="relative" onMouseEnter={() => onCategoryToggle(true)}>
-          <button className="text-lg">Categories</button>
+          <button>Categories</button>
         </div>
-        <NavLink to="/" className="text-lg">
-          Home
-        </NavLink>
+        <NavLink to="/">Home</NavLink>
+      </div>
+
+      <div className="flex items-center">
+        <h3 className="flex items-center text-3xl text-primary font-sans uppercase font-extralight">
+        ⋆˙⟡ Sheer
+        </h3>
+        <h3 className="flex items-center text-3xl text-primary font-serif italic">
+          beauty
+        </h3>
       </div>
 
       <div className="flex items-center space-x-4">
@@ -42,9 +53,10 @@ const Navbar = ({
             onChange={handleSearchChange}
             className="p-2 font-normal border border-slate-100 w-full"
           />
-          <Search/>
+          <Search />
         </div>
 
+        {/* TODO: add items count on the cart icon corner */}
         <NavLink to="/cart-page" className="text-lg">
           <ShoppingCartOutlined fontSize="small" />
         </NavLink>

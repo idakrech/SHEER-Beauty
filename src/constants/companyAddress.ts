@@ -2,7 +2,7 @@ import { AddressCreateRequest } from "shippo";
 
 
 export const companyAddress: AddressCreateRequest = {
-    company: "Beauty Webshop",
+    company: "Sheer Beauty Ltd",
     street1: "1320 Kuhl Avenue",
     city: "Atlanta",
     state: "Georgia",
