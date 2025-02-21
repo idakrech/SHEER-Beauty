@@ -3,6 +3,7 @@ import ProductCard from "./ProductCard"
 import { IProduct } from "../../interfaces/interfaces"
 import { useNavigate } from "react-router-dom"
 import { IFilterState } from "../../redux/filterSlice"
+import Button from "../Button"
 
 interface IProductGridProps {
   products: IProduct[]
@@ -23,7 +24,6 @@ const ProductGrid: React.FC<IProductGridProps> = ({
 }) => {
   const navigate = useNavigate()
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
-  
 
   const loadMoreProducts = () => {
     setVisibleCount((prev) => prev + PAGE_SIZE)
@@ -31,16 +31,13 @@ const ProductGrid: React.FC<IProductGridProps> = ({
 
   return (
     <div>
-      <h3>{title}</h3>
-      <div className="grid grid-cols-5 gap-4 justify-items-center justify-center py-5">
-        {products
-          .slice(0, maxLimit ?? visibleCount)
-          .map((product) => (
-            <ProductCard key={product.id} {...product} />
-          ))}
+      <div className="grid grid-cols-4 gap-4 justify-items-center justify-center items-center py-5">
+        {products.slice(0, maxLimit ?? visibleCount).map((product) => (
+          <ProductCard key={product.id} {...product} />
+        ))}
 
         {!isExpanded && (
-          <button
+          <Button
             onClick={() => {
               const params = new URLSearchParams()
               if (filters?.type)
@@ -50,30 +47,30 @@ const ProductGrid: React.FC<IProductGridProps> = ({
               filters?.selectedBrands.forEach((brand) =>
                 params.append("brand", brand.toLowerCase())
               )
-              filters?.selectedTags.forEach((tag) => params.append("tag", tag.toLowerCase()))
+              filters?.selectedTags.forEach((tag) =>
+                params.append("tag", tag.toLowerCase())
+              )
               if (filters?.priceRange?.min)
                 params.append("price_min", filters.priceRange.min.toString())
               if (filters?.priceRange?.max)
                 params.append("price_max", filters.priceRange.max.toString())
-              
+
               if (title) {
                 params.append("title", title)
               }
               navigate(`/promoted?${params.toString()}`)
             }}
-          >
-            More
-          </button>
+            children={<p>More</p>}
+          />
         )}
-
-{visibleCount < products.length && (
+      </div>
+      {visibleCount < products.length && (
         <div className="flex justify-center mt-4">
-          <button onClick={loadMoreProducts} className="bg-blue-500 text-white px-4 py-2 rounded">
-            More
-          </button>
+          <Button onClick={loadMoreProducts}>
+            <p>Load more products</p>
+          </Button>
         </div>
       )}
-      </div>
     </div>
   )
 }
