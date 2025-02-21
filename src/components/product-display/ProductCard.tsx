@@ -18,7 +18,7 @@ const ProductCard = (props: IProduct) => {
 
 
   return (
-    <div className="w-full bg-white border border-slate-100 duration-500 hover:scale-105">
+    <div className="w-full bg-white border border-gray-300 duration-500 hover:scale-105 shadow-md">
       <div className="flex justify-end p-2">
         <button onClick={() => toggleFavorite()}>
           {!isFavorite ? (
@@ -39,20 +39,20 @@ const ProductCard = (props: IProduct) => {
           <img
             src={props.image_link}
             alt={`${props.name} image`}
-            className="object-cover"
+            className="object-cover h-64"
           />
         </Link>
       </div>
 
-      <div className="px-4 py-3 w-full bg-slate-50">
+      <div className="px-4 py-3 w-full bg-gradient-to-t from-accent/25 to-white">
         <span className="font-outfit text-gray-400 uppercase text-xs">
           {props.brand}
         </span>
-        <p className="font-outfit font-normal text-md text-left text-black truncate block capitalize">
+        <p className="font-sans font-normal text-md text-left text-gray-800 truncate block capitalize">
           {removeFirstWord(props.name, props.brand)}
         </p>
         <div className="flex justify-between items-center">
-          <p className="text-md font-bold text-black cursor-auto my-3">
+          <p className="font-serif 7text-md font-bold text-gray-800 cursor-auto my-3">
             {props.price_sign ? props.price_sign : "$"}
             {props.price}
           </p>
