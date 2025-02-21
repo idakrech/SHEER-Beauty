@@ -14,38 +14,39 @@ const Sidebar = ({ type, category }: { type: string; category?: string }) => {
   const dispatch = useDispatch<AppDispatch>()
 
   return (
-    <div>
+    <div className="font-sans text-left font-light w-64 text-zinc-700 mt-5 mr-2 bg-secondary/25 border border-zinc-300 p-3">
       {!category && (
-        <div>
-          <h3>Subcategories</h3>
+        <div className="mb-2">
+          <h3 className="font-semibold mb-1">Subcategories</h3>
           <ul>
             {uniqueCategories.map((cat) => (
               <li key={cat}>
                 <input type="checkbox" onChange={() => dispatch(toggleCategory(cat || ""))}/>
-                {cat}
+                {` ${cat && cat.charAt(0).toUpperCase() + cat.slice(1)}`}
               </li>
             ))}
           </ul>
         </div>
       )}
 
-      <div>
-        <h3>Brands</h3>
+      <div className="mb-2">
+        <h3 className="font-semibold mb-1">Brands</h3>
         <ul>
           {uniqueBrands.map((brand) => (
-            <li key={brand}>
+            <li key={brand} className="flex items-center mb-1">
               <input
                 type="checkbox"
                 onChange={() => dispatch(toggleBrand(brand))}
+                className="mr-2"
               />
-              {brand}
+              {` ${brand.charAt(0).toUpperCase() + brand.slice(1)}`}
             </li>
           ))}
         </ul>
       </div>
 
-      <div>
-        <h3>Tags</h3>
+      <div className="mb-2">
+        <h3 className="font-semibold mb-1">Tags</h3>
         <ul>
           {uniqueTags.map((tag) => (
             <li key={tag}>
@@ -53,14 +54,14 @@ const Sidebar = ({ type, category }: { type: string; category?: string }) => {
                 type="checkbox"
                 onChange={() => dispatch(toggleTag(tag))}
               />
-              {tag}
+              {` ${tag}`}
             </li>
           ))}
         </ul>
       </div>
 
-      <div>
-        <h3>Colors</h3>
+      <div className="mb-2">
+        <h3 className="font-semibold mb-1">Colors</h3>
         <ul>
           {uniqueColors.map((color) => (
             <li key={color}>
