@@ -29,7 +29,7 @@ const CategoryPage = () => {
   const { filteredProducts } = useFilterProducts(filters)
 
   return (
-    <div className="flex">
+    <div className="flex items-start">
       {type.length !== 0 && <Sidebar type={type} category={category} />}
       <div className="flex">
         <ProductGrid
