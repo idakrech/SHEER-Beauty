@@ -8,16 +8,16 @@ const CategoryList = () => {
 
   // STYLE: wrap categories into columns instead of one long list
   return (
-    <ul className="p-5 text-left">
+    <ul className={`p-5 text-left font-sans font-light grid gap-5 grid-cols-10`}>
     {types.map((type, index) => (
-      <li key={index} className="hover:bg-gray-200 py-2">
+      <li key={index} className="mb-2">
         <Link to={`/category-page?type=${type.name}`}>
-          <strong>{formatParamName(type.name)}</strong>
+          <p className="font-sans font-semibold mb-1">{formatParamName(type.name)}</p>
         </Link>
-        <ul className="ml-2 text-left">
+        <ul className="text-left">
           <li><Link to={`/category-page?type=${type.name}`}>All</Link></li>
           {type.categories?.map((cat, i) => (
-            <li key={i} className="py-1">
+            <li key={i}>
               <Link to={`/category-page?type=${type.name}&category=${cat}`}>
                 {formatParamName(cat)}
               </Link>

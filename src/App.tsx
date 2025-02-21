@@ -28,6 +28,7 @@ import { loadStripe } from "@stripe/stripe-js"
 //TODO: catch invalid http and display "No such page found :("
 //BIG: hide .env values somehow (backend?)
 //STYLE: change Vite icon by Website name (in browser tab) into make up icon
+//TODO: what causes hundreds of "Third party cookies will be blocked" in console?
 
 const stripePromise = loadStripe(
   "pk_test_51QrJt3HbWFF7jHYQueZbeHhnBjAiRHhcGn732ltRiXLDlybxn46k5cv6KsHvoidLavihavqIGDqrY9oReG2JE4yH00Q5J0ivAz"
@@ -134,7 +135,7 @@ function App() {
         />
         {showCategoryDropdown && (
           <div
-            className="z-10 bg-white shadow-md"
+            className="z-10 bg-primary shadow-md border border-zinc-300 text-zinc-700"
             onMouseEnter={() => setShowUserDropdown(false)}
             onMouseLeave={() => setShowCategoryDropdown(false)}
           >
