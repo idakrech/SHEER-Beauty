@@ -5,7 +5,6 @@ import { IAddress } from "../interfaces/interfaces"
 import { useUserData } from "./useUserData"
 
 export const useShipmentRates = () => {
-    //TODO: what to do with loading from userdata hook? Can I import it separately in Delivery?
   const { userDataFromDb } = useUserData()
   const [rates, setRates] = useState<Rate[]>([])
   const [shipmentLoading, setShipmentLoading] = useState(false)
@@ -35,11 +34,11 @@ export const useShipmentRates = () => {
     try {
       if (address) {
         const shipment = await getShipment(address)
+        setAddress(shipment.addressTo)
         setRates(shipment.rates)
         setAddressValidationMessages(
           shipment.addressTo?.validationResults?.messages
         )
-        setAddress(shipment.addressTo)
       }
     } catch (error) {
       console.log("Error fetching shipment rates:", error)
@@ -60,6 +59,6 @@ export const useShipmentRates = () => {
     address,
     fetchRates,
     setAddress,
-    setRates
+    setRates,
   }
 }
