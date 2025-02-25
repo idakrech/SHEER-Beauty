@@ -90,9 +90,7 @@ const Delivery = ({
                       name="shippingRate"
                       value={rate.amount}
                       checked={selectedRate === parseFloat(rate.amount)}
-                      onChange={() => {
-                        setLocalSelectedRate(parseFloat(rate.amount))
-                      }}
+                      onChange={() =>  setLocalSelectedRate(parseFloat(rate.amount))}
                       className="accent-accent mr-2"
                     />
                     {rate.servicelevel.name} - {rate.amount} {rate.currency}{" "}
