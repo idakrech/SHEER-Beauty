@@ -4,7 +4,11 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { IAddress } from "../../interfaces/interfaces"
 import { useTransaction } from "../../hooks/useTransaction"
 
-const CardPayment = ({ shipmentAddress }: { shipmentAddress: IAddress }) => {
+const CardPayment = ({
+  shipmentAddress
+}: {
+  shipmentAddress: IAddress
+}) => {
   const navigate = useNavigate()
   const stripe = useStripe()
   const elements = useElements()
@@ -27,14 +31,26 @@ const CardPayment = ({ shipmentAddress }: { shipmentAddress: IAddress }) => {
 
   return (
     <div>
-      <p>Payment</p>
-      <form onSubmit={handleSubmit}>
-        <CardElement options={{ hidePostalCode: true }} />
-        <button type="submit" disabled={!stripe}>
-          Pay Now
-        </button>
+      <form onSubmit={handleSubmit} className="">
+        <div className="border border-zinc-300 py-1 px-2 w-1/2">
+          <CardElement options={{ hidePostalCode: true }} />
+        </div>
+
+        <div className="flex justify-center w-full">
+          <button
+            type="submit"
+            disabled={!stripe}
+            className="border border-zinc-300 text-center text-zinc-700 p-3 mt-6 bg-accent hover:bg-dark rounded-md duration-200 ease-in w-1/3 font-bold font-lg"
+          >
+            Pay Now
+          </button>
+        </div>
       </form>
-      {paymentStatus && <p>{paymentStatus}</p>}
+      {paymentStatus && (
+        <div>
+          <p>{paymentStatus}</p>
+        </div>
+      )}
       {user && isPaymentComplete && (
         <button
           onClick={() => {
