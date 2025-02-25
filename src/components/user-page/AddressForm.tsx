@@ -147,7 +147,7 @@ const AddressForm = ({
             required
           />
 
-          <button type="submit" className="border border-zinc-300 text-center text-zinc-700 px-3 mt-2 rounded-md hover:bg-accent/50">Save</button>
+          <button type="submit" className="border border-zinc-300 text-center text-zinc-700 px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in">Save</button>
           {savingError && <p>{savingError}</p>}
         </form>
       ) : (
@@ -161,7 +161,7 @@ const AddressForm = ({
           </p>
           <p>{addressValues.country}</p>
           <p>{addressValues.phone}</p>
-          <button onClick={() => setIsEditing(true)} className="border border-zinc-300 text-center text-zinc-700 px-3 mt-2 rounded-md hover:bg-accent/50">Edit</button>
+          <button onClick={() => setIsEditing(true)} className="border border-zinc-300 text-center text-zinc-700 px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in">Edit</button>
         </div>
       )}
     </div>
