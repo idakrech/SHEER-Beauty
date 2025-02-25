@@ -5,8 +5,15 @@ import { useShipmentRates } from "../../hooks/useShipmentRates"
 import { useUserData } from "../../hooks/useUserData"
 import { checkIfAddressComplete } from "../../helpers/checkAddressCompletion"
 import { IAddress } from "../../interfaces/interfaces"
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 
-const Delivery = ({ setSelectedRate, setShipmentAddress } : { setSelectedRate: (rate: number) => void, setShipmentAddress: (address: IAddress) => void }) => {
+const Delivery = ({
+  setSelectedRate,
+  setShipmentAddress,
+}: {
+  setSelectedRate: (rate: number) => void
+  setShipmentAddress: (address: IAddress) => void
+}) => {
   const { loading, error: dbAddressError, userDataFromDb } = useUserData()
   const {
     rates,
@@ -15,7 +22,7 @@ const Delivery = ({ setSelectedRate, setShipmentAddress } : { setSelectedRate: (
     addressValidationMessages,
     address,
     fetchRates,
-    setAddress
+    setAddress,
   } = useShipmentRates()
   const [selectedRate, setLocalSelectedRate] = useState<number | null>(null)
 
@@ -37,7 +44,7 @@ const Delivery = ({ setSelectedRate, setShipmentAddress } : { setSelectedRate: (
   }, [rates])
 
   const handleAddressSave = async (savedAddress: IAddress) => {
-    setAddress(savedAddress) 
+    setAddress(savedAddress)
     setShipmentAddress(savedAddress)
     if (checkIfAddressComplete(savedAddress)) {
       await fetchRates(savedAddress)
@@ -45,31 +52,40 @@ const Delivery = ({ setSelectedRate, setShipmentAddress } : { setSelectedRate: (
   }
 
   return (
-    <div>
+    <div className="bg-white p-4 w-full border border-zinc-300 my-4 text-zinc-700">
       {loading ? (
-        <div>Loading your address...</div>
+        <div className="font-sans font-italic font-normal text-zinc-700 text-center">
+          Loading your address...
+        </div>
       ) : (
-        <>
-          <div>
-            <h3>Checkout</h3>
-            <AddressForm
-              address={address}
-              onSave={handleAddressSave}
-            />
+        <div>
+          <h3 className="text-xl text-zinc-700 font-serif font-bold mx-3 mt-2 border-b border-zinc-300 pb-1">
+            Address
+          </h3>
+          <div className="flex text-zinc-700 p-3">
+            <AddressForm address={address} onSave={handleAddressSave} />
             {dbAddressError && <p>{dbAddressError}</p>}
           </div>
           {addressValidationMessages &&
             addressValidationMessages.length > 0 && (
-              <div>{getSummaryMessage(addressValidationMessages)}</div>
+              <div className="flex font-sans font-italic font-normal text-zinc-700 bg-accent border border-zinc-300 px-3 py-2 m-3"><ErrorOutlineOutlinedIcon/><p className="ml-2">{getSummaryMessage(addressValidationMessages)}</p></div>
             )}
-          <h1>Shipping Options</h1>
-            {shipmentLoading && <p>Fetching shipment rates...</p>}
-            {error && <p style={{ color: "red" }}>{error}</p>}
+
+          <h3 className="text-xl text-zinc-700 font-serif font-bold mx-3 mt-5 border-b border-zinc-300 pb-1">
+            Delivery options
+          </h3>
+          {shipmentLoading && (
+            <p className="font-sans font-italic font-normal text-zinc-700 p-3">
+              Fetching shipment rates...
+            </p>
+          )}
+          {error && <div className="flex font-sans font-italic font-normal text-zinc-700 bg-accent border border-zinc-300 px-3 py-2 m-3"><ErrorOutlineOutlinedIcon/><p className="ml-2">{error}</p></div>}
+          <div className="p-3">
             <ul>
               {rates.map((rate) => (
                 <li key={rate.servicelevel.token}>
                   <label>
-                    <input 
+                    <input
                       type="radio"
                       name="shippingRate"
                       value={rate.amount}
@@ -77,14 +93,16 @@ const Delivery = ({ setSelectedRate, setShipmentAddress } : { setSelectedRate: (
                       onChange={() => {
                         setLocalSelectedRate(parseFloat(rate.amount))
                       }}
+                      className="accent-accent mr-2"
                     />
-                  {rate.servicelevel.name} - {rate.amount} {rate.currency}{" "}
-                  {`(${rate.amountLocal} ${rate.currencyLocal})`}
+                    {rate.servicelevel.name} - {rate.amount} {rate.currency}{" "}
+                    {`(${rate.amountLocal} ${rate.currencyLocal})`}
                   </label>
                 </li>
               ))}
             </ul>
-        </>
+          </div>
+        </div>
       )}
     </div>
   )
