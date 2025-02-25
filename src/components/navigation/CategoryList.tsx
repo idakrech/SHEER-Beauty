@@ -12,7 +12,7 @@ const CategoryList = () => {
     {types.map((type, index) => (
       <li key={index} className="mb-2">
         <Link to={`/category-page?type=${type.name}`}>
-          <p className="font-sans font-semibold mb-1">{formatParamName(type.name)}</p>
+          <p className="font-sans font-semibold mb-1 underline">{formatParamName(type.name)}</p>
         </Link>
         <ul className="text-left">
           <li><Link to={`/category-page?type=${type.name}`}>All</Link></li>
