@@ -6,15 +6,6 @@ import gradient2 from "../assets/gradients/v904-nunny-015-l.jpg"
 import gradient3 from "../assets/gradients/v904-nunny-035-l.jpg"
 import gradient4 from "../assets/gradients/v904-nunny-005-l.jpg"
 import blushCheeks2 from "../assets/grid-images/blush-cheeks-2.jpg"
-import catEyes2 from "../assets/grid-images/cat-eyes-2.jpg"
-import catEyes from "../assets/grid-images/cat-eyes.jpg"
-import dramaticMakeup from "../assets/grid-images/dramatic-makeup.jpg"
-import eyeshadowArt from "../assets/grid-images/eyeshadow-art.jpg"
-import eyeshadowPink2 from "../assets/grid-images/eyeshadow-pink-2.jpg"
-import eyeshadowRedProfile from "../assets/grid-images/eyeshadow-red-profile.jpg"
-import eyeshadowsFrost from "../assets/grid-images/eyeshadows-frost.jpg"
-import eyeshadowPink1 from "../assets/grid-images/eyeshadow-pink-1.jpg"
-import eyeshadowsRed from "../assets/grid-images/eyeshadows-red.jpg"
 import faceFlower from "../assets/grid-images/face-flower.jpg"
 
 
@@ -75,15 +66,6 @@ export const gridConfig: IGridConfig[] = [
     "v904-nunny-035-l.jpg": gradient3,
     "v904-nunny-005-l.jpg": gradient4,
     "blush-cheeks-2.jpg": blushCheeks2,
-    "cat-eyes-2.jpg": catEyes2,
-    "cat-eyes.jpg": catEyes,
-    "dramatic-makeup.jpg": dramaticMakeup,
-    "eyeshadow-art.jpg": eyeshadowArt,
-    "eyeshadow-pink-2.jpg": eyeshadowPink2,
-    "eyeshadow-red-profile.jpg": eyeshadowRedProfile,
-    "eyeshadows-frost.jpg": eyeshadowsFrost,
-    "eyeshadow-pink-1.jpg": eyeshadowPink1,
-    "eyeshadows-red.jpg": eyeshadowsRed,
     "face-flower.jpg": faceFlower
   }
   
