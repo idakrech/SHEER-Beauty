@@ -1,6 +1,6 @@
 import { IAddress } from "../interfaces/interfaces"
 
-export const checkIfAddressComplete = (address: Partial<IAddress>): boolean => {
+export const checkIfAddressComplete = (address: IAddress): boolean => {
   return (
     !!address.name &&
     !!address.street1 &&
