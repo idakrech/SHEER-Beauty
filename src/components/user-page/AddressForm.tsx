@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { AppState } from "../../redux"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, AppState } from "../../redux"
 import { IAddress } from "../../interfaces/interfaces"
 import { userDataService } from "../../services/userDataService"
 import { countries } from "../../constants/countries"
+import { setAddress } from "../../redux/transactionDraftSlice"
 
-const AddressForm = ({
-  address,
-  onSave,
-}: {
-  address?: IAddress
-  onSave?: (address: IAddress) => void
-}) => {
+const AddressForm = () => {
   const user = useSelector((state: AppState) => state.auth.user)
+  const address = useSelector(
+    (state: AppState) => state.transactionDraft.delivery.address
+  )
+  const correctedAddress = useSelector(
+    (state: AppState) => state.transactionDraft.delivery.correctedAddress
+  )
+  const dispatch = useDispatch<AppDispatch>()
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [addressValues, setAddressValues] = useState<IAddress>({
     name: "",
@@ -27,10 +29,14 @@ const AddressForm = ({
   const [savingError, setSavingError] = useState<string>("")
 
   useEffect(() => {
-    if (address) {
-      setAddressValues(address)
+    if (!isEditing) {
+      if (correctedAddress) {
+        setAddressValues(correctedAddress)
+      } else if (!correctedAddress && address) {
+        setAddressValues(address)
+      }
     }
-  }, [address])
+  }, [address, isEditing, correctedAddress])
 
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -70,8 +76,9 @@ const AddressForm = ({
         await userDataService.updateUserAddress(user?.uid, addressValues)
         console.log("Address saved successfully")
       }
-      onSave?.(addressValues)
+      dispatch(setAddress(addressValues))
       setIsEditing(false)
+      setAddressValues(addressValues)
     } catch (error) {
       console.log("Error saving address", error)
       setSavingError("An error occured when saving the address")
@@ -147,7 +154,12 @@ const AddressForm = ({
             required
           />
 
-          <button type="submit" className="border border-zinc-300 text-center text-zinc-700 px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in">Save</button>
+          <button
+            type="submit"
+            className="border border-zinc-300 text-center text-zinc-700 px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in"
+          >
+            Save
+          </button>
           {savingError && <p>{savingError}</p>}
         </form>
       ) : (
@@ -161,7 +173,12 @@ const AddressForm = ({
           </p>
           <p>{addressValues.country}</p>
           <p>{addressValues.phone}</p>
-          <button onClick={() => setIsEditing(true)} className="border border-zinc-300 text-center text-zinc-700 px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in">Edit</button>
+          <button
+            onClick={() => setIsEditing(true)}
+            className="border border-zinc-300 text-center text-zinc-700 px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in"
+          >
+            Edit
+          </button>
         </div>
       )}
     </div>

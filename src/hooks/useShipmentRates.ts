@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 import { AddressValidationResultsMessage, Rate } from "shippo"
 import { getShipment } from "../services/shipmentService"
-import { IAddress } from "../interfaces/interfaces"
 import { useUserData } from "./useUserData"
+import { setAddress, setCorrectedAddress } from "../redux/transactionDraftSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, AppState } from "../redux"
 
 export const useShipmentRates = () => {
   const { userDataFromDb } = useUserData()
@@ -12,29 +14,25 @@ export const useShipmentRates = () => {
   const [addressValidationMessages, setAddressValidationMessages] = useState<
     AddressValidationResultsMessage[] | undefined
   >([])
-  const [address, setAddress] = useState<IAddress>({
-    name: "",
-    street1: "",
-    city: "",
-    zip: "",
-    state: "",
-    country: "",
-    phone: "",
-  })
+  const address = useSelector(
+    (state: AppState) => state.transactionDraft.delivery.address
+  )
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     if (userDataFromDb?.address) {
-      setAddress(userDataFromDb?.address)
+      dispatch(setAddress(userDataFromDb?.address))
+      console.log("Address set from db")
     }
   }, [userDataFromDb?.address])
 
-  const fetchRates = async (address: IAddress) => {
+  const fetchRates = async () => {
     setShipmentLoading(true)
     setError(null)
     try {
       if (address) {
         const shipment = await getShipment(address)
-        setAddress(shipment.addressTo)
+        dispatch(setCorrectedAddress({ ...shipment.addressTo }))
         setRates(shipment.rates)
         setAddressValidationMessages(
           shipment.addressTo?.validationResults?.messages
@@ -56,9 +54,8 @@ export const useShipmentRates = () => {
     shipmentLoading,
     error,
     addressValidationMessages,
-    address,
     fetchRates,
-    setAddress,
     setRates,
+    address,
   }
 }
