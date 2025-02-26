@@ -1,6 +1,5 @@
 import cloudImg from "../assets/grid-images/cloud-woman.jpg"
 import blushImg from "../assets/grid-images/model-blush.jpg"
-import mascaraImg from "../assets/grid-images/model-mascara.jpg"
 import gradient1 from "../assets/gradients/v904-nunny-029-g.jpg"
 import gradient2 from "../assets/gradients/v904-nunny-015-l.jpg"
 import gradient3 from "../assets/gradients/v904-nunny-035-l.jpg"
@@ -60,7 +59,6 @@ export const gridConfig: IGridConfig[] = [
   export const imageMap: Record<string, string> = {
     "cloud-woman.jpg": cloudImg,
     "model-blush.jpg": blushImg,
-    "model-mascara.jpg": mascaraImg,
     "v904-nunny-029-g.jpg": gradient1,
     "v904-nunny-015-l.jpg": gradient2,
     "v904-nunny-035-l.jpg": gradient3,
