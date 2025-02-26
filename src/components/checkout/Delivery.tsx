@@ -3,53 +3,42 @@ import AddressForm from "../user-page/AddressForm"
 import { getSummaryMessage } from "../../helpers/formatValidationMessage"
 import { useShipmentRates } from "../../hooks/useShipmentRates"
 import { useUserData } from "../../hooks/useUserData"
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
+import { setDeliveryMethod, setTotalSum } from "../../redux/transactionDraftSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, AppState } from "../../redux"
 import { checkIfAddressComplete } from "../../helpers/checkAddressCompletion"
-import { IAddress } from "../../interfaces/interfaces"
-import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
+import { useShoppingCart } from "../../hooks/useShoppingCart"
 
-const Delivery = ({
-  setSelectedRate,
-  setShipmentAddress,
-}: {
-  setSelectedRate: (rate: number) => void
-  setShipmentAddress: (address: IAddress) => void
-}) => {
-  const { loading, error: dbAddressError, userDataFromDb } = useUserData()
+const Delivery = () => {
+  const { loading, error: dbAddressError } = useUserData()
   const {
     rates,
     shipmentLoading,
     error,
     addressValidationMessages,
-    address,
-    fetchRates,
-    setAddress,
+    fetchRates
   } = useShipmentRates()
-  const [selectedRate, setLocalSelectedRate] = useState<number | null>(null)
+  const [selectedRate, setSelectedRate] = useState<number | null>(null)
+  const dispatch = useDispatch<AppDispatch>()
+  const address = useSelector(
+    (state: AppState) => state.transactionDraft.delivery.address
+  )
+  const { priceSum } = useShoppingCart()
 
   useEffect(() => {
-    if (userDataFromDb?.address) {
-      setAddress(userDataFromDb.address)
-      setShipmentAddress(userDataFromDb.address)
-      if (checkIfAddressComplete(userDataFromDb.address)) {
-        fetchRates(userDataFromDb.address)
-      }
+    if (address && checkIfAddressComplete(address)) {
+      fetchRates()
     }
-  }, [userDataFromDb?.address])
+  }, [address])
 
   useEffect(() => {
     if (rates.length > 0) {
-      setLocalSelectedRate(parseFloat(rates[0].amount))
       setSelectedRate(parseFloat(rates[0].amount))
+      dispatch(setDeliveryMethod({service: rates[0].servicelevel.name || "", provider: rates[0].provider, rate: parseFloat(rates[0].amount)}))
+      dispatch(setTotalSum(parseFloat(priceSum.toFixed(2)) + parseFloat(parseFloat(rates[0].amount).toFixed(2))))
     }
   }, [rates])
-
-  const handleAddressSave = async (savedAddress: IAddress) => {
-    setAddress(savedAddress)
-    setShipmentAddress(savedAddress)
-    if (checkIfAddressComplete(savedAddress)) {
-      await fetchRates(savedAddress)
-    }
-  }
 
   return (
     <div className="bg-white p-4 w-full border border-zinc-300 my-4 text-zinc-700">
@@ -63,7 +52,7 @@ const Delivery = ({
             Address
           </h3>
           <div className="flex text-zinc-700 p-3">
-            <AddressForm address={address} onSave={handleAddressSave} />
+            <AddressForm/>
             {dbAddressError && <p>{dbAddressError}</p>}
           </div>
           {addressValidationMessages &&
@@ -90,7 +79,11 @@ const Delivery = ({
                       name="shippingRate"
                       value={rate.amount}
                       checked={selectedRate === parseFloat(rate.amount)}
-                      onChange={() =>  setLocalSelectedRate(parseFloat(rate.amount))}
+                      onChange={() => {
+                        setSelectedRate(parseFloat(rate.amount))
+                        dispatch(setDeliveryMethod({service: rate.servicelevel.name || "", provider: rate.provider, rate: parseFloat(rate.amount)}))
+                        dispatch(setTotalSum(parseFloat(priceSum.toFixed(2)) + parseFloat(parseFloat(rate.amount).toFixed(2))))
+                      }}
                       className="accent-accent mr-2"
                     />
                     {rate.servicelevel.name} - {rate.amount} {rate.currency}{" "}

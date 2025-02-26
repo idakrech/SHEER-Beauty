@@ -1,20 +1,15 @@
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
-import { IAddress } from "../../interfaces/interfaces"
 import { useTransaction } from "../../hooks/useTransaction"
 
-const CardPayment = ({
-  shipmentAddress
-}: {
-  shipmentAddress: IAddress
-}) => {
+const CardPayment = () => {
   const navigate = useNavigate()
   const stripe = useStripe()
   const elements = useElements()
   const [paymentStatus, setPaymentStatus] = useState<string | null>(null)
   const [isPaymentComplete, setIsPaymentComplete] = useState<boolean>(false)
-  const { createTransaction, user } = useTransaction(shipmentAddress, "card")
+  const { createTransaction, user } = useTransaction()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

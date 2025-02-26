@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react"
 import { useStripe, PaymentRequestButtonElement } from "@stripe/react-stripe-js"
+import { useTransaction } from "../../hooks/useTransaction"
 
-const GoogleApplePay = ({sum} : {sum: number}) => {
+const GoogleApplePay = () => {
   const stripe = useStripe()
   //TODO: fix any in useState
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [paymentRequest, setPaymentRequest] = useState<any>(null)
   const [canMakePayment, setCanMakePayment] = useState(false)
+  const { totalSum } = useTransaction()
 
   useEffect(() => {
     if (!stripe) return
@@ -14,7 +16,7 @@ const GoogleApplePay = ({sum} : {sum: number}) => {
     const pr = stripe.paymentRequest({
       country: "US",
       currency: "usd",
-      total: { label: "Demo Payment", amount: Math.round(sum * 100)},
+      total: { label: "Demo Payment", amount: Math.round(totalSum * 100)},
       requestPayerName: true,
       requestPayerEmail: true,
     })
@@ -30,7 +32,7 @@ const GoogleApplePay = ({sum} : {sum: number}) => {
   return canMakePayment && paymentRequest ? (
     <PaymentRequestButtonElement options={{ paymentRequest }} />
   ) : (
-    <p>Google Pay / Apple Pay not available</p>
+    <p>Google Pay/Apple Pay not available</p>
   )
 }
 

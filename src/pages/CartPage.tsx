@@ -2,22 +2,9 @@ import CartItem from "../components/product-display/CartItem"
 import { useShoppingCart } from "../hooks/useShoppingCart"
 import Delivery from "../components/checkout/Delivery"
 import PaymentMethods from "../components/checkout/PaymentMethods"
-import { useState } from "react"
-import { IAddress } from "../interfaces/interfaces"
 
 const CartPage = () => {
-  const { cartProducts, priceSum } = useShoppingCart()
-  const [selectedRate, setSelectedRate] = useState<number>(0)
-  const totalSum = selectedRate ? priceSum + selectedRate : priceSum
-  const [shipmentAddress, setShipmentAddress] = useState<IAddress>({
-    name: "",
-    street1: "",
-    city: "",
-    zip: "",
-    state: "",
-    country: "",
-    phone: "",
-  })
+  const { cartProducts } = useShoppingCart()
 
   return (
     <div className="w-full py-5">
@@ -42,15 +29,8 @@ const CartPage = () => {
                 />
               ))}
             </div>
-
-            <Delivery
-              setSelectedRate={setSelectedRate}
-              setShipmentAddress={setShipmentAddress}
-            />
-            <PaymentMethods
-              totalSum={totalSum}
-              shipmentAddress={shipmentAddress}
-            />
+            <Delivery/>
+            <PaymentMethods/>
           </div>
         ) : (
           <p>Your cart is empty</p>

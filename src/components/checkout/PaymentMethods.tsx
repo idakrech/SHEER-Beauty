@@ -1,16 +1,13 @@
 import { useState } from "react"
 import CardPayment from "./CardPayment"
 import GoogleApplePay from "./GoogleApplePay"
-import { IAddress } from "../../interfaces/interfaces"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "../../redux"
+import { setPaymentMethod } from "../../redux/transactionDraftSlice"
 
-const PaymentMethods = ({
-  totalSum,
-  shipmentAddress
-}: {
-  totalSum: number
-  shipmentAddress: IAddress
-}) => {
+const PaymentMethods = () => {
   const [selectedMethod, setSelectedMethod] = useState<string>("card")
+  const dispatch = useDispatch<AppDispatch>()
 
   return (
     <div className="bg-white p-4 w-full border border-zinc-300 mb-4 text-zinc-700">
@@ -27,7 +24,10 @@ const PaymentMethods = ({
               name="payment"
               value="card"
               checked={selectedMethod === "card"}
-              onChange={(e) => setSelectedMethod(e.target.value)}
+              onChange={(e) => {
+                setSelectedMethod(e.target.value)
+                dispatch(setPaymentMethod("card"))
+              }}
               className="accent-accent"
             />
             <span className="ml-2">Credit/Debit Card</span>
@@ -39,7 +39,10 @@ const PaymentMethods = ({
               name="payment"
               value="google"
               checked={selectedMethod === "google"}
-              onChange={(e) => setSelectedMethod(e.target.value)}
+              onChange={(e) => {
+                setSelectedMethod(e.target.value)
+                dispatch(setPaymentMethod("applePay/googlePay"))
+              }}
               className="accent-accent"
             />
             <span className="ml-2">Google Pay/Apple Pay</span>
@@ -48,15 +51,13 @@ const PaymentMethods = ({
 
         {selectedMethod === "card" && (
           <div className="w-full mt-3">
-            <CardPayment
-              shipmentAddress={shipmentAddress}
-            />
+            <CardPayment/>
           </div>
         )}
         {/* TODO: add disclaimer and warning not to perform real payment through the provider */}
         {selectedMethod === "google" && (
           <div className="my-2 w-1/2 mt-3">
-            <GoogleApplePay sum={totalSum} />
+            <GoogleApplePay/>
           </div>
         )}
       </div>
