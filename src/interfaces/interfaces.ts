@@ -67,6 +67,14 @@ export interface IUser {
 export interface ITransaction {
   cart: { product: IProduct; quantity: number }[]
   createdAt: Timestamp
-  shipmentAddress: IAddress
-  paymentMethod: "card" | "applePay/googlePay"
+  delivery: {
+    address: IAddress | undefined
+    provider: string | undefined
+    service: string | undefined
+    rate: number | null
+  }
+  payment: {
+    method: "card" | "applePay/googlePay" | undefined
+    totalSum: number | null
+  }
 }
