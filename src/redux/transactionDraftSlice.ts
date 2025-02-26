@@ -3,8 +3,10 @@ import { IAddress } from "../interfaces/interfaces"
 
 interface ITransactionDraftState {
   delivery: {
-    address: IAddress | undefined
-    provider: string | undefined
+    address: IAddress | null
+    correctedAddress: IAddress | null
+    service: string | null
+    provider: string | null
     rate: number | null
   }
   payment: {
@@ -15,8 +17,10 @@ interface ITransactionDraftState {
 
 const initialState: ITransactionDraftState = {
   delivery: {
-    address: undefined,
-    provider: undefined,
+    address: null,
+    correctedAddress: null,
+    service: null,
+    provider: null,
     rate: null
   },
   payment: {
@@ -32,7 +36,11 @@ export const transactionDraftSlice = createSlice({
     setAddress(state, action: PayloadAction<IAddress>) {
       state.delivery.address = action.payload
     },
-    setDelivery(state, action: PayloadAction<{provider: string, rate: number}>){
+    setCorrectedAddress(state, action: PayloadAction<IAddress>) {
+      state.delivery.correctedAddress = action.payload
+    },
+    setDeliveryMethod(state, action: PayloadAction<{service: string, provider: string, rate: number}>) {
+      state.delivery.service = action.payload.service
       state.delivery.provider = action.payload.provider
       state.delivery.rate = action.payload.rate
     },
@@ -46,5 +54,5 @@ export const transactionDraftSlice = createSlice({
 })
 
 export const {
-  setAddress, setDelivery, setTotalSum, setPaymentMethod
+  setAddress, setCorrectedAddress, setDeliveryMethod, setTotalSum, setPaymentMethod
 } = transactionDraftSlice.actions
