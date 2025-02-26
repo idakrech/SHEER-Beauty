@@ -7,11 +7,20 @@ import {
   deleteProduct,
 } from "../redux/cartSlice"
 import { userDataService } from "../services/userDataService"
+import { useEffect, useState } from "react"
 
 export function useShoppingCart() {
   const user = useSelector((state: AppState) => state.auth.user)
-  const cartProducts = useSelector((state: AppState) => state.cart.products)
+  const cart = useSelector((state: AppState) => state.cart)
   const dispatch = useDispatch<AppDispatch>()
+  const [priceSum, setPriceSum] = useState<number>(0)
+  const cartProducts = cart.products
+
+  useEffect(() => {
+    setPriceSum(
+      (cart.products ?? []).reduce((sum, { product, quantity }) => sum + parseFloat(product.price) * quantity, 0)
+    )
+  }, [cart])
 
   const handleDelete = (product: IProduct) => {
     dispatch(deleteProduct(product))
@@ -33,8 +42,6 @@ export function useShoppingCart() {
       userDataService.addToCart(user.uid, { product: product, quantity: 1 })
     }
   }
-
-  const priceSum = cartProducts.reduce((sum, { product }) => sum + parseFloat(product.price), 0)
 
   return { cartProducts, handleDelete, handleDecrement, handleAddToCart, priceSum}
 }
