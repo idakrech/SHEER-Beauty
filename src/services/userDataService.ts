@@ -161,10 +161,8 @@ export const userDataService = {
     }
   },
 
-  async addTransaction(userId: string, transaction: ITransaction) {
+  async addTransaction(userId: string, transaction: ITransaction, transactionId: string) {
     try {
-      const transactionId = crypto.randomUUID()
-
       const transactionRef = doc(db, "transactions", transactionId)
       await setDoc(transactionRef, {
         ...transaction,

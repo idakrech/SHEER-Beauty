@@ -5,6 +5,7 @@ import { Timestamp } from "firebase/firestore"
 import { userDataService } from "../services/userDataService"
 import { setProducts } from "../redux/cartSlice"
 import { setAddress } from "../redux/transactionDraftSlice"
+import { setId } from "../redux/transactionSlice"
 
 export function useTransaction() {
   const cartProducts = useSelector((state: AppState) => state.cart.products)
@@ -40,11 +41,13 @@ export function useTransaction() {
   }
 
   function createTransaction() {
+    const transactionId = crypto.randomUUID()
     if (user) {
       dispatch(setAddress(finalAddress))
-      userDataService.addTransaction(user?.uid, transaction)
+      userDataService.addTransaction(user?.uid, transaction, transactionId)
       userDataService.clearCart(user?.uid)
-    } 
+    }
+    dispatch(setId(transactionId))
     setProducts([])
   }
 
