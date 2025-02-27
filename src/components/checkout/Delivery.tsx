@@ -61,7 +61,7 @@ const Delivery = () => {
             )}
 
           <h3 className="text-xl text-zinc-700 font-serif font-bold mx-3 mt-5 border-b border-zinc-300 pb-1">
-            Delivery options
+            Delivery methods
           </h3>
           {shipmentLoading && (
             <p className="font-sans font-italic font-normal text-zinc-700 p-3">
