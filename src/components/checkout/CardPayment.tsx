@@ -1,15 +1,12 @@
-import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useTransaction } from "../../hooks/useTransaction"
 
 const CardPayment = () => {
-  const navigate = useNavigate()
   const stripe = useStripe()
   const elements = useElements()
   const [paymentStatus, setPaymentStatus] = useState<string | null>(null)
-  const [isPaymentComplete, setIsPaymentComplete] = useState<boolean>(false)
-  const { createTransaction, user } = useTransaction()
+  const { createTransaction} = useTransaction()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -18,9 +15,8 @@ const CardPayment = () => {
     setPaymentStatus("Processing...")
 
     setTimeout(() => {
-      setPaymentStatus("Payment successful! 🎉")
-      setIsPaymentComplete(true)
       createTransaction()
+      setPaymentStatus("Payment successful")
     }, 2000)
   }
 
@@ -45,15 +41,6 @@ const CardPayment = () => {
         <div>
           <p>{paymentStatus}</p>
         </div>
-      )}
-      {user && isPaymentComplete && (
-        <button
-          onClick={() => {
-            navigate("/user-page/order-history")
-          }}
-        >
-          Go to orders
-        </button>
       )}
     </div>
   )
