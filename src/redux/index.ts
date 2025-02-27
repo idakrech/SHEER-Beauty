@@ -5,6 +5,7 @@ import { favoritesSlice } from "./favoritesSlice"
 import { authSlice } from "./authSlice"
 import { filterSlice } from "./filterSlice"
 import { transactionDraftSlice } from "./transactionDraftSlice"
+import { transactionSlice } from "./transactionSlice"
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     [authSlice.name]: authSlice.reducer,
     [filterSlice.name]: filterSlice.reducer,
     [transactionDraftSlice.name]: transactionDraftSlice.reducer,
+    [transactionSlice.name]: transactionSlice.reducer
   },
 })
 
