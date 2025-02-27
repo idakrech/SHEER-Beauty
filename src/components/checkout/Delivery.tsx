@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, AppState } from "../../redux"
 import { checkIfAddressComplete } from "../../helpers/checkAddressCompletion"
 import { useShoppingCart } from "../../hooks/useShoppingCart"
+import { setEstimatedTime } from "../../redux/transactionSlice"
 
 const Delivery = () => {
   const { loading, error: dbAddressError } = useUserData()
@@ -37,6 +38,7 @@ const Delivery = () => {
       setSelectedRate(parseFloat(rates[0].amount))
       dispatch(setDeliveryMethod({service: rates[0].servicelevel.name || "", provider: rates[0].provider, rate: parseFloat(rates[0].amount)}))
       dispatch(setTotalSum(parseFloat(priceSum.toFixed(2)) + parseFloat(parseFloat(rates[0].amount).toFixed(2))))
+      if (rates[0].durationTerms) { dispatch(setEstimatedTime(rates[0].durationTerms)) }
     }
   }, [rates])
 
@@ -84,6 +86,7 @@ const Delivery = () => {
                         setSelectedRate(parseFloat(rate.amount))
                         dispatch(setDeliveryMethod({service: rate.servicelevel.name || "", provider: rate.provider, rate: parseFloat(rate.amount)}))
                         dispatch(setTotalSum(parseFloat(priceSum.toFixed(2)) + parseFloat(parseFloat(rate.amount).toFixed(2))))
+                        if (rate.durationTerms) { dispatch(setEstimatedTime(rate.durationTerms)) }
                       }}
                       className="accent-accent mr-2"
                     />
