@@ -5,6 +5,7 @@ import { IAddress } from "../../interfaces/interfaces"
 import { userDataService } from "../../services/userDataService"
 import { countries } from "../../constants/countries"
 import { setAddress } from "../../redux/transactionDraftSlice"
+import { useUserData } from "../../hooks/useUserData"
 
 const AddressForm = () => {
   const user = useSelector((state: AppState) => state.auth.user)
@@ -27,6 +28,7 @@ const AddressForm = () => {
   })
   const [countryCode, setCountryCode] = useState<string>("")
   const [savingError, setSavingError] = useState<string>("")
+  const { userDataFromDb } = useUserData()
 
   useEffect(() => {
     if (!isEditing) {
@@ -34,9 +36,11 @@ const AddressForm = () => {
         setAddressValues(correctedAddress)
       } else if (!correctedAddress && address) {
         setAddressValues(address)
+      } else if (!correctedAddress && !address && userDataFromDb?.address) {
+        setAddressValues(userDataFromDb.address)
       }
     }
-  }, [address, isEditing, correctedAddress])
+  }, [address, isEditing, correctedAddress, userDataFromDb?.address])
 
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -87,7 +91,7 @@ const AddressForm = () => {
 
   return (
     <div>
-      {isEditing ? (
+      {isEditing || (!address && !correctedAddress && !userDataFromDb?.address) ? (
         <form onSubmit={handleSubmit}>
           <input
             name="name"
