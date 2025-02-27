@@ -2,7 +2,7 @@ import { useSelector } from "react-redux"
 import { AppState } from "../../redux"
 import { useShoppingCart } from "../../hooks/useShoppingCart"
 
-const Summary = () => {
+const SideSummary = () => {
   const totalSum = useSelector(
     (state: AppState) => state.transactionDraft.payment.totalSum
   )
@@ -32,4 +32,4 @@ const Summary = () => {
   )
 }
 
-export default Summary
+export default SideSummary

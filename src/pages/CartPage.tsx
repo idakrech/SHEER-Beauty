@@ -2,7 +2,7 @@ import CartItem from "../components/product-display/CartItem"
 import { useShoppingCart } from "../hooks/useShoppingCart"
 import Delivery from "../components/checkout/Delivery"
 import PaymentMethods from "../components/checkout/PaymentMethods"
-import Summary from "../components/checkout/Summary"
+import SideSummary from "../components/checkout/SideSummary"
 
 const CartPage = () => {
   const { cartProducts } = useShoppingCart()
@@ -40,7 +40,7 @@ const CartPage = () => {
             </div>
 
             <div className="w-1/3 flex flex-col bg-white p-5 border border-zinc-300 h-1/2 my-4 ml-2">
-              <Summary />
+              <SideSummary />
             </div>
           </div>
         ) : (
