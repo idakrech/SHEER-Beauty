@@ -17,15 +17,15 @@ const Summary = () => {
         Summary
       </h3>
       <div className="flex justify-between my-1">
-        <p>Subtotal:</p>
+        <p>Subtotal</p>
         <p>${priceSum}</p>
       </div>
       <div className="flex justify-between my-1 border-b border-zinc-300 pb-3">
-        <p>{delivery.service || "Shipment"}:</p>
+        <p>{delivery.service || "Shipment"}</p>
         <p>${delivery.rate || "0.00"}</p>
       </div>
       <div className="flex justify-between my-1 text-lg font-bold">
-        <p>Total:</p>
+        <p>Total</p>
         <p>${totalSum || "0.00"}</p>
       </div>
     </div>
