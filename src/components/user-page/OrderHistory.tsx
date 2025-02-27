@@ -19,7 +19,7 @@ const OrderHistory = () => {
       transactions.map((transaction: ITransaction) => (
         <div key={transaction.createdAt.toMillis()}>
           <h3>Order Date: {transaction.createdAt.toDate().toLocaleString()}</h3>
-          <p>Payment Method: {transaction.paymentMethod}</p>
+          <p>Payment Method: {transaction.payment.method}</p>
           <h4>Products:</h4>
           <div>
             {transaction.cart.map(({ product, quantity }) => (
