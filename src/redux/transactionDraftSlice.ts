@@ -49,10 +49,23 @@ export const transactionDraftSlice = createSlice({
     },
     setPaymentMethod(state, action: PayloadAction<"card" | "applePay/googlePay">) {
       state.payment.method = action.payload
+    },
+    resetTransactionDraft(state) {
+      state.delivery = {
+        address: null,
+        correctedAddress: null,
+        service: null,
+        provider: null,
+        rate: null
+      }
+      state.payment = {
+        method: undefined,
+        totalSum: null
+      }
     }
   }
 })
 
 export const {
-  setAddress, setCorrectedAddress, setDeliveryMethod, setTotalSum, setPaymentMethod
+  setAddress, setCorrectedAddress, setDeliveryMethod, setTotalSum, setPaymentMethod, resetTransactionDraft
 } = transactionDraftSlice.actions
