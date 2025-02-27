@@ -20,11 +20,11 @@ export const transactionSlice = createSlice({
         setEstimatedTime(state, action: PayloadAction<string>) {
             state.estimatedTime = action.payload
         },
-        clearTransaction(state) {
+        resetTransaction(state) {
             state.id = null
             state.estimatedTime = null
         }
     }
 })
 
-export const {setId, setEstimatedTime, clearTransaction} = transactionSlice.actions
+export const {setId, setEstimatedTime, resetTransaction} = transactionSlice.actions
