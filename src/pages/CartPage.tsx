@@ -3,13 +3,16 @@ import { useShoppingCart } from "../hooks/useShoppingCart"
 import Delivery from "../components/checkout/Delivery"
 import PaymentMethods from "../components/checkout/PaymentMethods"
 import SideSummary from "../components/checkout/SideSummary"
+import { useSelector } from "react-redux"
+import { AppState } from "../redux"
+import TransactionSummary from "../components/checkout/TransactionSummary"
 
 const CartPage = () => {
   const { cartProducts } = useShoppingCart()
-
-  //GDZIE SKONCZYLAM: div z checkout nie chce mieć marginesu po prawej
+  const transactionId = useSelector((state: AppState) => state.transaction.id)
 
   return (
+    !transactionId ? (
     <div className="w-full py-5">
       <div className="flex flex-col justify-center w-full">
         <div className="bg-white p-4 border border-zinc-300 flex justify-center">
@@ -39,7 +42,7 @@ const CartPage = () => {
               <PaymentMethods />
             </div>
 
-            <div className="w-1/3 flex flex-col bg-white p-5 border border-zinc-300 h-1/2 my-4 ml-2">
+            <div className="w-1/3 flex flex-col bg-white p-5 border border-zinc-300 my-4 ml-2">
               <SideSummary />
             </div>
           </div>
@@ -48,6 +51,7 @@ const CartPage = () => {
         )}
       </div>
     </div>
+    ) : <TransactionSummary/>
   )
 }
 
