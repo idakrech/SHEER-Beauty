@@ -73,6 +73,7 @@ const Delivery = () => {
             <ul>
               {rates.map((rate) => (
                 <li key={rate.servicelevel.token}>
+                  <div className="flex justify-between">
                   <label>
                     <input
                       type="radio"
@@ -86,9 +87,10 @@ const Delivery = () => {
                       }}
                       className="accent-accent mr-2"
                     />
-                    {rate.servicelevel.name} - {rate.amount} {rate.currency}{" "}
-                    {`(${rate.amountLocal} ${rate.currencyLocal})`}
+                    {rate.provider} {rate.servicelevel.name} {rate.durationTerms && `- ${rate.durationTerms?.toLocaleLowerCase().slice(0, -1)}`}
                   </label>
+                  <p>{rate.currency === "USD" ? `$${rate.amount}` : `${rate.amount} ${rate.currency}`}</p>
+                  </div>
                 </li>
               ))}
             </ul>
