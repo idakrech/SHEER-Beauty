@@ -7,6 +7,8 @@ import {
   FavoriteOutlined,
   ShoppingCart,
   ShoppingCartOutlined,
+  Star,
+  StarBorder,
 } from "@mui/icons-material"
 import { useShoppingCart } from "../hooks/useShoppingCart"
 import { useCartItem } from "../hooks/useCartItem"
@@ -22,7 +24,8 @@ const ProductPage = () => {
   )
   const { handleAddToCart, handleDecrement } = useShoppingCart()
   const { quantity } = useCartItem(product)
-  const {isFavorite, toggleFavorite} = useFavorite(product)
+  const { isFavorite, toggleFavorite } = useFavorite(product)
+  const rating = product?.rating || 0
 
   return (
     <div>
@@ -40,8 +43,28 @@ const ProductPage = () => {
             <p className="text-xl font-semibold py-5">
               {removeFirstWord(product.name, product.brand)}
             </p>
-            {/* TODO: rating as star icons */}
             {product.rating && <p>{product.rating}</p>}
+            {product.rating && (
+              <div className="flex">
+                {Array.from({ length: 5 }, (_, i) => {
+                  const fillPercentage =
+                    Math.min(Math.max(rating - i, 0), 1) * 100
+
+                  return (
+                    <div key={i} className="relative w-6 h-6">
+                      <StarBorder className="absolute text-accent" />
+                      <Star
+                        className="absolute text-accent"
+                        style={{
+                          clipPath: `inset(0 ${100 - fillPercentage}% 0 0)`,
+                        }}
+                      />
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+
             <p className="text-xl font-semibold">{product.price}$</p>
             <p className="py-5">{product.description}</p>
             <div className="flex">
