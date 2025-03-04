@@ -23,6 +23,7 @@ import SearchResultsPage from "./pages/SearchResults"
 import PromotedProductsPage from "./pages/PromotedProductsPage"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
+import Disclaimer from "./components/Disclaimer"
 
 //TODO: format all errors into more user friendly phrases
 //TODO: catch invalid http and display "No such page found :("
@@ -43,7 +44,7 @@ function App() {
     useState<boolean>(false)
   const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false)
 
-  useFetchProducts()
+  // useFetchProducts()
 
   useEffect(() => {
     dispatch(listenToAuth())
@@ -129,13 +130,14 @@ function App() {
   return (
     <>
       <Elements stripe={stripePromise}>
+        <Disclaimer />
         <Navbar
           onCategoryToggle={setShowCategoryDropdown}
           onUserToggle={setShowUserDropdown}
         />
         {showCategoryDropdown && (
           <div
-            className="z-10 bg-primary shadow-md border border-zinc-300 text-zinc-700"
+            className="bg-white shadow-md border border-zinc-300"
             onMouseEnter={() => setShowUserDropdown(false)}
             onMouseLeave={() => setShowCategoryDropdown(false)}
           >
@@ -144,22 +146,27 @@ function App() {
         )}
         {showUserDropdown && (
           <div
-            className="bg-white text-black rounded shadow-lg mt-2"
+            className="w-full flex justify-end"
             onMouseEnter={() => setShowCategoryDropdown(false)}
             onMouseLeave={() => setShowUserDropdown(false)}
           >
             <UserMenu />
           </div>
         )}
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="cart-page" element={<CartPage />}></Route>
-          <Route path="category-page" element={<CategoryPage />}></Route>
-          <Route path="product-page" element={<ProductPage />}></Route>
-          <Route path="user-page/:tab" element={<UserPage />}></Route>
-          <Route path="search-results" element={<SearchResultsPage />}></Route>
-          <Route path="promoted" element={<PromotedProductsPage />}></Route>
-        </Routes>
+        <div className="max-w-[1280px] mx-auto px-4">
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="cart-page" element={<CartPage />}></Route>
+            <Route path="category-page" element={<CategoryPage />}></Route>
+            <Route path="product-page" element={<ProductPage />}></Route>
+            <Route path="user-page/:tab" element={<UserPage />}></Route>
+            <Route
+              path="search-results"
+              element={<SearchResultsPage />}
+            ></Route>
+            <Route path="promoted" element={<PromotedProductsPage />}></Route>
+          </Routes>
+        </div>
 
         <Footer />
       </Elements>
