@@ -13,6 +13,7 @@ import {
 import { useShoppingCart } from "../hooks/useShoppingCart"
 import { useCartItem } from "../hooks/useCartItem"
 import { useFavorite } from "../hooks/useFavorite"
+import { formatDescription } from "../helpers/formatDescription"
 
 const ProductPage = () => {
   const location = useLocation()
@@ -40,12 +41,13 @@ const ProductPage = () => {
 
           <div className="w-1/2 text-left py-2 px-5">
             <p className="font-light uppercase">{product.brand}</p>
-            <p className="text-xl font-semibold py-5">
+            <p className="text-xl font-semibold font-serif py-5">
               {removeFirstWord(product.name, product.brand)}
             </p>
-            {product.rating && <p>{product.rating}</p>}
+            <p className="text-xl font-semibold font-serif">{product.price}$</p>
+
             {product.rating && (
-              <div className="flex">
+              <div className="flex pt-5">
                 {Array.from({ length: 5 }, (_, i) => {
                   const fillPercentage =
                     Math.min(Math.max(rating - i, 0), 1) * 100
@@ -65,8 +67,8 @@ const ProductPage = () => {
               </div>
             )}
 
-            <p className="text-xl font-semibold">{product.price}$</p>
-            <p className="py-5">{product.description}</p>
+            <p className="py-5">{formatDescription(product.description)}</p>
+
             <div className="flex">
               <button onClick={() => toggleFavorite()}>
                 {!isFavorite ? (
