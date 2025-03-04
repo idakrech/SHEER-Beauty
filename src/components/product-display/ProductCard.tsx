@@ -45,7 +45,7 @@ const ProductCard = (props: IProduct) => {
       </div>
 
       <div className="px-4 py-3 w-full bg-gradient-to-t from-accent/25 to-white">
-        <span className="font-outfit text-gray-400 uppercase text-xs">
+        <span className="block font-outfit text-gray-400 uppercase text-xs text-center">
           {props.brand}
         </span>
         <p className="font-sans font-normal text-md text-left text-gray-800 truncate block capitalize">
