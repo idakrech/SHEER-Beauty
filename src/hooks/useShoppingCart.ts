@@ -15,11 +15,16 @@ export function useShoppingCart() {
   const dispatch = useDispatch<AppDispatch>()
   const [priceSum, setPriceSum] = useState<number>(0)
   const cartProducts = cart.products
+  const [productsQuantity, setProductsQuantity] = useState<number>(0)
 
   useEffect(() => {
     setPriceSum(
       (cart.products ?? []).reduce((sum, { product, quantity }) => sum + parseFloat(product.price) * quantity, 0)
     )
+  }, [cart])
+
+  useEffect(() => {
+    setProductsQuantity(cart.products.reduce((total, product) => total + product.quantity, 0))
   }, [cart])
 
   const handleDelete = (product: IProduct) => {
@@ -43,5 +48,5 @@ export function useShoppingCart() {
     }
   }
 
-  return { cartProducts, handleDelete, handleDecrement, handleAddToCart, priceSum}
+  return { cartProducts, handleDelete, handleDecrement, handleAddToCart, priceSum, productsQuantity }
 }
