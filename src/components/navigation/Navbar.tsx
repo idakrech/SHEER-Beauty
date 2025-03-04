@@ -7,6 +7,7 @@ import {
 import { AppState } from "../../redux"
 import { useSelector } from "react-redux"
 import { useSearchProducts } from "../../hooks/useSearchProducts"
+import { useShoppingCart } from "../../hooks/useShoppingCart"
 
 const Navbar = ({
   onCategoryToggle,
@@ -20,6 +21,7 @@ const Navbar = ({
   const { searchTerm, setSearchTerm, filteredProducts } =
     useSearchProducts(products)
   const navigate = useNavigate()
+  const { productsQuantity } = useShoppingCart()
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
@@ -27,7 +29,7 @@ const Navbar = ({
   }
 
   return (
-    <div className="fixed z-10 top-[35px] w-full bg-accent font-medium text-md text-gray-600 flex justify-between px-10 py-3">
+    <div className="fixed z-10 top-[35px] w-full bg-accent font-medium text-md text-gray-600 flex justify-between px-20 py-3">
       <div className="flex items-center space-x-4">
         <div className="relative" onMouseEnter={() => onCategoryToggle(true)}>
           <button>Categories</button>
@@ -37,7 +39,7 @@ const Navbar = ({
 
       <div className="flex items-center">
         <h3 className="flex items-center text-3xl text-primary font-sans uppercase font-extralight">
-        ⋆˙⟡ Sheer
+          ⋆˙⟡ Sheer
         </h3>
         <h3 className="flex items-center text-3xl text-primary font-serif italic">
           beauty
@@ -56,9 +58,13 @@ const Navbar = ({
           <Search />
         </div>
 
-        {/* TODO: add items count on the cart icon corner */}
-        <NavLink to="/cart-page" className="text-lg">
+        <NavLink to="/cart-page" className="relative text-lg">
           <ShoppingCartOutlined fontSize="small" />
+          {productsQuantity > 0 && (
+            <span className="absolute -top-2 -right-2 bg-zinc-700 text-white text-xs font-semibold w-5 h-5 flex items-center justify-center rounded-full">
+              {productsQuantity}
+            </span>
+          )}
         </NavLink>
 
         <div className="relative" onMouseEnter={() => onUserToggle(true)}>
