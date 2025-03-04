@@ -14,6 +14,7 @@ import { useShoppingCart } from "../hooks/useShoppingCart"
 import { useCartItem } from "../hooks/useCartItem"
 import { useFavorite } from "../hooks/useFavorite"
 import { formatDescription } from "../helpers/formatDescription"
+import { Tooltip } from "@mui/material"
 
 const ProductPage = () => {
   const location = useLocation()
@@ -34,7 +35,7 @@ const ProductPage = () => {
         <div className="flex py-5">
           <div className="flex w-1/2 justify-center items-center">
             <img
-              src={product.api_featured_image}
+              src={product.image_link}
               className="w-full border border-slate-200"
             />
           </div>
@@ -44,7 +45,7 @@ const ProductPage = () => {
             <p className="text-xl font-semibold font-serif py-5">
               {removeFirstWord(product.name, product.brand)}
             </p>
-            <p className="text-xl font-semibold font-serif">{product.price}$</p>
+            <p className="text-xl font-semibold font-serif">${product.price}</p>
 
             {product.rating && (
               <div className="flex pt-5">
@@ -68,6 +69,21 @@ const ProductPage = () => {
             )}
 
             <p className="py-5">{formatDescription(product.description)}</p>
+
+            {product.product_colors.length > 0 && (
+              <div className="flex items-center gap-2 py-5">
+                {product.product_colors.map((color, index) => (
+                 <Tooltip title={color.colour_name}>
+                 <div
+                   key={index}
+                   className="w-6 h-6 rounded-full border border-gray-300"
+                   style={{ backgroundColor: color.hex_value }}
+                 ></div>
+               </Tooltip>
+                  
+                ))}
+              </div>
+            )}
 
             <div className="flex">
               <button onClick={() => toggleFavorite()}>
