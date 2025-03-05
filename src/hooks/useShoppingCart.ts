@@ -27,26 +27,33 @@ export function useShoppingCart() {
     setProductsQuantity(cart.products.reduce((total, product) => total + product.quantity, 0))
   }, [cart])
 
-  const handleDelete = (product: IProduct) => {
-    dispatch(deleteProduct(product))
+  const handleDelete = (product: IProduct, selectedColor?: string) => {
+    dispatch(deleteProduct({product, selectedColor}))
     if (user !== null) {
-      userDataService.removeFromCart(user.uid, product)
+      userDataService.removeFromCart(user.uid, product, selectedColor)
     }
   }
 
-  const handleDecrement = (product: IProduct) => {
-    dispatch(decrementProductQuantity(product))
+  const handleDecrement = (product: IProduct, selectedColor?: string) => {
+    dispatch(decrementProductQuantity({product, selectedColor}))
     if (user !== null) {
-      userDataService.decrementProductQuantity(user.uid, product)
+      userDataService.decrementProductQuantity(user.uid, product, selectedColor)
     }
   }
 
-  const handleAddToCart = (product: IProduct) => {
-    dispatch(addProduct(product))
+  const handleAddToCart = (product: IProduct, selectedColor?: string) => {
+    dispatch(addProduct({product, selectedColor}))
     if (user !== null) {
-      userDataService.addToCart(user.uid, { product: product, quantity: 1 })
+      userDataService.addToCart(user.uid, { product, quantity: 1, selectedColor })
     }
   }
 
-  return { cartProducts, handleDelete, handleDecrement, handleAddToCart, priceSum, productsQuantity }
+  const getColorName = (product: IProduct, selectedColor?: string): string | null => {
+    if (!selectedColor) return null
+    const foundColor = product.product_colors.find(color => color.hex_value === selectedColor)
+    return foundColor ? foundColor.colour_name : null
+  }
+
+
+  return { cartProducts, handleDelete, handleDecrement, handleAddToCart, priceSum, productsQuantity, getColorName }
 }

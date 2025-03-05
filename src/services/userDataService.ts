@@ -42,7 +42,7 @@ export const userDataService = {
 
   async addToCart(
     userId: string,
-    cartProduct: { product: IProduct; quantity: number }
+    cartProduct: { product: IProduct, quantity: number, selectedColor?: string }
   ) {
     try {
       const userRef = doc(db, "users", userId)
@@ -51,8 +51,9 @@ export const userDataService = {
       const currentCart = userData?.cart || []
 
       const existingProductIndex = currentCart.findIndex(
-        (existingProduct: { product: IProduct; quantity: number }) =>
-          existingProduct.product.id === cartProduct.product.id
+        (existingProduct: { product: IProduct; quantity: number, selectedColor?: string }) =>
+          existingProduct.product.id === cartProduct.product.id &&
+          existingProduct.selectedColor === cartProduct.selectedColor
       )
 
       if (existingProductIndex !== -1) {
@@ -68,7 +69,7 @@ export const userDataService = {
     }
   },
 
-  async decrementProductQuantity(userId: string, product: IProduct) {
+  async decrementProductQuantity(userId: string, product: IProduct, selectedColor?: string) {
     try {
       const userRef = doc(db, "users", userId)
       const userDoc = await getDoc(userRef)
@@ -76,8 +77,8 @@ export const userDataService = {
       const currentCart = userData?.cart || []
 
       const existingProductIndex = currentCart.findIndex(
-        (existingProduct: { product: IProduct; quantity: number }) =>
-          existingProduct.product.id === product.id
+        (cartItem: { product: IProduct, quantity: number, selectedColor?: string }) =>
+          cartItem.product.id === product.id && cartItem.selectedColor === selectedColor
       )
 
       if (existingProductIndex !== -1) {
@@ -97,15 +98,15 @@ export const userDataService = {
     }
   },
 
-  async removeFromCart(userId: string, product: IProduct) {
+  async removeFromCart(userId: string, product: IProduct, selectedColor?: string) {
     try {
       const userRef = doc(db, "users", userId)
       const userDoc = await getDoc(userRef)
       const userData = userDoc.data()
       const currentCart = userData?.cart || []
       const updatedCart = currentCart.filter(
-        (cartItem: { product: IProduct; quantity: number }) =>
-          cartItem.product.id !== product.id
+        (cartItem: { product: IProduct, selectedColor?: string }) =>
+          !(cartItem.product.id === product.id && cartItem.selectedColor === selectedColor)
       )
 
       await updateDoc(userRef, { cart: updatedCart })
