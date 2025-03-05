@@ -4,10 +4,11 @@ import { IProduct } from "../../interfaces/interfaces"
 type CartItemProps = {
   product: IProduct
   quantity: number
+  selectedColor?: string
 }
 
-const CartItem = ({ product, quantity }: CartItemProps) => {
-  const { handleDecrement, handleAddToCart, handleDelete } = useShoppingCart()
+const CartItem = ({ product, quantity, selectedColor }: CartItemProps) => {
+  const { handleDecrement, handleAddToCart, handleDelete, getColorName } = useShoppingCart()
 
   return (
     <div className="w-full bg-white border-b border-zinc-300 my-2 h-48 flex items-center text-zinc-700">
@@ -16,19 +17,26 @@ const CartItem = ({ product, quantity }: CartItemProps) => {
           <img
             src={product.image_link}
             alt={product.name}
-            className="w-auto h-36 object-cover " //border border-zinc-300
+            className="w-auto h-36 object-cover "
           />
           <div className="ml-4">
             <p className="text-md font-semibold">
               {product.name}
             </p>
+            <div className="flex items-center mt-1">
+              <span
+                className="w-5 h-5 rounded-full border border-gray-400 mr-2"
+                style={{ backgroundColor: selectedColor }}
+              ></span>
+              <p className="text-sm text-gray-600">{getColorName(product, selectedColor)}</p>
+            </div>
           </div>
         </div>
 
         <div className="w-1/2 flex h-full items-center justify-between ml-2">
           <div className="flex justify-center items-center gap-2">
             <button
-              onClick={() => handleDecrement(product)}
+              onClick={() => handleDecrement(product, selectedColor)}
               className="border border-gray-400 px-2 rounded-md"
             >
               −
@@ -37,7 +45,7 @@ const CartItem = ({ product, quantity }: CartItemProps) => {
             <button
               onClick={() => {
                 if (quantity < 10) {
-                  handleAddToCart(product)
+                  handleAddToCart(product, selectedColor)
                 }
               }}
               disabled={quantity >= 10}
@@ -48,7 +56,7 @@ const CartItem = ({ product, quantity }: CartItemProps) => {
               +
             </button>
             <button
-              onClick={() => handleDelete(product)}
+              onClick={() => handleDelete(product, selectedColor)}
               className="ml-2 text-zinc-700 text-sm"
             >
               Remove
