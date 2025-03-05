@@ -65,22 +65,17 @@ export const cartSlice = createSlice({
       )
     },
     decrementProductQuantity(state, action: PayloadAction<{product: IProduct, selectedColor?: string}>) {
-      const product = state.products.find(
+      const productIndex = state.products.findIndex(
         (existingProduct) => 
           existingProduct.product.id === action.payload.product.id &&
           existingProduct.selectedColor === action.payload.selectedColor
       )
 
-
-      if (product) {
-        product.quantity -= 1
-        if (product.quantity === 0) {
-          state.products = state.products.filter(
-            (existingProduct) => 
-              !(existingProduct.product.id !== action.payload.product.id &&
-                existingProduct.selectedColor === action.payload.selectedColor
-              )
-          )
+      if (productIndex !== -1) {
+        if (state.products[productIndex].quantity > 1) {
+          state.products[productIndex].quantity -= 1
+        } else {
+          state.products.splice(productIndex, 1)
         }
       }
     },
