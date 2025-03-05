@@ -23,7 +23,11 @@ export function useFilterProducts (filters: IFilterState) {
       parseFloat(product?.price) >= filters.priceRange.min &&
       parseFloat(product?.price) <= filters.priceRange.max
 
-    return matchesType && matchesCategory && matchesBrands && matchesTags && matchesPrice
+      const matchesColors =
+      filters.selectedColors.length === 0 ||
+      product.product_colors.some((color) => filters.selectedColors.includes(color.hex_value))
+
+    return matchesType && matchesCategory && matchesBrands && matchesTags && matchesPrice && matchesColors
   })
 
     return {filteredProducts}

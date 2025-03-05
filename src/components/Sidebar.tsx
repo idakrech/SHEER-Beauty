@@ -1,5 +1,5 @@
-import { useDispatch } from "react-redux"
-import { AppDispatch } from "../redux"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, AppState } from "../redux"
 import {
   toggleCategory,
   toggleBrand,
@@ -7,11 +7,17 @@ import {
   toggleTag,
 } from "../redux/filterSlice"
 import { useExtractFilters } from "../hooks/useExtractFilters"
+import { useState } from "react"
 
 const Sidebar = ({ type, category }: { type: string; category?: string }) => {
   const { uniqueCategories, uniqueBrands, uniqueTags, uniqueColors } =
     useExtractFilters(type, category)
   const dispatch = useDispatch<AppDispatch>()
+  const selectedColors = useSelector(
+    (state: AppState) => state.productFilter.selectedColors
+  )
+  const [showAllColors, setShowAllColors] = useState<boolean>(false)
+  const visibleColors = showAllColors ? uniqueColors : uniqueColors.slice(0, 12)
 
   return (
     <div className="font-sans text-left font-light w-64 text-zinc-700 mt-5 mr-2 bg-secondary/25 border border-zinc-300 p-3 h-auto">
@@ -21,7 +27,10 @@ const Sidebar = ({ type, category }: { type: string; category?: string }) => {
           <ul>
             {uniqueCategories.map((cat) => (
               <li key={cat}>
-                <input type="checkbox" onChange={() => dispatch(toggleCategory(cat || ""))}/>
+                <input
+                  type="checkbox"
+                  onChange={() => dispatch(toggleCategory(cat || ""))}
+                />
                 {` ${cat && cat.charAt(0).toUpperCase() + cat.slice(1)}`}
               </li>
             ))}
@@ -62,17 +71,29 @@ const Sidebar = ({ type, category }: { type: string; category?: string }) => {
 
       <div className="mb-2">
         <h3 className="font-semibold mb-1">Colors</h3>
-        <ul>
-          {uniqueColors.map((color) => (
-            <li key={color}>
-              <input
-                type="checkbox"
-                onChange={() => dispatch(toggleColor(color))}
-              />
-              {color}
-            </li>
+        <div className="flex flex-wrap gap-2">
+          {visibleColors.map((color) => (
+            <div
+              // key={color}
+              className={`w-8 h-8 rounded-full border border-gray-300 cursor-pointer 
+          ${
+            selectedColors?.includes(color)
+              ? "ring-2 ring-accent border-gray-600"
+              : ""
+          }`}
+              style={{ backgroundColor: color }}
+              onClick={() => dispatch(toggleColor(color))}
+            ></div>
           ))}
-        </ul>
+        </div>
+        {uniqueColors.length > 12 && (
+          <button
+            onClick={() => setShowAllColors(!showAllColors)}
+            className="mt-2 text-sm text-blue-500 hover:underline"
+          >
+            {showAllColors ? "Show less" : "More"}
+          </button>
+        )}
       </div>
     </div>
   )
