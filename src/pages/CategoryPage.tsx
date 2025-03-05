@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { setType, toggleCategory } from "../redux/filterSlice"
+import { resetFilters, setType, toggleCategory } from "../redux/filterSlice"
 import { useLocation } from "react-router-dom"
 import { useFilterProducts } from "../hooks/useFilterProducts"
 import { AppState } from "../redux"
@@ -24,6 +24,12 @@ const CategoryPage = () => {
       dispatch(toggleCategory(category))
     }
   }, [type, category, dispatch])
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetFilters()) 
+    }
+  }, [dispatch])
 
   const filters = useSelector((state: AppState) => state.productFilter)
   const { filteredProducts } = useFilterProducts(filters)
