@@ -30,11 +30,12 @@ const CartPage = () => {
                   <div className="w-1/4 text-right">Sum</div>
                 </div>
 
-                {cartProducts.map(({ product, quantity }) => (
+                {cartProducts.map(({ product, quantity, selectedColor }) => (
                   <CartItem
                     key={product.id}
                     product={product}
                     quantity={quantity}
+                    selectedColor={selectedColor}
                   />
                 ))}
               </div>
