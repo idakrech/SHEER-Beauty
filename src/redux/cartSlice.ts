@@ -6,6 +6,7 @@ interface ICartState {
   products: {
     product: IProduct
     quantity: number
+    selectedColor?: string
   }[]
   loading: boolean
   error: Error | null
@@ -45,29 +46,41 @@ export const cartSlice = createSlice({
       state.loading = false
       state.error = null
     },
-    addProduct(state, action: PayloadAction<IProduct>) {
+    addProduct(state, action: PayloadAction<{product: IProduct, selectedColor?: string}>) {
+      const { product, selectedColor } = action.payload
       const existingProduct = state.products.find(
-        (existingProduct) => existingProduct.product.id === action.payload.id
+        (existingProduct) => existingProduct.product.id === product.id  && existingProduct.selectedColor === selectedColor
       )
       if (existingProduct) {
         existingProduct.quantity += 1
       } else {
-        state.products.push({ product: action.payload, quantity: 1 })
+        state.products.push({ product, quantity: 1, selectedColor })
       }
     },
-    deleteProduct(state, action: PayloadAction<IProduct>) {
+    deleteProduct(state, action: PayloadAction<{product: IProduct, selectedColor?: string}>) {
       state.products = state.products.filter(
-        (existingProduct) => existingProduct.product.id !== action.payload.id
+        (existingProduct) => 
+          !(existingProduct.product.id === action.payload.product.id &&
+            existingProduct.selectedColor === action.payload.selectedColor)
       )
     },
-    decrementProductQuantity(state, action: PayloadAction<IProduct>) {
+    decrementProductQuantity(state, action: PayloadAction<{product: IProduct, selectedColor?: string}>) {
       const product = state.products.find(
-        (product) => product.product.id === action.payload.id
+        (existingProduct) => 
+          existingProduct.product.id === action.payload.product.id &&
+          existingProduct.selectedColor === action.payload.selectedColor
       )
+
+
       if (product) {
         product.quantity -= 1
         if (product.quantity === 0) {
-          state.products = state.products.filter((existingProduct) => existingProduct.product.id !== action.payload.id)
+          state.products = state.products.filter(
+            (existingProduct) => 
+              !(existingProduct.product.id !== action.payload.product.id &&
+                existingProduct.selectedColor === action.payload.selectedColor
+              )
+          )
         }
       }
     },
