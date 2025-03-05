@@ -10,12 +10,16 @@ import { removeFirstWord } from "../../helpers/removeFirstWord"
 import { useShoppingCart } from "../../hooks/useShoppingCart"
 import { useCartItem } from "../../hooks/useCartItem"
 import { useFavorite } from "../../hooks/useFavorite"
+import { useState } from "react"
 
 const ProductCard = (props: IProduct) => {
   const { handleAddToCart, handleDecrement } = useShoppingCart()
-  const { quantity } = useCartItem(props)
+  
   const {isFavorite, toggleFavorite} = useFavorite(props)
-
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    props.product_colors.length ? props.product_colors[0].hex_value : undefined
+  )
+  const { quantity } = useCartItem(props, selectedColor)
 
   return (
     <div className="w-full bg-white border border-gray-300 duration-500 hover:scale-105 shadow-md">
@@ -57,11 +61,26 @@ const ProductCard = (props: IProduct) => {
             {props.price}
           </p>
 
+          {props.product_colors.length > 1 && (
+            <div className="flex overflow-x-auto py-5">
+              {props.product_colors.map((color, index) => (
+                <div
+                  key={index}
+                  className={`w-6 h-6 rounded-full border border-gray-300 ${
+                    selectedColor === color.hex_value ? "ring-2 ring-accent" : ""
+                  }`}
+                  style={{ backgroundColor: color.hex_value }}
+                  onClick={() => setSelectedColor(color.hex_value)}
+                ></div>
+              ))}
+            </div>
+          )}
+
           {quantity > 0 ? (
             <div className="flex gap-1 text-md items-end">
               <button onClick={() => handleDecrement(props)}>-</button>
               <div>
-                <button onClick={() => handleAddToCart(props)}>
+                <button onClick={() => handleAddToCart(props, selectedColor)}>
                   <ShoppingCart
                     fontSize="small"
                     sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}
@@ -69,10 +88,10 @@ const ProductCard = (props: IProduct) => {
                 </button>
                 <p>{quantity}</p>
               </div>
-              <button onClick={() => handleAddToCart(props)}>+</button>
+              <button onClick={() => handleAddToCart(props, selectedColor)}>+</button>
             </div>
           ) : (
-            <button onClick={() => handleAddToCart(props)}>
+            <button onClick={() => handleAddToCart(props, selectedColor)}>
               <ShoppingCartOutlined
                 fontSize="small"
                 sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}
