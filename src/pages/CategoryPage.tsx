@@ -6,6 +6,7 @@ import { useFilterProducts } from "../hooks/useFilterProducts"
 import { AppState } from "../redux"
 import Sidebar from "../components/Sidebar"
 import ProductGrid from "../components/product-display/ProductGrid"
+import InitializationSpinner from "../components/product-display/InitializationSpinner"
 
 const CategoryPage = () => {
   const location = useLocation()
@@ -13,6 +14,10 @@ const CategoryPage = () => {
 
   const type = searchParams.get("type") || ""
   const category = searchParams.get("category") || ""
+
+  const isInitialized = useSelector(
+    (state: AppState) => state.products.isInitialized
+  )
 
   const dispatch = useDispatch()
 
@@ -27,7 +32,7 @@ const CategoryPage = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetFilters()) 
+      dispatch(resetFilters())
     }
   }, [dispatch])
 
@@ -35,23 +40,29 @@ const CategoryPage = () => {
   const { filteredProducts } = useFilterProducts(filters)
 
   return (
-    <div className="flex items-start">
-      {type.length !== 0 && <Sidebar type={type} category={category} />}
-      <div className="flex">
-        <ProductGrid
-          products={filteredProducts}
-          isExpanded={true}
-          title={
-            type && !category
-              ? type.charAt(0).toUpperCase() + type.slice(1)
-              : type && category
-              ? `${type.charAt(0).toUpperCase() + type.slice(1)}: ${
-                  category.charAt(0).toUpperCase() + category.slice(1)
-                }`
-              : ""
-          }
-        />
-      </div>
+    <div>
+      {isInitialized ? (
+        <div className="flex items-start">
+          {type.length !== 0 && <Sidebar type={type} category={category} />}
+          <div className="flex">
+            <ProductGrid
+              products={filteredProducts}
+              isExpanded={true}
+              title={
+                type && !category
+                  ? type.charAt(0).toUpperCase() + type.slice(1)
+                  : type && category
+                  ? `${type.charAt(0).toUpperCase() + type.slice(1)}: ${
+                      category.charAt(0).toUpperCase() + category.slice(1)
+                    }`
+                  : ""
+              }
+            />
+          </div>
+        </div>
+      ) : (
+        <InitializationSpinner />
+      )}
     </div>
   )
 }
