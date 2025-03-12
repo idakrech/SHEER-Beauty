@@ -1,6 +1,6 @@
 import { useState } from "react"
 import CardPayment from "./CardPayment"
-import GoogleApplePay from "./GoogleApplePay"
+// import GoogleApplePay from "./GoogleApplePay"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "../../redux"
 import { setPaymentMethod } from "../../redux/transactionDraftSlice"
@@ -57,7 +57,8 @@ const PaymentMethods = () => {
         {/* TODO: add disclaimer and warning not to perform real payment through the provider */}
         {selectedMethod === "google" && (
           <div className="my-2 w-1/2 mt-3">
-            <GoogleApplePay/>
+            {/* <GoogleApplePay/> */}
+            <p>Google pay hihi</p>
           </div>
         )}
       </div>
