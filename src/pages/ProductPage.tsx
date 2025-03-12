@@ -15,6 +15,7 @@ import { useCartItem } from "../hooks/useCartItem"
 import { useFavorite } from "../hooks/useFavorite"
 import { formatDescription } from "../helpers/formatDescription"
 import { Tooltip } from "@mui/material"
+import { useState } from "react"
 
 const ProductPage = () => {
   const location = useLocation()
@@ -25,9 +26,12 @@ const ProductPage = () => {
     state.products.products.find((p) => p.id === parsedID)
   )
   const { handleAddToCart, handleDecrement } = useShoppingCart()
-  const { quantity } = useCartItem(product)
   const { isFavorite, toggleFavorite } = useFavorite(product)
   const rating = product?.rating || 0
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    product?.product_colors.length === 1 ? product.product_colors[0].hex_value : undefined
+  )
+  const { quantity } = useCartItem(product, selectedColor)
 
   return (
     <div>
@@ -78,6 +82,7 @@ const ProductPage = () => {
                    key={index}
                    className="w-6 h-6 rounded-full border border-gray-300"
                    style={{ backgroundColor: color.hex_value }}
+                   onClick={() => setSelectedColor(color.hex_value)}
                  ></div>
                </Tooltip>
                   
@@ -103,7 +108,7 @@ const ProductPage = () => {
                 <div className="flex gap-1 text-md items-end">
                   <button onClick={() => handleDecrement(product)}>-</button>
                   <div>
-                    <button onClick={() => handleAddToCart(product)}>
+                    <button onClick={() => handleAddToCart(product, selectedColor)}>
                       <ShoppingCart
                         fontSize="small"
                         sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}
@@ -111,10 +116,10 @@ const ProductPage = () => {
                     </button>
                     <p>{quantity}</p>
                   </div>
-                  <button onClick={() => handleAddToCart(product)}>+</button>
+                  <button onClick={() => handleAddToCart(product, selectedColor)}>+</button>
                 </div>
               ) : (
-                <button onClick={() => handleAddToCart(product)}>
+                <button onClick={() => handleAddToCart(product, selectedColor)}>
                   <ShoppingCartOutlined
                     fontSize="small"
                     sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}
