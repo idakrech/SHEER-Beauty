@@ -92,13 +92,14 @@ const AddressForm = () => {
   return (
     <div>
       {isEditing || (!address && !correctedAddress && !userDataFromDb?.address) ? (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col w-full">
           <input
             name="name"
             type="text"
             placeholder="Name"
             value={addressValues.name}
             onChange={changeHandler}
+            className="p-1 bg-primary border rounded-md border-zinc-300 mb-2"
             required
           />
           <input
@@ -107,6 +108,7 @@ const AddressForm = () => {
             placeholder="Street"
             value={addressValues.street1}
             onChange={changeHandler}
+            className="p-1 bg-primary border rounded-md border-zinc-300 mb-2"
             required
           />
           <input
@@ -115,6 +117,7 @@ const AddressForm = () => {
             placeholder="City"
             value={addressValues.city}
             onChange={changeHandler}
+            className="p-1 bg-primary border rounded-md border-zinc-300 mb-2"
             required
           />
           <input
@@ -123,6 +126,7 @@ const AddressForm = () => {
             placeholder="Zip Code"
             value={addressValues.zip}
             onChange={changeHandler}
+            className="p-1 bg-primary border rounded-md border-zinc-300 mb-2"
             required
           />
           <input
@@ -131,11 +135,13 @@ const AddressForm = () => {
             placeholder="State/Provice"
             value={addressValues.state}
             onChange={changeHandler}
+            className="p-1 bg-primary border rounded-md border-zinc-300 mb-2"
           />
           <select
             name="country"
             value={addressValues.country}
             onChange={handleCountryChange}
+            className="p-1 bg-primary border rounded-md border-zinc-300 mb-2"
             required
           >
             <option value="">Select country</option>
@@ -155,12 +161,13 @@ const AddressForm = () => {
             onFocus={handlePhoneFocus}
             onBlur={handlePhoneBlur}
             onChange={changeHandler}
+            className="p-1 bg-primary border rounded-md border-zinc-300 mb-2"
             required
           />
 
           <button
             type="submit"
-            className="border border-zinc-300 text-center text-zinc-700 px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in"
+            className="border border-zinc-300 text-center px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in"
           >
             Save
           </button>
