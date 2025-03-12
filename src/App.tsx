@@ -44,7 +44,7 @@ function App() {
     useState<boolean>(false)
   const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false)
 
-  // useFetchProducts()
+  useFetchProducts()
 
   useEffect(() => {
     dispatch(listenToAuth())

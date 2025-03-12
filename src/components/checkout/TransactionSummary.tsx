@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"
 import { resetTransaction } from "../../redux/transactionSlice"
 import { useEffect } from "react"
 
+//TODO: fix the div to be centered vertically 
+
 const TransactionSummary = () => {
   const id = useSelector((state: AppState) => state.transaction.id)
   const estimatedTime = useSelector(
@@ -13,15 +15,15 @@ const TransactionSummary = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch<AppDispatch>()
 
-    useEffect(() => {
-      return () => {
-        dispatch(resetTransaction())
-      }
-    })
+  useEffect(() => {
+    return () => {
+      dispatch(resetTransaction())
+    }
+  })
 
   return (
-    <div className="flex text-center justify-center items-center w-full h-3/4">
-      <div className="flex flex-col justify-center items-center bg-white p-5 w-2/3 h-1/2 border border-zinc-300 my-4 text-zinc-700">
+    <div className="flex text-center justify-center items-center w-full h-full">
+      <div className="flex flex-col justify-center items-center bg-white p-5 w-2/3 h-full border border-zinc-300 my-4 text-zinc-700">
         <h3 className="text-xl text-zinc-700 font-serif font-bold mt-2 mb-4">
           Thank you for shopping with us!
         </h3>
