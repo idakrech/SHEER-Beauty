@@ -48,7 +48,7 @@ export function useTransaction() {
       userDataService.clearCart(user?.uid)
     }
     dispatch(setId(transactionId))
-    setProducts([])
+    dispatch(setProducts([]))
   }
 
   return {user, totalSum, createTransaction}
