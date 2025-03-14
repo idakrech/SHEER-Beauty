@@ -19,7 +19,7 @@ const TransactionSummary = () => {
     return () => {
       dispatch(resetTransaction())
     }
-  })
+  }, [])
 
   return (
     <div className="flex text-center justify-center items-center w-full h-full">
