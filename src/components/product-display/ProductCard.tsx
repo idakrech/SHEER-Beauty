@@ -24,7 +24,7 @@ const ProductCard = (props: IProduct) => {
   const [emblaRef] = useEmblaCarousel({ axis: "x", dragFree: true })
 
   return (
-    <div className="w-full h-[450px] bg-white border border-gray-300 duration-500 hover:scale-105 shadow-md flex flex-col justify-between">
+    <div className="w-full h-[450px] bg-white border border-gray-300 duration-500 hover:scale-105 shadow-md flex flex-col justify-between overflow-hidden">
       <div className="flex justify-end p-2">
         <button onClick={() => toggleFavorite()}>
           {!isFavorite ? (
