@@ -8,7 +8,8 @@ type CartItemProps = {
 }
 
 const CartItem = ({ product, quantity, selectedColor }: CartItemProps) => {
-  const { handleDecrement, handleAddToCart, handleDelete, getColorName } = useShoppingCart()
+  const { handleDecrement, handleAddToCart, handleDelete, getColorName } =
+    useShoppingCart()
 
   return (
     <div className="w-full bg-white border-b border-zinc-300 my-2 h-48 flex items-center text-zinc-700">
@@ -20,16 +21,19 @@ const CartItem = ({ product, quantity, selectedColor }: CartItemProps) => {
             className="w-auto h-36 object-cover "
           />
           <div className="ml-4">
-            <p className="text-md font-semibold">
-              {product.name}
-            </p>
-            <div className="flex items-center mt-1">
-              <span
-                className="w-5 h-5 rounded-full border border-gray-400 mr-2"
-                style={{ backgroundColor: selectedColor }}
-              ></span>
-              <p className="text-sm text-gray-600">{getColorName(product, selectedColor)}</p>
-            </div>
+            <p className="text-md font-semibold">{product.name}</p>
+
+            {selectedColor && (
+              <div className="flex items-center mt-1">
+                <span
+                  className="w-5 h-5 rounded-full border border-gray-400 mr-2"
+                  style={{ backgroundColor: selectedColor }}
+                ></span>
+                <p className="text-sm text-gray-600">
+                  {getColorName(product, selectedColor)}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
