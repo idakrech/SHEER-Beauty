@@ -12,7 +12,9 @@ const CartPage = () => {
   const { cartProducts } = useShoppingCart()
   const transactionId = useSelector((state: AppState) => state.transaction.id)
 
-  return !transactionId ? (
+  return transactionId ? (
+    <TransactionSummary />
+  ) : (
     <div className="w-full py-5">
       <div className="flex flex-col justify-center w-full">
         <div className="bg-white p-4 border border-zinc-300 flex flex-col items-center justify-center">
@@ -20,8 +22,11 @@ const CartPage = () => {
             Checkout
           </h3>
           {!cartProducts.length && (
-            <div className="p-5 flex flex-col items-center justify-center" style={{ height: '45vh' }}>
-              <ShoppingCartOutlinedIcon fontSize="large"/>
+            <div
+              className="p-5 flex flex-col items-center justify-center"
+              style={{ height: "45vh" }}
+            >
+              <ShoppingCartOutlinedIcon fontSize="large" />
               <p className="mt-3">Your cart is empty</p>
             </div>
           )}
@@ -55,8 +60,6 @@ const CartPage = () => {
         )}
       </div>
     </div>
-  ) : (
-    <TransactionSummary />
   )
 }
 
