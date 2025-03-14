@@ -24,7 +24,7 @@ const ProductCard = (props: IProduct) => {
   const [emblaRef] = useEmblaCarousel({ axis: "x", dragFree: true })
 
   return (
-    <div className="w-full bg-white border border-gray-300 duration-500 hover:scale-105 shadow-md">
+    <div className="w-full h-[450px] bg-white border border-gray-300 duration-500 hover:scale-105 shadow-md flex flex-col justify-between">
       <div className="flex justify-end p-2">
         <button onClick={() => toggleFavorite()}>
           {!isFavorite ? (
@@ -51,11 +51,11 @@ const ProductCard = (props: IProduct) => {
         </Link>
       </div>
 
-      <div className="px-4 py-3 w-full bg-gradient-to-t from-accent/25 to-white">
+      <div className="px-4 py-3 w-full bg-gradient-to-t from-accent/25 to-white flex flex-col justify-between h-full">
         <span className="block font-outfit text-gray-400 uppercase text-xs text-center">
           {props.brand}
         </span>
-        <p className="font-sans font-normal text-md text-left text-gray-800 truncate block capitalize">
+        <p className="font-sans font-normal text-md text-left text-gray-800 truncate block capitalize"> 
           {removeFirstWord(props.name, props.brand)}
         </p>
 
@@ -76,7 +76,8 @@ const ProductCard = (props: IProduct) => {
               ))}
             </div>
           </div>
-        )}
+        )
+        }
 
         <div className="flex justify-between items-center">
           <p className="font-serif 7text-md font-bold text-gray-800 cursor-auto my-3">
