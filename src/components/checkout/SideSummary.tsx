@@ -26,7 +26,7 @@ const SideSummary = () => {
       </div>
       <div className="flex justify-between my-1 text-lg font-bold">
         <p>Total</p>
-        <p>${totalSum || "0.00"}</p>
+        <p>{totalSum ? `$${totalSum}` : "-"}</p>
       </div>
     </div>
   )
