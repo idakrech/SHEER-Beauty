@@ -56,7 +56,7 @@ const Delivery = () => {
         dispatch(setEstimatedTime(rates[0].durationTerms))
       }
     }
-  }, [rates])
+  }, [rates, priceSum])
 
   const handleRateChange = (rate: Rate) => {
     const rateAmount = new Big(rate.amount)
