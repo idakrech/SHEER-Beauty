@@ -11,7 +11,6 @@ import {
   StarBorder,
 } from "@mui/icons-material"
 import { useShoppingCart } from "../hooks/useShoppingCart"
-import { useCartItem } from "../hooks/useCartItem"
 import { useFavorite } from "../hooks/useFavorite"
 import { formatDescription } from "../helpers/formatDescription"
 import { Tooltip } from "@mui/material"
@@ -29,9 +28,12 @@ const ProductPage = () => {
   const { isFavorite, toggleFavorite } = useFavorite(product)
   const rating = product?.rating || 0
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    product?.product_colors.length === 1 ? product.product_colors[0].hex_value : undefined
+    product?.product_colors.length
+      ? product.product_colors[0].hex_value
+      : undefined
   )
-  const { quantity } = useCartItem(product, selectedColor)
+  const cart = useSelector((state: AppState) => state.cart.products)
+  const { quantity } = cart.find((item) => item.product.id === product?.id && item.selectedColor === selectedColor) || { quantity: 0 }
 
   return (
     <div>
@@ -77,15 +79,16 @@ const ProductPage = () => {
             {product.product_colors.length > 0 && (
               <div className="flex items-center gap-2 py-5">
                 {product.product_colors.map((color, index) => (
-                 <Tooltip title={color.colour_name}>
-                 <div
-                   key={index}
-                   className="w-6 h-6 rounded-full border border-gray-300"
-                   style={{ backgroundColor: color.hex_value }}
-                   onClick={() => setSelectedColor(color.hex_value)}
-                 ></div>
-               </Tooltip>
-                  
+                  <Tooltip title={color.colour_name}>
+                    <div
+                      key={index}
+                      className={`w-6 h-6 rounded-full border border-gray-300 ${
+                        selectedColor === color.hex_value ? "ring-2 ring-accent" : ""
+                      }`}
+                      style={{ backgroundColor: color.hex_value }}
+                      onClick={() => setSelectedColor(color.hex_value)}
+                    ></div>
+                  </Tooltip>
                 ))}
               </div>
             )}
@@ -105,25 +108,37 @@ const ProductPage = () => {
                 )}
               </button>
               {quantity > 0 ? (
-                <div className="flex gap-1 text-md items-end">
-                  <button onClick={() => handleDecrement(product)}>-</button>
-                  <div>
-                    <button onClick={() => handleAddToCart(product, selectedColor)}>
-                      <ShoppingCart
-                        fontSize="small"
-                        sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}
-                      />
-                    </button>
-                    <p>{quantity}</p>
-                  </div>
-                  <button onClick={() => handleAddToCart(product, selectedColor)}>+</button>
-                </div>
-              ) : (
-                <button onClick={() => handleAddToCart(product, selectedColor)}>
-                  <ShoppingCartOutlined
+                <div className="flex gap-1 text-md items-end bg-accent/50 py-2 px-4 rounded-md justify-center items-center">
+                  <ShoppingCart
                     fontSize="small"
                     sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}
                   />
+                  <button onClick={() => handleDecrement(product)}>
+                    <div className="rounded-full border border-zinc-300 bg-accent w-4 h-4 flex items-center justify-center pb-[3px] ml-2 mr-1">
+                      -
+                    </div>
+                  </button>
+                  <p className="text-center">{quantity}</p>
+                  <button
+                    onClick={() => handleAddToCart(product, selectedColor)}
+                  >
+                    <div className="rounded-full border border-zinc-300 bg-accent w-4 h-4 flex items-center justify-center ml-1">
+                      +
+                    </div>
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => handleAddToCart(product, selectedColor)}
+                  className="flex w-auto border border-zinc-300 text-center py-1 px-3 rounded-md bg-accent hover:bg-dark duration-200 ease-in"
+                >
+                  <div>
+                    <ShoppingCartOutlined
+                      fontSize="small"
+                      sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}
+                    />
+                  </div>
+                  <p className="ml-2">Add to cart</p>
                 </button>
               )}
             </div>
