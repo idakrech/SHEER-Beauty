@@ -6,8 +6,6 @@ import AddressForm from "../components/user-page/AddressForm"
 import ProductGrid from "../components/product-display/ProductGrid"
 import { useUserData } from "../hooks/useUserData"
 
-//GDZIE SKONCZYLAM: przenieś account details header ponad loading + sprawdz jak wyglada teraz address form w Delivery w koszyku
-
 const UserPage = () => {
   const { tab } = useParams<{ tab: string }>()
   const favorites = useSelector((state: AppState) => state.favorites.products)
