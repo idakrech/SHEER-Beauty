@@ -24,7 +24,7 @@ const ProductCard = (props: IProduct) => {
   const [emblaRef] = useEmblaCarousel({ axis: "x", dragFree: true })
 
   return (
-    <div className="w-full h-[450px] bg-white border border-gray-300 duration-500 hover:scale-105 shadow-md flex flex-col justify-between overflow-hidden">
+    <div className="w-full h-[460px] bg-white border border-gray-300 duration-500 hover:scale-105 shadow-md flex flex-col justify-between overflow-hidden">
       <div className="flex justify-end p-2">
         <button onClick={() => toggleFavorite()}>
           {!isFavorite ? (
@@ -55,12 +55,12 @@ const ProductCard = (props: IProduct) => {
         <span className="block font-outfit text-gray-400 uppercase text-xs text-center">
           {props.brand}
         </span>
-        <p className="font-sans font-normal text-md text-left text-gray-800 truncate block capitalize"> 
+        <p className="font-sans font-normal text-md text-left text-gray-800 truncate block capitalize">
           {removeFirstWord(props.name, props.brand)}
         </p>
 
         {props.product_colors.length > 1 && (
-          <div className="overflow-hidden w-full" ref={emblaRef}>
+          <div className="overflow-hidden w-full p-1" ref={emblaRef}>
             <div className="flex space-x-2">
               {props.product_colors.map((color, index) => (
                 <div
@@ -76,8 +76,7 @@ const ProductCard = (props: IProduct) => {
               ))}
             </div>
           </div>
-        )
-        }
+        )}
 
         <div className="flex justify-between items-center">
           <p className="font-serif 7text-md font-bold text-gray-800 cursor-auto my-3">
@@ -87,7 +86,9 @@ const ProductCard = (props: IProduct) => {
 
           {quantity > 0 ? (
             <div className="flex gap-1 text-md items-end">
-              <button onClick={() => handleDecrement(props)}>-</button>
+              <button onClick={() => handleDecrement(props)}>
+                <div className="rounded-full border border-zinc-300 bg-accent w-4 h-4 flex items-center justify-center mb-1 pb-[3px]">-</div>
+              </button>
               <div>
                 <button onClick={() => handleAddToCart(props, selectedColor)}>
                   <ShoppingCart
@@ -95,10 +96,10 @@ const ProductCard = (props: IProduct) => {
                     sx={{ stroke: "#ffffff", strokeWidth: 0.5 }}
                   />
                 </button>
-                <p>{quantity}</p>
+                <p className="text-center">{quantity}</p>
               </div>
               <button onClick={() => handleAddToCart(props, selectedColor)}>
-                +
+                <div className="rounded-full border border-zinc-300 bg-accent w-4 h-4 flex items-center justify-center mb-1">+</div>
               </button>
             </div>
           ) : (
