@@ -90,9 +90,10 @@ const AddressForm = () => {
   }
 
   return (
-    <div>
+    <div className="h-full w-full">
       {isEditing || (!address && !correctedAddress && !userDataFromDb?.address) ? (
-        <form onSubmit={handleSubmit} className="flex flex-col w-full">
+        <div className="w-full">
+        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-2 w-full mb-5">
           <input
             name="name"
             type="text"
@@ -164,15 +165,20 @@ const AddressForm = () => {
             className="p-1 bg-primary border rounded-md border-zinc-300 mb-2"
             required
           />
+          </form>
 
+          <div className="flex justify-center w-full">
           <button
-            type="submit"
-            className="border border-zinc-300 text-center px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in"
+            onClick={handleSubmit}
+            className="w-1/3 border border-zinc-300 text-center p-1 rounded-md hover:bg-accent/50 duration-200 ease-in"
           >
             Save
           </button>
+          </div>
+          
           {savingError && <p>{savingError}</p>}
-        </form>
+          </div>
+        
       ) : (
         <div>
           <p>
