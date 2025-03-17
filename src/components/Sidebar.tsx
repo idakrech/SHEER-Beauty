@@ -20,7 +20,7 @@ const Sidebar = ({ type, category }: { type: string; category?: string }) => {
   const visibleColors = showAllColors ? uniqueColors : uniqueColors.slice(0, 12)
 
   return (
-    <div className="font-sans text-left font-light w-64 text-zinc-700 mt-5 mr-2 bg-secondary/25 border border-zinc-300 p-3 h-auto">
+    <div className="font-sans text-left font-light w-64 mt-5 mr-2 bg-secondary/25 border border-zinc-300 p-3 h-auto">
       {!category && (
         <div className="mb-2">
           <h3 className="font-semibold mb-1">Subcategories</h3>

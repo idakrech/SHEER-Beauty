@@ -18,7 +18,7 @@ const CartPage = () => {
     <div className="w-full py-5">
       <div className="flex flex-col justify-center w-full">
         <div className="bg-white p-4 border border-zinc-300 flex flex-col items-center justify-center">
-          <h3 className="text-center text-3xl text-zinc-700 font-serif font-bold my-5">
+          <h3 className="text-center text-3xl font-serif font-bold my-5">
             Checkout
           </h3>
           {!cartProducts.length && (

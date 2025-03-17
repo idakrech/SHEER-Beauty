@@ -12,7 +12,7 @@ const CartItem = ({ product, quantity, selectedColor }: CartItemProps) => {
     useShoppingCart()
 
   return (
-    <div className="w-full bg-white border-b border-zinc-300 my-2 h-48 flex items-center text-zinc-700">
+    <div className="w-full bg-white border-b border-zinc-300 my-2 h-48 flex items-center">
       <div className="flex items-center p-4 w-full h-full">
         <div className="flex w-1/2 items-center mr-2">
           <img
@@ -61,7 +61,7 @@ const CartItem = ({ product, quantity, selectedColor }: CartItemProps) => {
             </button>
             <button
               onClick={() => handleDelete(product, selectedColor)}
-              className="ml-2 text-zinc-700 text-sm"
+              className="ml-2 text-sm"
             >
               Remove
             </button>

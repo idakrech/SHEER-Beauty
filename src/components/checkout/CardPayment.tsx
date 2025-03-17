@@ -49,7 +49,7 @@ const CardPayment = () => {
           <button
             type="submit"
             disabled={!stripe || !!cardError || !isCardComplete}
-            className="border border-zinc-300 text-center text-zinc-700 p-3 mt-6 bg-accent hover:bg-dark rounded-md duration-200 ease-in w-1/3 font-bold font-lg"
+            className="border border-zinc-300 text-center p-3 mt-6 bg-accent hover:bg-dark rounded-md duration-200 ease-in w-1/3 font-bold font-lg"
           >
             Pay Now
           </button>

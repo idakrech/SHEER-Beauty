@@ -192,7 +192,7 @@ const AddressForm = () => {
           <p>{addressValues.phone}</p>
           <button
             onClick={() => setIsEditing(true)}
-            className="border border-zinc-300 text-center text-zinc-700 px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in"
+            className="border border-zinc-300 text-center px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in"
           >
             Edit
           </button>

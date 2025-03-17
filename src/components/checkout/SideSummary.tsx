@@ -12,7 +12,7 @@ const SideSummary = () => {
   const { priceSum } = useShoppingCart()
 
   return (
-    <div className="text-zinc-700">
+    <div>
       <h3 className="text-xl font-serif font-bold border-b border-zinc-300 pb-1 mb-3">
         Summary
       </h3>
