@@ -3,13 +3,18 @@ import AddressForm from "../user-page/AddressForm"
 import { getSummaryMessage } from "../../helpers/formatValidationMessage"
 import { useShipmentRates } from "../../hooks/useShipmentRates"
 import { useUserData } from "../../hooks/useUserData"
-import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
-import { setDeliveryMethod, setTotalSum } from "../../redux/transactionDraftSlice"
+import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined"
+import {
+  setDeliveryMethod,
+  setTotalSum,
+} from "../../redux/transactionDraftSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, AppState } from "../../redux"
 import { checkIfAddressComplete } from "../../helpers/checkAddressCompletion"
 import { useShoppingCart } from "../../hooks/useShoppingCart"
 import { setEstimatedTime } from "../../redux/transactionSlice"
+import Big from "big.js"
+import { Rate } from "shippo"
 
 const Delivery = () => {
   const { loading, error: dbAddressError } = useUserData()
@@ -18,7 +23,7 @@ const Delivery = () => {
     shipmentLoading,
     error,
     addressValidationMessages,
-    fetchRates
+    fetchRates,
   } = useShipmentRates()
   const [selectedRate, setSelectedRate] = useState<number | null>(null)
   const dispatch = useDispatch<AppDispatch>()
@@ -35,12 +40,42 @@ const Delivery = () => {
 
   useEffect(() => {
     if (rates.length > 0) {
-      setSelectedRate(parseFloat(rates[0].amount))
-      dispatch(setDeliveryMethod({service: rates[0].servicelevel.name || "", provider: rates[0].provider, rate: parseFloat(rates[0].amount)}))
-      dispatch(setTotalSum(parseFloat(priceSum.toFixed(2)) + parseFloat(parseFloat(rates[0].amount).toFixed(2))))
-      if (rates[0].durationTerms) { dispatch(setEstimatedTime(rates[0].durationTerms)) }
+      const rateAmount = new Big(rates[0].amount)
+      const cartTotal = new Big(priceSum).toFixed(2)
+      const total = rateAmount.plus(cartTotal).toFixed(2)
+      setSelectedRate(Number(rateAmount))
+      dispatch(
+        setDeliveryMethod({
+          service: rates[0].servicelevel.name || "",
+          provider: rates[0].provider,
+          rate: Number(rateAmount),
+        })
+      )
+      dispatch(setTotalSum(Number(total)))
+      if (rates[0].durationTerms) {
+        dispatch(setEstimatedTime(rates[0].durationTerms))
+      }
     }
   }, [rates])
+
+  const handleRateChange = (rate: Rate) => {
+    const rateAmount = new Big(rate.amount)
+    const cartTotal = new Big(priceSum).toFixed(2)
+    const total = rateAmount.plus(cartTotal).toFixed(2)
+
+    setSelectedRate(Number(rateAmount))
+    dispatch(
+      setDeliveryMethod({
+        service: rate.servicelevel.name || "",
+        provider: rate.provider,
+        rate: Number(rateAmount),
+      })
+    )
+    dispatch(setTotalSum(Number(total)))
+    if (rate.durationTerms) {
+      dispatch(setEstimatedTime(rate.durationTerms))
+    }
+  }
 
   return (
     <div className="bg-white p-4 w-full border border-zinc-300 my-4 text-zinc-700">
@@ -54,12 +89,17 @@ const Delivery = () => {
             Address
           </h3>
           <div className="flex text-zinc-700 p-3">
-            <AddressForm/>
+            <AddressForm />
             {dbAddressError && <p>{dbAddressError}</p>}
           </div>
           {addressValidationMessages &&
             addressValidationMessages.length > 0 && (
-              <div className="flex font-sans font-italic font-normal text-zinc-700 bg-accent border border-zinc-300 px-3 py-2 m-3"><ErrorOutlineOutlinedIcon/><p className="ml-2">{getSummaryMessage(addressValidationMessages)}</p></div>
+              <div className="flex font-sans font-italic font-normal text-zinc-700 bg-accent border border-zinc-300 px-3 py-2 m-3">
+                <ErrorOutlineOutlinedIcon />
+                <p className="ml-2">
+                  {getSummaryMessage(addressValidationMessages)}
+                </p>
+              </div>
             )}
 
           <h3 className="text-xl text-zinc-700 font-serif font-bold mx-3 mt-5 border-b border-zinc-300 pb-1">
@@ -70,29 +110,37 @@ const Delivery = () => {
               Fetching shipment rates...
             </p>
           )}
-          {error && <div className="flex font-sans font-italic font-normal text-zinc-700 bg-accent border border-zinc-300 px-3 py-2 m-3"><ErrorOutlineOutlinedIcon/><p className="ml-2">{error}</p></div>}
+          {error && (
+            <div className="flex font-sans font-italic font-normal text-zinc-700 bg-accent border border-zinc-300 px-3 py-2 m-3">
+              <ErrorOutlineOutlinedIcon />
+              <p className="ml-2">{error}</p>
+            </div>
+          )}
           <div className="p-3">
             <ul>
               {rates.map((rate) => (
                 <li key={rate.servicelevel.token}>
                   <div className="flex justify-between">
-                  <label>
-                    <input
-                      type="radio"
-                      name="shippingRate"
-                      value={rate.amount}
-                      checked={selectedRate === parseFloat(rate.amount)}
-                      onChange={() => {
-                        setSelectedRate(parseFloat(rate.amount))
-                        dispatch(setDeliveryMethod({service: rate.servicelevel.name || "", provider: rate.provider, rate: parseFloat(rate.amount)}))
-                        dispatch(setTotalSum(parseFloat(priceSum.toFixed(2)) + parseFloat(parseFloat(rate.amount).toFixed(2))))
-                        if (rate.durationTerms) { dispatch(setEstimatedTime(rate.durationTerms)) }
-                      }}
-                      className="accent-accent mr-2"
-                    />
-                    {rate.provider} {rate.servicelevel.name} {rate.durationTerms && `- ${rate.durationTerms?.toLocaleLowerCase().slice(0, -1)}`}
-                  </label>
-                  <p>{rate.currency === "USD" ? `$${rate.amount}` : `${rate.amount} ${rate.currency}`}</p>
+                    <label>
+                      <input
+                        type="radio"
+                        name="shippingRate"
+                        value={rate.amount}
+                        checked={selectedRate === parseFloat(rate.amount)}
+                        onChange={() => handleRateChange(rate)}
+                        className="accent-accent mr-2"
+                      />
+                      {rate.provider} {rate.servicelevel.name}{" "}
+                      {rate.durationTerms &&
+                        `- ${rate.durationTerms
+                          ?.toLocaleLowerCase()
+                          .slice(0, -1)}`}
+                    </label>
+                    <p>
+                      {rate.currency === "USD"
+                        ? `$${rate.amount}`
+                        : `${rate.amount} ${rate.currency}`}
+                    </p>
                   </div>
                 </li>
               ))}
