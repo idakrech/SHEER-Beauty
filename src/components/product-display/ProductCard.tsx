@@ -67,7 +67,7 @@ const ProductCard = (props: IProduct) => {
                   key={index}
                   className={`w-5 h-5 mt-2 rounded-full border border-gray-300 flex-shrink-0 ${
                     selectedColor === color.hex_value
-                      ? "ring-2 ring-accent border-gray-600"
+                      ? "ring-2 ring-accent"
                       : ""
                   }`}
                   style={{ backgroundColor: color.hex_value }}
