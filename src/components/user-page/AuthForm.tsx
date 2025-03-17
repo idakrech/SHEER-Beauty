@@ -8,7 +8,7 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, AppState } from "../../redux"
 import { setProducts as setCartProducts } from "../../redux/cartSlice"
-import { setProducts as setFavProducts} from "../../redux/favoritesSlice"
+import { setProducts as setFavProducts } from "../../redux/favoritesSlice"
 import { checkPasswordStrength } from "../../helpers/passwordCheck"
 
 const AuthForm = () => {
@@ -58,21 +58,25 @@ const AuthForm = () => {
   }
 
   return (
-    <div>
+    <div className="h-full w-full">
       {!user && (
-        <div>
-          <form onSubmit={handleSubmit}>
+        <div className="w-full mb-1">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-1">
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="p-1 bg-primary border rounded-md border-zinc-300"
+              required
             />
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={handlePasswordChange}
+              className="p-1 bg-primary border rounded-md border-zinc-300"
+              required
             />
             {isRegister && passwordStrength !== null && (
               <div>
@@ -86,9 +90,17 @@ const AuthForm = () => {
                 </p>
               </div>
             )}
-            <button type="submit">{isRegister ? "Register" : "Login"}</button>
+            <button
+              type="submit"
+              className="w-full border border-zinc-300 text-center p-1 mb-1 mt-2 rounded-md bg-accent hover:bg-dark duration-200 ease-in"
+            >
+              {isRegister ? "Register" : "Login"}
+            </button>
           </form>
-          <button onClick={() => setIsRegister(!isRegister)}>
+          <button
+            onClick={() => setIsRegister(!isRegister)}
+            className="w-full border border-zinc-300 text-center p-1 rounded-md hover:bg-accent/50 duration-200 ease-in"
+          >
             {isRegister ? "Switch to Login" : "Switch to Register"}
           </button>
         </div>
@@ -97,7 +109,12 @@ const AuthForm = () => {
       {user && (
         <div>
           {userFirstName && <h3>Welcome {userFirstName}!</h3>}
-          <button onClick={() => handleLogout()}>Logout</button>
+          <button
+            onClick={() => handleLogout()}
+            className="w-full border border-zinc-300 text-center px-3 mt-2 rounded-md hover:bg-accent/50 duration-200 ease-in"
+          >
+            Logout
+          </button>
         </div>
       )}
     </div>
