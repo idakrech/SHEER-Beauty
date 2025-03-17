@@ -24,6 +24,7 @@ import PromotedProductsPage from "./pages/PromotedProductsPage"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import Disclaimer from "./components/Disclaimer"
+import NotFoundPage from "./pages/NotFoundPage"
 
 //TODO: format all errors into more user friendly phrases
 //TODO: catch invalid http and display "No such page found :("
@@ -165,6 +166,7 @@ function App() {
               element={<SearchResultsPage />}
             ></Route>
             <Route path="promoted" element={<PromotedProductsPage />}></Route>
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
 
