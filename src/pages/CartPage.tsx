@@ -53,7 +53,7 @@ const CartPage = () => {
               <Delivery />
               <PaymentMethods />
             </div>
-            <div className="w-1/3 flex flex-col bg-white p-5 border border-zinc-300 my-4 ml-2">
+            <div className="w-1/3 flex flex-col bg-white p-5 border border-zinc-300 mt-4 mb-8 ml-2">
               <SideSummary />
             </div>
           </div>
