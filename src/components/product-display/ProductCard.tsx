@@ -86,7 +86,7 @@ const ProductCard = (props: IProduct) => {
 
           {quantity > 0 ? (
             <div className="flex gap-1 text-md items-end">
-              <button onClick={() => handleDecrement(props)}>
+              <button onClick={() => handleDecrement(props, selectedColor)}>
                 <div className="rounded-full border border-zinc-300 bg-accent w-4 h-4 flex items-center justify-center mb-1 pb-[3px]">-</div>
               </button>
               <div>
