@@ -30,7 +30,7 @@ export const gridConfig: IGridConfig[] = [
       priceRange: {min: 0, max: Infinity},
       images: ["v904-nunny-015-l.jpg", "face-flower.jpg"],
       imgStyle: "object-cover w-[calc(100%-0.5rem)]",
-      imgOverlayStyle: "h-full border border-gray-500 bg-accent/25 translate-y-2 translate-x-2 w-[calc(100%-0.5rem)]"
+      imgOverlayStyle: "h-full border border-zinc-500 bg-accent/25 translate-y-2 translate-x-2 w-[calc(100%-0.5rem)]"
     },
     {
       title: "Our cheapest powder blushes",
@@ -41,7 +41,7 @@ export const gridConfig: IGridConfig[] = [
       priceRange: {min: 0, max: 12.0},
       images: ["v904-nunny-035-l.jpg", "blush-cheeks-2.jpg"],
       imgStyle: "h-full w-[calc(100%-0.5rem)]",
-      imgOverlayStyle: "h-full border border-gray-500 bg-accent/25 translate-y-2 translate-x-2 w-[calc(100%-0.5rem)]"
+      imgOverlayStyle: "h-full border border-zinc-500 bg-accent/25 translate-y-2 translate-x-2 w-[calc(100%-0.5rem)]"
     },
     {
       title: "Maybelline mascaras",
@@ -52,7 +52,7 @@ export const gridConfig: IGridConfig[] = [
       priceRange: {min: 0, max: Infinity},
       images: ["v904-nunny-029-g.jpg"],
       imgStyle: "h-full w-[calc(100%-0.5rem)]",
-      imgOverlayStyle: "h-full border border-gray-500 bg-accent/25 translate-y-2 translate-x-2 w-[calc(100%-0.5rem)]"
+      imgOverlayStyle: "h-full border border-zinc-500 bg-accent/25 translate-y-2 translate-x-2 w-[calc(100%-0.5rem)]"
     },
   ]
 

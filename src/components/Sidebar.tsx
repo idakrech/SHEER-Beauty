@@ -75,10 +75,10 @@ const Sidebar = ({ type, category }: { type: string; category?: string }) => {
           {visibleColors.map((color) => (
             <div
               // key={color}
-              className={`w-8 h-8 rounded-full border border-gray-300 cursor-pointer 
+              className={`w-8 h-8 rounded-full border border-zinc-300 cursor-pointer 
           ${
             selectedColors?.includes(color)
-              ? "ring-2 ring-accent border-gray-600"
+              ? "ring-2 ring-accent"
               : ""
           }`}
               style={{ backgroundColor: color }}

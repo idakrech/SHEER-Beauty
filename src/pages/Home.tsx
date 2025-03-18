@@ -51,7 +51,7 @@ const Home = () => {
                 {/* <div className="h-full w-full flex justify-end relative"> */}
                   <img
                     src={imageMap[grid.images[1]]}
-                    className="h-full border border-gray-500"
+                    className="h-full border border-zinc-500"
                   />
                 {/* </div>
                 <div className="absolute w-48 h-full border border-gray-500 bg-accent/25"></div> */}

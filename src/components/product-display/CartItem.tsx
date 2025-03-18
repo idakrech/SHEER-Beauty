@@ -26,10 +26,10 @@ const CartItem = ({ product, quantity, selectedColor }: CartItemProps) => {
             {selectedColor && (
               <div className="flex items-center mt-1">
                 <span
-                  className="w-5 h-5 rounded-full border border-gray-400 mr-2"
+                  className="w-5 h-5 rounded-full border border-zinc-400 mr-2"
                   style={{ backgroundColor: selectedColor }}
                 ></span>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-zinc-600">
                   {getColorName(product, selectedColor)}
                 </p>
               </div>
@@ -41,7 +41,7 @@ const CartItem = ({ product, quantity, selectedColor }: CartItemProps) => {
           <div className="flex justify-center items-center gap-2">
             <button
               onClick={() => handleDecrement(product, selectedColor)}
-              className="border border-gray-400 px-2 rounded-md"
+              className="border border-zinc-400 px-2 rounded-md"
             >
               −
             </button>
@@ -53,7 +53,7 @@ const CartItem = ({ product, quantity, selectedColor }: CartItemProps) => {
                 }
               }}
               disabled={quantity >= 10}
-              className={`border border-gray-400 px-2 rounded-md ${
+              className={`border border-zinc-400 px-2 rounded-md ${
                 quantity >= 10 ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >

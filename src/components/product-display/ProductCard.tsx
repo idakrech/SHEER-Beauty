@@ -24,7 +24,7 @@ const ProductCard = (props: IProduct) => {
   const [emblaRef] = useEmblaCarousel({ axis: "x", dragFree: true })
 
   return (
-    <div className="w-full h-[460px] bg-white border border-gray-300 duration-500 hover:scale-105 shadow-md flex flex-col justify-between overflow-hidden">
+    <div className="w-full h-[460px] bg-white border border-zinc-300 duration-500 hover:scale-105 shadow-md flex flex-col justify-between overflow-hidden">
       <div className="flex justify-end p-2">
         <button onClick={() => toggleFavorite()}>
           {!isFavorite ? (
@@ -65,7 +65,7 @@ const ProductCard = (props: IProduct) => {
               {props.product_colors.map((color, index) => (
                 <div
                   key={index}
-                  className={`w-5 h-5 mt-2 rounded-full border border-gray-300 flex-shrink-0 ${
+                  className={`w-5 h-5 mt-2 rounded-full border border-zinc-300 flex-shrink-0 ${
                     selectedColor === color.hex_value
                       ? "ring-2 ring-accent"
                       : ""

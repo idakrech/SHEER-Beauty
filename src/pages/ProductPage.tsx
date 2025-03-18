@@ -101,7 +101,7 @@ const ProductPage = () => {
                   <Tooltip title={color.colour_name}>
                     <div
                       key={index}
-                      className={`w-6 h-6 rounded-full border border-gray-300 ${
+                      className={`w-6 h-6 rounded-full border border-zinc-300 ${
                         selectedColor === color.hex_value
                           ? "ring-2 ring-accent"
                           : ""
