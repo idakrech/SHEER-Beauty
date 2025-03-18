@@ -22,7 +22,7 @@ const SideSummary = () => {
       </div>
       <div className="flex justify-between my-1 border-b border-zinc-300 pb-3">
         <p>{delivery.service || "Shipment"}</p>
-        <p>${delivery.rate || "0.00"}</p>
+        <p>{delivery.rate ? `$${delivery.rate}` : "-"}</p>
       </div>
       <div className="flex justify-between my-1 text-lg font-bold">
         <p>Total</p>
