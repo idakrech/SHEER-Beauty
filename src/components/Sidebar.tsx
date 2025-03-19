@@ -74,7 +74,7 @@ const Sidebar = ({ type, category }: { type: string; category?: string }) => {
         <div className="flex flex-wrap gap-2">
           {visibleColors.map((color) => (
             <div
-              // key={color}
+              key={color}
               className={`w-8 h-8 rounded-full border border-zinc-300 cursor-pointer 
           ${
             selectedColors?.includes(color)
