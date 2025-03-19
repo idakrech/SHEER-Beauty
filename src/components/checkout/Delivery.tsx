@@ -103,8 +103,8 @@ const Delivery = () => {
             Delivery methods
           </h3>
           {shipmentLoading && (
-            <p className="font-sans font-italic font-normal p-3">
-              Fetching shipment rates...
+            <p className="font-sans italic font-normal p-3">
+              Checking possible delivery options... 📦
             </p>
           )}
           {error && (
