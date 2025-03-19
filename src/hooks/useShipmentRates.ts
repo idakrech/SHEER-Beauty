@@ -42,7 +42,7 @@ export const useShipmentRates = () => {
     } catch (error) {
       console.log("Error fetching shipment rates:", error)
       setError(
-        "An error occured. Please make sure to provide all the necessary address information [catch in fetchRates]"
+        "Sorry, we cannot check the available delivery options at the moment. Please try again later 💕"
       )
       setAddressValidationMessages(undefined)
     } finally {
