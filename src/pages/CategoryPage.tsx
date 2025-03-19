@@ -64,10 +64,13 @@ const CategoryPage = () => {
       ) : (
         <InitializationSpinner />
       )}
-      {error && 
-      <div className="bg-white p-4 w-full border border-zinc-300 my-4">
-        <h3 className="font-serif sont-semibold">We are sorry, an error has occured. Please try again later 💕</h3>
-        </div>}
+      {error && (
+        <div className="bg-white p-4 w-full border border-zinc-300 my-4">
+          <h3 className="font-serif sont-semibold">
+            We are sorry, an error has occured. Please try again later 💕
+          </h3>
+        </div>
+      )}
     </div>
   )
 }
