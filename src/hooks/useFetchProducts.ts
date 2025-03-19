@@ -36,7 +36,8 @@ function useFetchProducts() {
           setError(error instanceof Error ? error : new Error("Unknown error"))
         )
       } finally {
-        setLoading(false)
+        dispatch(setLoading(false))
+        dispatch(setIsInitialized(false))
       }
     }
 
