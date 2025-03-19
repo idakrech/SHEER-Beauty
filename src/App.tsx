@@ -64,12 +64,14 @@ function App() {
         })
       )
     } else {
+      const existingState = JSON.parse(localStorage.getItem("beautyWebshop_appState") || "{}")
+      
       localStorage.setItem(
         "beautyWebshop_appState",
         JSON.stringify({
           lastUpdate,
-          cart,
-          favorites,
+          cart: cart.length > 0 ? cart : existingState.cart || [],
+          favorites: favorites.length > 0 ? favorites : existingState.favorites || [],
         })
       )
     }
@@ -127,6 +129,20 @@ function App() {
 
     fetchUserData()
   }, [user])
+
+  useEffect(() => {
+    const savedState = localStorage.getItem("beautyWebshop_appState")
+    if (savedState) {
+      const { cart, favorites } = JSON.parse(savedState)
+      
+      if (cart) {
+        dispatch(setCartProducts(cart))
+      }
+      if (favorites) {
+        dispatch(setFavProducts(favorites))
+      }
+    }
+  }, [dispatch])
 
   return (
     <>
