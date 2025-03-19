@@ -17,10 +17,9 @@ const AuthForm = () => {
   const [isRegister, setIsRegister] = useState<boolean>(false)
   const [passwordStrength, setPasswordStrength] = useState<number | null>(null)
   const user = useSelector((state: AppState) => state.auth.user)
-  const userFirstName = useSelector(
-    (state: AppState) => state.auth.user?.displayName
-  )
+  const userFirstName = user?.displayName
   const dispatch = useDispatch<AppDispatch>()
+  const [error, setError] = useState<string>("")
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const password = e.target.value
@@ -42,7 +41,11 @@ const AuthForm = () => {
         console.log("User logged in")
       }
     } catch (error) {
-      alert(`An error occured: ${error}`)
+      if (isRegister) {
+        setError("We're sorry, an error occured. Please try again later 🫶")
+      } else {
+        setError("Wrong e-mail or password")
+      }
     }
   }
 
@@ -53,7 +56,7 @@ const AuthForm = () => {
       dispatch(setCartProducts([]))
       console.log("User logged out")
     } catch (error) {
-      alert(`An error occured: ${error}`)
+      setError("Sorry, an error occured")
     }
   }
 
@@ -103,6 +106,7 @@ const AuthForm = () => {
           >
             {isRegister ? "Switch to Login" : "Switch to Register"}
           </button>
+          {error && <p className="text-sm mt-3 text-rose-400 text-center">{error}</p>}
         </div>
       )}
 
