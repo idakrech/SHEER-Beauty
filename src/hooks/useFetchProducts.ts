@@ -37,7 +37,7 @@ function useFetchProducts() {
         )
       } finally {
         dispatch(setLoading(false))
-        dispatch(setIsInitialized(false))
+        dispatch(setIsInitialized(true))
       }
     }
 
