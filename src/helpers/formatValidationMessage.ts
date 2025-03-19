@@ -27,8 +27,18 @@ export function getSummaryMessage(shippoMessages: AddressValidationResultsMessag
     },
   ]
 
+  if (!shippoMessages || shippoMessages.length === 0) return ""
+
+  const positiveCodes = new Set(["premises_full", "geocoded_rooftop"])
   const categories = new Set<string>()
   const messageTexts = shippoMessages.map((msg) => msg.text).filter((text) => !!text)
+  
+  const allPositive = shippoMessages.every((msg) => msg.code && positiveCodes.has(msg.code))
+
+  if (allPositive) {
+    return ""
+  }
+  
   for (const message of messageTexts) {
     for (const { regex, category } of patterns) {
       if (message && regex.test(message)) {
@@ -58,6 +68,6 @@ export function getSummaryMessage(shippoMessages: AddressValidationResultsMessag
 
   return summary.length > 0
     ? summary.join(" ")
-    : "An error occurred. Please make sure you have provided all the necessary address information."
+    : "An error occurred. Please make sure you have provided all the necessary address information. [validation return]"
 
 }

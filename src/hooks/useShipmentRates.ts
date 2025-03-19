@@ -29,21 +29,22 @@ export const useShipmentRates = () => {
   const fetchRates = async () => {
     setShipmentLoading(true)
     setError(null)
+    setAddressValidationMessages(undefined)
     try {
       if (address) {
         const shipment = await getShipment(address)
         dispatch(setCorrectedAddress({ ...shipment.addressTo }))
         setRates(shipment.rates)
         setAddressValidationMessages(
-          shipment.addressTo?.validationResults?.messages
+          shipment.addressTo?.validationResults?.messages || []
         )
       }
     } catch (error) {
       console.log("Error fetching shipment rates:", error)
       setError(
-        "An error occured. Please make sure to provide all the necessary address information"
+        "An error occured. Please make sure to provide all the necessary address information [catch in fetchRates]"
       )
-      setAddressValidationMessages([])
+      setAddressValidationMessages(undefined)
     } finally {
       setShipmentLoading(false)
     }

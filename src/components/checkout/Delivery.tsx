@@ -31,6 +31,7 @@ const Delivery = () => {
     (state: AppState) => state.transactionDraft.delivery.address
   )
   const { priceSum } = useShoppingCart()
+  const validationMessage = getSummaryMessage(addressValidationMessages ?? [])
 
   useEffect(() => {
     if (address && checkIfAddressComplete(address)) {
@@ -92,16 +93,12 @@ const Delivery = () => {
             <AddressForm />
             {dbAddressError && <p>{dbAddressError}</p>}
           </div>
-          {addressValidationMessages &&
-            addressValidationMessages.length > 0 && (
-              <div className="flex font-sans font-italic font-normal bg-accent border border-zinc-300 px-3 py-2 m-3">
-                <ErrorOutlineOutlinedIcon />
-                <p className="ml-2">
-                  {getSummaryMessage(addressValidationMessages)}
-                </p>
-              </div>
-            )}
-
+          {validationMessage && (
+            <div className="flex font-sans font-italic font-normal bg-accent border border-zinc-300 px-3 py-2 m-3">
+              <ErrorOutlineOutlinedIcon />
+              <p className="ml-2">{validationMessage}</p>
+            </div>
+          )}
           <h3 className="text-xl font-serif font-bold mx-3 mt-5 border-b border-zinc-300 pb-1">
             Delivery methods
           </h3>
