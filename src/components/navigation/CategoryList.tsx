@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link } from "react-router-dom"
 import { productTypes } from "../../constants/productTypes"
 import { formatParamName } from "../../helpers/formatParamNames"
