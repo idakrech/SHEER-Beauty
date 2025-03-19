@@ -34,7 +34,7 @@ const Home = () => {
         }
 
         return (
-          <div>
+          <div key={grid.title}>
             <div className="w-full h-80 my-2 relative flex">
               <div className="overflow-hidden w-full">
                 <img
