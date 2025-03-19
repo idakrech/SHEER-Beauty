@@ -2,10 +2,18 @@ import { useLocation } from "react-router-dom"
 import { useFilterProducts } from "../hooks/useFilterProducts"
 import ProductGrid from "../components/product-display/ProductGrid"
 import { IFilterState } from "../redux/filterSlice"
+import { useSelector } from "react-redux"
+import { AppState } from "../redux"
+import InitializationSpinner from "../components/product-display/InitializationSpinner"
 
 const PromotedProductsPage = () => {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
+
+  const isInitialized = useSelector(
+    (state: AppState) => state.products.isInitialized
+  )
+  const error = useSelector((state: AppState) => state.products.error)
 
   const filters: IFilterState = {
     type: searchParams.get("type") || "",
@@ -24,9 +32,28 @@ const PromotedProductsPage = () => {
   const { filteredProducts } = useFilterProducts(filters)
 
   return (
-    <div className="bg-white p-4 w-full border border-zinc-300 my-4 flex flex-col justify-center items-center">
-      <h3 className="text-xl font-serif font-bold my-5 border-b border-zinc-300 pb-1">{title}</h3>
-      <ProductGrid products={filteredProducts} isExpanded={true} title={title} />
+    <div>
+      {isInitialized ? (
+        <div className="bg-white p-4 w-full border border-zinc-300 my-4 flex flex-col justify-center items-center">
+          <h3 className="text-xl font-serif font-bold my-5 border-b border-zinc-300 pb-1">
+            {title}
+          </h3>
+          <ProductGrid
+            products={filteredProducts}
+            isExpanded={true}
+            title={title}
+          />
+        </div>
+      ) : (
+        <InitializationSpinner />
+      )}
+      {error && (
+        <div className="bg-white p-4 w-full border border-zinc-300 my-4">
+          <h3 className="font-serif sont-semibold">
+            We are sorry, an error has occured. Please try again later 💕
+          </h3>
+        </div>
+      )}
     </div>
   )
 }
