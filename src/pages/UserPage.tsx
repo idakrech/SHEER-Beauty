@@ -17,7 +17,8 @@ const UserPage = () => {
         error ? (
           <div className="bg-white p-4 w-full border border-zinc-300 my-4">
             <h3 className="font-serif font-semibold text-center">
-              Sorry, we cannot access your personal information at the moment due to an error. Please try again later 💕
+              Sorry, we cannot access your personal information at the moment
+              due to an error. Please try again later 💕
             </h3>
           </div>
         ) : (
@@ -38,11 +39,16 @@ const UserPage = () => {
             )}
             {tab === "order-history" && <OrderHistory />}
             {tab === "favorites" && (
-              <ProductGrid
-                products={favorites}
-                isExpanded={false}
-                title="Favorites"
-              />
+              <div className="bg-white p-4 w-full border border-zinc-300 my-4 flex flex-col justify-center items-center">
+                <h3 className="text-xl font-serif font-bold my-5 border-b border-zinc-300 pb-1">
+                  Favorite products
+                </h3>
+                <ProductGrid
+                  products={favorites}
+                  isExpanded={true}
+                  title="Favorites"
+                />
+              </div>
             )}
           </>
         )
