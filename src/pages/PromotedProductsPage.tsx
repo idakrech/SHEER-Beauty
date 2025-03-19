@@ -24,7 +24,8 @@ const PromotedProductsPage = () => {
   const { filteredProducts } = useFilterProducts(filters)
 
   return (
-    <div>
+    <div className="bg-white p-4 w-full border border-zinc-300 my-4 flex flex-col justify-center items-center">
+      <h3 className="text-xl font-serif font-bold my-5 border-b border-zinc-300 pb-1">{title}</h3>
       <ProductGrid products={filteredProducts} isExpanded={true} title={title} />
     </div>
   )
