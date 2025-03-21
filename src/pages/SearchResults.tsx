@@ -7,8 +7,8 @@ const SearchResultsPage = () => {
   const searchResults: IProduct[] = location.state?.searchResults || []
 
   return (
-    <div className="container mx-auto px-4">
-      <h1 className="text-2xl font-bold mb-4">Search Results</h1>
+    <div className="bg-white p-4 w-full border border-zinc-300 my-4 flex flex-col flex-1 justify-center items-center">
+      <h1 className="text-xl font-serif font-bold my-5 border-b border-zinc-300 pb-1">Search Results</h1>
       {searchResults.length > 0 ? (
         <ProductGrid
           products={searchResults}
@@ -17,7 +17,9 @@ const SearchResultsPage = () => {
           title="Search results"
         />
       ) : (
-        <p>No products found. Try another search term.</p>
+        <div className="flex text-center justify-center items-center mt-5 w-full" style={{ height: "45vh" }}>
+        <p>{`No such product found :(`}</p>
+        </div>
       )}
     </div>
   )
