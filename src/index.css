@@ -22,7 +22,10 @@
 body {
   background-size: cover;
   background-color: #EEC1DD;
-  height: 100vh;
+  /* height: 100vh; */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 html, body {
@@ -36,5 +39,9 @@ html, body {
 
 .slow-spinner {
   animation: slow-spin 4s linear infinite;
+}
+
+.footer {
+  margin-top: auto;
 }
 

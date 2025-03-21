@@ -6,4 +6,10 @@
   min-height: 100vh;
   color: oklch(0.37 0.013 285.805);
   padding-top: 93px;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  margin-top: auto;
 }
