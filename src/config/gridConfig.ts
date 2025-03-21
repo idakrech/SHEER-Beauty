@@ -22,10 +22,10 @@ export interface IGridConfig {
 
 export const gridConfig: IGridConfig[] = [
     {
-      title: "Vegan Sante products",
+      title: "Selection of our vegan products 🌱",
       type: "",
       category: "",
-      brand: "sante",
+      brand: "",
       tags: ["vegan"],
       priceRange: {min: 0, max: Infinity},
       images: ["v904-nunny-015-l.jpg", "face-flower.jpg"],
@@ -33,7 +33,7 @@ export const gridConfig: IGridConfig[] = [
       imgOverlayStyle: "h-full border border-zinc-500 bg-accent/25 translate-y-2 translate-x-2 w-[calc(100%-0.5rem)]"
     },
     {
-      title: "Our cheapest powder blushes",
+      title: "Our cheapest powder blushes 🍒",
       type: "blush",
       category: "powder",
       brand: "",
@@ -44,7 +44,7 @@ export const gridConfig: IGridConfig[] = [
       imgOverlayStyle: "h-full border border-zinc-500 bg-accent/25 translate-y-2 translate-x-2 w-[calc(100%-0.5rem)]"
     },
     {
-      title: "Maybelline mascaras",
+      title: "Look at these Maybelline mascaras! 👀",
       type: "mascara",
       category: "",
       brand: "maybelline",
