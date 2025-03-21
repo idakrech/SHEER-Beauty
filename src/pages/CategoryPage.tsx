@@ -41,24 +41,30 @@ const CategoryPage = () => {
   const { filteredProducts } = useFilterProducts(filters)
 
   return (
-    <div>
+    <div className="w-full h-full">
       {isInitialized ? (
-        <div className="flex items-start">
+        <div className="flex items-start w-full h-full">
           {type.length !== 0 && <Sidebar type={type} category={category} />}
-          <div className="flex">
-            <ProductGrid
-              products={filteredProducts}
-              isExpanded={true}
-              title={
-                type && !category
-                  ? type.charAt(0).toUpperCase() + type.slice(1)
-                  : type && category
-                  ? `${type.charAt(0).toUpperCase() + type.slice(1)}: ${
-                      category.charAt(0).toUpperCase() + category.slice(1)
-                    }`
-                  : ""
-              }
-            />
+          <div className="flex w-full h-full">
+            {filteredProducts.length ? (
+              <ProductGrid
+                products={filteredProducts}
+                isExpanded={true}
+                title={
+                  type && !category
+                    ? type.charAt(0).toUpperCase() + type.slice(1)
+                    : type && category
+                    ? `${type.charAt(0).toUpperCase() + type.slice(1)}: ${
+                        category.charAt(0).toUpperCase() + category.slice(1)
+                      }`
+                    : ""
+                }
+              />
+            ) : (
+              <div className="w-full h-full bg-primary border border-zinc-300 flex flex-col justify-center items-center p-3 m-5" style={{ height: "45vh" }}>
+              <p className="font-serif font-semibold text-center">Oops! No matches found. Try modifying the filters 💖</p>
+              </div>
+            )}
           </div>
         </div>
       ) : (
