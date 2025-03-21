@@ -30,7 +30,7 @@ const ProductGrid: React.FC<IProductGridProps> = ({
   }
 
   return (
-    <div>
+    <div className="mb-4">
       <div className="grid grid-cols-4 gap-4 justify-items-center justify-center items-center py-5">
         {products.slice(0, maxLimit ?? visibleCount).map((product) => (
           <ProductCard key={product.id} {...product} />
@@ -65,7 +65,7 @@ const ProductGrid: React.FC<IProductGridProps> = ({
         )}
       </div>
       {visibleCount < products.length && (
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center my-4">
           <Button onClick={loadMoreProducts}>
             <p>Load more products</p>
           </Button>
