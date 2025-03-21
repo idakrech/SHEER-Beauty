@@ -6,6 +6,7 @@ import { userDataService } from "../../services/userDataService"
 import { countries } from "../../constants/countries"
 import { setAddress } from "../../redux/transactionDraftSlice"
 import { useUserData } from "../../hooks/useUserData"
+import { areAddressesEqual } from "../../helpers/compareAddress"
 
 const AddressForm = () => {
   const user = useSelector((state: AppState) => state.auth.user)
@@ -34,13 +35,15 @@ const AddressForm = () => {
     if (!isEditing) {
       if (correctedAddress) {
         setAddressValues(correctedAddress)
-      } else if (!correctedAddress && address) {
+      } else if (address) {
         setAddressValues(address)
-      } else if (!correctedAddress && !address && userDataFromDb?.address) {
+      } else if (userDataFromDb?.address) {
         setAddressValues(userDataFromDb.address)
       }
     }
   }, [address, isEditing, correctedAddress, userDataFromDb?.address])
+
+  
 
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -75,6 +78,13 @@ const AddressForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (areAddressesEqual(address, addressValues)) {
+      console.log("Adres nie zmieniony, nie zapisujemy w bazie");
+      setIsEditing(false);
+      return;
+    }
+
     try {
       if (user) {
         await userDataService.updateUserAddress(user?.uid, addressValues)

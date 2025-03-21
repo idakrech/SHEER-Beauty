@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import AddressForm from "../user-page/AddressForm"
 import { getSummaryMessage } from "../../helpers/formatValidationMessage"
 import { useShipmentRates } from "../../hooks/useShipmentRates"
@@ -15,6 +15,8 @@ import { useShoppingCart } from "../../hooks/useShoppingCart"
 import { setEstimatedTime } from "../../redux/transactionSlice"
 import Big from "big.js"
 import { Rate } from "shippo"
+import { IAddress } from "../../interfaces/interfaces"
+import { areAddressesEqual } from "../../helpers/compareAddress"
 
 const Delivery = () => {
   const { loading, error: dbAddressError } = useUserData()
@@ -32,12 +34,25 @@ const Delivery = () => {
   )
   const { priceSum } = useShoppingCart()
   const validationMessage = getSummaryMessage(addressValidationMessages ?? [])
+  const prevAddressRef = useRef<IAddress | null>(null)
 
   useEffect(() => {
     if (address && checkIfAddressComplete(address)) {
-      fetchRates()
+      if (!prevAddressRef.current || !areAddressesEqual(prevAddressRef.current, address)) {
+        console.log("Address changed, fetching new rates...")
+        fetchRates()
+      } else {
+        console.log("Address unchanged, skipping fetchRates")
+      }
+      prevAddressRef.current = { ...address }
     }
   }, [address])
+
+  useEffect(() => {
+    if (rates.length > 0) {
+      updateSelectedRate(rates)
+    }
+  }, [rates])
 
   useEffect(() => {
     if (rates.length > 0) {
@@ -58,6 +73,26 @@ const Delivery = () => {
       }
     }
   }, [rates, priceSum])
+
+  const updateSelectedRate = (rates: Rate[]) => {
+    const rateAmount = new Big(rates[0].amount)
+    const cartTotal = new Big(priceSum).toFixed(2)
+    const total = rateAmount.plus(cartTotal).toFixed(2)
+  
+    setSelectedRate(Number(rateAmount));
+    dispatch(
+      setDeliveryMethod({
+        service: rates[0].servicelevel.name || "",
+        provider: rates[0].provider,
+        rate: Number(rateAmount),
+      })
+    )
+    dispatch(setTotalSum(Number(total)))
+  
+    if (rates[0].durationTerms) {
+      dispatch(setEstimatedTime(rates[0].durationTerms))
+    }
+  }
 
   const handleRateChange = (rate: Rate) => {
     const rateAmount = new Big(rate.amount)
