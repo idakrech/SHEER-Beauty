@@ -58,7 +58,7 @@ const Sidebar = ({ type, category }: { type: string; category?: string }) => {
         <h3 className="font-semibold mb-1">Tags</h3>
         <ul>
           {uniqueTags.map((tag) => (
-            <li key={tag}>
+            <li key={tag} className="mb-1">
               <input
                 type="checkbox"
                 onChange={() => dispatch(toggleTag(tag))}
