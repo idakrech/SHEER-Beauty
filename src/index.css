@@ -24,12 +24,13 @@ body {
   background-color: #EEC1DD;
   /* height: 100vh; */
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  
 }
 
 html, body {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes slow-spin {
@@ -43,5 +44,6 @@ html, body {
 
 .footer {
   margin-top: auto;
+  width: 100%;
 }
 

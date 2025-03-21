@@ -170,7 +170,7 @@ function App() {
             <UserMenu />
           </div>
         )}
-        <div className="max-w-[1280px] mx-auto px-4">
+        <div className="max-w-[1280px] mx-auto px-4 main-content">
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="cart-page" element={<CartPage />}></Route>
