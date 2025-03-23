@@ -154,7 +154,7 @@ function App() {
         />
         {showCategoryDropdown && (
           <div
-            className="fixed bg-white shadow-md border border-zinc-300 z-20 mt-2"
+            className="fixed bg-white shadow-md border border-zinc-300 z-40 mt-2"
             onMouseEnter={() => setShowUserDropdown(false)}
             onMouseLeave={() => setShowCategoryDropdown(false)}
           >
@@ -163,7 +163,7 @@ function App() {
         )}
         {showUserDropdown && (
           <div
-            className="fixed w-full flex justify-end z-20 mt-2"
+            className="fixed w-full flex justify-end z-40 mt-2"
             onMouseEnter={() => setShowCategoryDropdown(false)}
             onMouseLeave={() => setShowUserDropdown(false)}
           >

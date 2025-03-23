@@ -29,7 +29,7 @@ const Navbar = ({
   }
 
   return (
-    <div className="fixed z-10 top-[36px] w-full bg-accent font-medium text-md flex justify-between px-20 py-3">
+    <div className="fixed z-10 top-[36px] w-full bg-accent font-medium text-md flex justify-between px-20 py-3 z-50">
       <div className="flex items-center space-x-4">
         <div className="relative" onMouseEnter={() => onCategoryToggle(true)}>
           <button>Categories</button>
