@@ -7,52 +7,53 @@ import gradient4 from "../assets/gradients/v904-nunny-005-l.jpg"
 import blushCheeks2 from "../assets/grid-images/blush-cheeks-2.jpg"
 import faceFlower from "../assets/grid-images/face-flower.jpg"
 
+import blush from "../assets/grid-images/blush.jpg"
+import candy from "../assets/grid-images/candy.jpg"
+import mascara from "../assets/grid-images/mascara.jpg"
+import smiley from "../assets/grid-images/smiley.jpg"
+
 
 export interface IGridConfig {
   title: string
+  subtitle: string
   type: string
   category: string
   brand: string
   tags: string[]
   priceRange: { min: number; max: number },
-  images: string[]
-  imgStyle: string
-  imgOverlayStyle: string
+  image: string
 }
 
 export const gridConfig: IGridConfig[] = [
     {
-      title: "Selection of our vegan products 🌱",
-      type: "",
+      title: "Selection", 
+      subtitle: "of our vegan lip products 🌱",
+      type: "lipstick",
       category: "",
       brand: "",
       tags: ["vegan"],
       priceRange: {min: 0, max: Infinity},
-      images: ["v904-nunny-015-l.jpg", "face-flower.jpg"],
-      imgStyle: "object-cover w-[calc(100%-0.5rem)]",
-      imgOverlayStyle: "h-full border border-zinc-500 bg-accent/25 translate-y-2 translate-x-2 w-[calc(100%-0.5rem)]"
+      image: "smiley.jpg"
     },
     {
-      title: "Our cheapest powder blushes 🍒",
+      title: "Our cheapest",
+      subtitle: "powder blushes 🍒",
       type: "blush",
       category: "powder",
       brand: "",
       tags: [],
       priceRange: {min: 0, max: 12.0},
-      images: ["v904-nunny-035-l.jpg", "blush-cheeks-2.jpg"],
-      imgStyle: "h-full w-[calc(100%-0.5rem)]",
-      imgOverlayStyle: "h-full border border-zinc-500 bg-accent/25 translate-y-2 translate-x-2 w-[calc(100%-0.5rem)]"
+      image: "blush.jpg"
     },
     {
-      title: "Look at these Maybelline mascaras! 👀",
+      title: "Look at these",
+      subtitle: "Maybelline mascaras! 👀",
       type: "mascara",
       category: "",
       brand: "maybelline",
       tags: [],
       priceRange: {min: 0, max: Infinity},
-      images: ["v904-nunny-029-g.jpg"],
-      imgStyle: "h-full w-[calc(100%-0.5rem)]",
-      imgOverlayStyle: "h-full border border-zinc-500 bg-accent/25 translate-y-2 translate-x-2 w-[calc(100%-0.5rem)]"
+      image: "mascara.jpg"
     },
   ]
 
@@ -64,6 +65,14 @@ export const gridConfig: IGridConfig[] = [
     "v904-nunny-035-l.jpg": gradient3,
     "v904-nunny-005-l.jpg": gradient4,
     "blush-cheeks-2.jpg": blushCheeks2,
-    "face-flower.jpg": faceFlower
+    "face-flower.jpg": faceFlower,
+    "blush.jpg": blush,
+    "candy.jpg": candy,
+    "mascara.jpg": mascara,
+    "smiley.jpg": smiley
   }
   
+  //<a href="https://www.freepik.com/free-photo/flirty-dark-haired-girl-pink-headband-massive-earrings-covers-eye-with-candy_12727462.htm">Image by lookstudio on Freepik</a>
+  //<a href="https://www.freepik.com/free-photo/beautiful-young-woman-portrait-with-make-up-product_17861190.htm">Image by freepik</a>
+  //<a href="https://www.freepik.com/free-photo/high-angle-beautiful-woman-wearing-pink-makeup_25967301.htm">Image by freepik</a>
+  //<a href="https://www.freepik.com/free-photo/side-view-smiley-woman-posing-with-pink-background_25967304.htm">Image by freepik</a>
