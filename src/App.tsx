@@ -25,6 +25,7 @@ import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import Disclaimer from "./components/Disclaimer"
 import NotFoundPage from "./pages/NotFoundPage"
+import { Close } from "@mui/icons-material"
 
 //TODO: format all errors into more user friendly phrases
 //TODO: catch invalid http and display "No such page found :("
@@ -154,16 +155,17 @@ function App() {
         />
         {showCategoryDropdown && (
           <div
-            className="fixed bg-white shadow-md border border-zinc-300 z-40 mt-2"
+            className="fixed w-full bg-white shadow-md border border-zinc-300 z-40 flex flex-col items-end"
             onMouseEnter={() => setShowUserDropdown(false)}
             onMouseLeave={() => setShowCategoryDropdown(false)}
           >
+            <Close fontSize="large" className="md:hidden lg:hidden mt-10 mr-1" onClick={() => setShowCategoryDropdown(false)}/>
             <CategoryList />
           </div>
         )}
         {showUserDropdown && (
           <div
-            className="fixed w-full flex justify-end z-40 mt-2"
+            className="fixed flex justify-end z-40 mt-2"
             onMouseEnter={() => setShowCategoryDropdown(false)}
             onMouseLeave={() => setShowUserDropdown(false)}
           >

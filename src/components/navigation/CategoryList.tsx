@@ -6,7 +6,7 @@ const CategoryList = () => {
   const types = productTypes
 
   return (
-    <ul className="p-5 text-left font-sans font-light grid gap-5 grid-cols-10">
+    <ul className="w-full p-5 text-left font-sans font-light grid gap-5 grid-cols-3 md:grid-cols-6 lg:grid-cols-10 max-h-[80vh] overflow-y-auto">
     {types.map((type, index) => (
       <li key={index} className="mb-2">
         <Link to={`/category-page?type=${type.name}`}>
