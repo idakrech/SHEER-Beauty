@@ -35,34 +35,25 @@ const Home = () => {
 
         return (
           <div key={grid.title}>
-            <div className="w-full h-80 my-2 relative flex">
-              <div className="overflow-hidden w-full">
-                <img
-                  src={imageMap[grid.images[0]]}
-                  className={`${grid.imgStyle}`}
-                />
-              </div>
-              <div
-                className={`absolute flex items-center justify-between pl-20 pr-5 py-5 ${grid.imgOverlayStyle}`}
-              >
-                <h3 className="text-2xl font-serif italic text-dark p-5">
+            <div
+              className="w-full h-96 flex relative bg-cover bg-center bg-no-repeat items-center justify-center border border-zinc-300"
+              style={{ backgroundImage: `url(${imageMap[grid.image]})` }}
+            >
+              <div className="absolute w-full h-full z-10 bg-gradient-to-t from-accent to-transparent"></div>
+
+              <div className="w-auto h-auto flex flex-col justify-center items-center z-20 gap-0">
+                <h3 className="text-7xl text-primary italic font-serif">
                   {grid.title}
                 </h3>
-                {/* <div className="h-full w-full flex justify-end relative"> */}
-                  <img
-                    src={imageMap[grid.images[1]]}
-                    className="h-full border border-zinc-500"
-                  />
-                {/* </div>
-                <div className="absolute w-48 h-full border border-gray-500 bg-accent/25"></div> */}
+                <h3 className="text-xl uppercase font-extralight text-primary tracking-wider">{grid.subtitle}</h3>
               </div>
             </div>
-            <div key={grid.title}>
+            <div key={grid.title} className="bg-primary p-3">
               <ProductGrid
                 products={products}
                 isExpanded={false}
                 maxLimit={3}
-                title={grid.title}
+                title={grid.title + " " + grid.subtitle}
                 filters={filters}
               />
             </div>
