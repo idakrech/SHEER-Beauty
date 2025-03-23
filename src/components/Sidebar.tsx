@@ -20,8 +20,8 @@ const Sidebar = ({ type, category }: { type: string; category?: string }) => {
   const visibleColors = showAllColors ? uniqueColors : uniqueColors.slice(0, 12)
 
   return (
-    <div className="font-sans text-left font-light w-64 mt-5 mr-2 bg-secondary/25 border border-zinc-300 p-3 h-auto">
-      {!category && (
+    <div className="font-sans text-left font-light w-64 mt-5 mb-3 mr-2 bg-secondary/25 border border-zinc-300 p-3 h-auto">
+      {!category && uniqueCategories.length > 0 && (
         <div className="mb-2">
           <h3 className="font-semibold mb-1">Subcategories</h3>
           <ul>
@@ -54,47 +54,47 @@ const Sidebar = ({ type, category }: { type: string; category?: string }) => {
         </ul>
       </div>
 
-      <div className="mb-2">
-        <h3 className="font-semibold mb-1">Tags</h3>
-        <ul>
-          {uniqueTags.map((tag) => (
-            <li key={tag} className="mb-1">
-              <input
-                type="checkbox"
-                onChange={() => dispatch(toggleTag(tag))}
-              />
-              {` ${tag}`}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mb-2">
-        <h3 className="font-semibold mb-1">Colors</h3>
-        <div className="flex flex-wrap gap-2">
-          {visibleColors.map((color) => (
-            <div
-              key={color}
-              className={`w-8 h-8 rounded-full border border-zinc-300 cursor-pointer 
-          ${
-            selectedColors?.includes(color)
-              ? "ring-2 ring-accent"
-              : ""
-          }`}
-              style={{ backgroundColor: color }}
-              onClick={() => dispatch(toggleColor(color))}
-            ></div>
-          ))}
+      {uniqueTags.length > 0 && (
+        <div className="mb-2">
+          <h3 className="font-semibold mb-1">Tags</h3>
+          <ul>
+            {uniqueTags.map((tag) => (
+              <li key={tag} className="mb-1">
+                <input
+                  type="checkbox"
+                  onChange={() => dispatch(toggleTag(tag))}
+                />
+                {` ${tag}`}
+              </li>
+            ))}
+          </ul>
         </div>
-        {uniqueColors.length > 12 && (
-          <button
-            onClick={() => setShowAllColors(!showAllColors)}
-            className="mt-2 text-sm text-blue-500 hover:underline"
-          >
-            {showAllColors ? "Show less" : "More"}
-          </button>
-        )}
-      </div>
+      )}
+
+      {uniqueColors.length > 0 && (
+        <div className="mb-2">
+          <h3 className="font-semibold mb-1">Colors</h3>
+          <div className="flex flex-wrap gap-2">
+            {visibleColors.map((color) => (
+              <div
+                key={color}
+                className={`w-8 h-8 rounded-full border border-zinc-300 cursor-pointer 
+          ${selectedColors?.includes(color) ? "ring-2 ring-accent" : ""}`}
+                style={{ backgroundColor: color }}
+                onClick={() => dispatch(toggleColor(color))}
+              ></div>
+            ))}
+          </div>
+          {uniqueColors.length > 12 && (
+            <button
+              onClick={() => setShowAllColors(!showAllColors)}
+              className="mt-2 text-sm hover:underline"
+            >
+              {showAllColors ? "Show less" : "More"}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   )
 }
