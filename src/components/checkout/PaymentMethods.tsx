@@ -4,8 +4,7 @@ import CardPayment from "./CardPayment"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "../../redux"
 import { setPaymentMethod } from "../../redux/transactionDraftSlice"
-import gpay from "../../assets/google-pay.png"
-import apay from "../../assets/apple-pay.png"
+import DummyGoogleApplePay from "./DummyGoogleApplePay"
 
 const PaymentMethods = () => {
   const [selectedMethod, setSelectedMethod] = useState<string>("card")
@@ -59,8 +58,7 @@ const PaymentMethods = () => {
         {selectedMethod === "google" && (
           <div className="my-2 w-full mt-3 flex flex-col gap-2">
             {/* <GoogleApplePay/> */}
-            <img src={gpay} className="w-40 h-10 object-contain border border-zinc-400 rounded-md cursor-pointer"/>
-            <img src={apay} className="w-40 h-10 object-contain border border-zinc-400 rounded-md cursor-pointer"/>
+            <DummyGoogleApplePay/>
           </div> 
         )}
       </div>
