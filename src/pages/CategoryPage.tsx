@@ -25,6 +25,7 @@ const CategoryPage = () => {
   useEffect(() => {
     if (type) {
       dispatch(setType(type))
+      dispatch(toggleCategory(""))
     }
     if (category) {
       dispatch(toggleCategory(category))
@@ -45,7 +46,9 @@ const CategoryPage = () => {
       {isInitialized ? (
         <div className="flex items-start w-full h-full">
           {type.length !== 0 && <Sidebar type={type} category={category} />}
-          <div className="flex w-full h-full">
+          <div className="flex flex-col w-full h-full mt-5">
+            <h1 className="underline">{`> ${type.charAt(0).toUpperCase() + type.slice(1)}${category ? " > " + category.charAt(0).toUpperCase() + category.slice(1) : ""}`}</h1>
+            
             {filteredProducts.length ? (
               <ProductGrid
                 products={filteredProducts}
