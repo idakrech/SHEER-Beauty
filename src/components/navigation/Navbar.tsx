@@ -34,7 +34,7 @@ const Navbar = ({
   return (
     <div className="fixed z-50 top-[36px] w-full bg-accent font-medium text-md px-5 sm:px-10 md:px-20 py-3">
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center justify-start gap-2 lg:w-1/3">
           <button className="sm:hidden" onClick={() => onCategoryToggle(true)}>
             <Menu fontSize="large" />
           </button>
@@ -49,16 +49,16 @@ const Navbar = ({
           <NavLink to="/">Home</NavLink>
         </div>
 
-        <div className="text-center md:flex lg:flex items-center">
-          <h3 className="text-2xl sm:text-3xl text-primary font-sans uppercase font-extralight">
-            ⋆˙⟡ Sheer
+        <div className="text-center flex items-center justify-center whitespace-nowrap px-2 lg:w-1/3">
+          <h3 className="text-xl sm:text-3xl text-primary font-sans uppercase font-extralight">
+            ⋆˙⟡Sheer
           </h3>
-          <h3 className="text-2xl sm:text-3xl text-primary font-serif italic">
+          <h3 className="text-xl sm:text-3xl text-primary font-serif italic">
             beauty
           </h3>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center gap-2 lg:w-1/3  justify-end">
           <button className="sm:hidden" onClick={() => setIsSearchOpen(true)}>
             <Search />
           </button>
@@ -69,7 +69,7 @@ const Navbar = ({
               placeholder="Search..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="p-2 font-normal border border-zinc-300 w-full"
+              className="p-2 font-normal border border-zinc-300 w-24 md:w-40 lg:w-auto"
             />
             <Search />
           </div>

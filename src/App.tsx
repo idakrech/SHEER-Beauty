@@ -165,7 +165,6 @@ function App() {
         )}
         {showUserDropdown && (
           <div
-            className="fixed flex justify-end z-40 mt-2"
             onMouseEnter={() => setShowCategoryDropdown(false)}
             onMouseLeave={() => setShowUserDropdown(false)}
           >
