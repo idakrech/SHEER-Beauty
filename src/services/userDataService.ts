@@ -42,7 +42,7 @@ export const userDataService = {
 
   async addToCart(
     userId: string,
-    cartProduct: { product: IProduct, quantity: number, selectedColor?: string }
+    cartProduct: { product: IProduct; quantity: number; selectedColor?: string }
   ) {
     try {
       const userRef = doc(db, "users", userId)
@@ -51,7 +51,11 @@ export const userDataService = {
       const currentCart = userData?.cart || []
 
       const existingProductIndex = currentCart.findIndex(
-        (existingProduct: { product: IProduct; quantity: number, selectedColor?: string }) =>
+        (existingProduct: {
+          product: IProduct
+          quantity: number
+          selectedColor?: string
+        }) =>
           existingProduct.product.id === cartProduct.product.id &&
           existingProduct.selectedColor === cartProduct.selectedColor
       )
@@ -69,7 +73,11 @@ export const userDataService = {
     }
   },
 
-  async decrementProductQuantity(userId: string, product: IProduct, selectedColor?: string) {
+  async decrementProductQuantity(
+    userId: string,
+    product: IProduct,
+    selectedColor?: string
+  ) {
     try {
       const userRef = doc(db, "users", userId)
       const userDoc = await getDoc(userRef)
@@ -77,8 +85,13 @@ export const userDataService = {
       const currentCart = userData?.cart || []
 
       const existingProductIndex = currentCart.findIndex(
-        (cartItem: { product: IProduct, quantity: number, selectedColor?: string }) =>
-          cartItem.product.id === product.id && cartItem.selectedColor === selectedColor
+        (cartItem: {
+          product: IProduct
+          quantity: number
+          selectedColor?: string
+        }) =>
+          cartItem.product.id === product.id &&
+          cartItem.selectedColor === selectedColor
       )
 
       if (existingProductIndex !== -1) {
@@ -98,15 +111,22 @@ export const userDataService = {
     }
   },
 
-  async removeFromCart(userId: string, product: IProduct, selectedColor?: string) {
+  async removeFromCart(
+    userId: string,
+    product: IProduct,
+    selectedColor?: string
+  ) {
     try {
       const userRef = doc(db, "users", userId)
       const userDoc = await getDoc(userRef)
       const userData = userDoc.data()
       const currentCart = userData?.cart || []
       const updatedCart = currentCart.filter(
-        (cartItem: { product: IProduct, selectedColor?: string }) =>
-          !(cartItem.product.id === product.id && cartItem.selectedColor === selectedColor)
+        (cartItem: { product: IProduct; selectedColor?: string }) =>
+          !(
+            cartItem.product.id === product.id &&
+            cartItem.selectedColor === selectedColor
+          )
       )
 
       await updateDoc(userRef, { cart: updatedCart })
@@ -162,11 +182,16 @@ export const userDataService = {
     }
   },
 
-  async addTransaction(userId: string, transaction: ITransaction, transactionId: string) {
+  async addTransaction(
+    userId: string,
+    transaction: ITransaction,
+    transactionId: string
+  ) {
     try {
       const transactionRef = doc(db, "transactions", transactionId)
       await setDoc(transactionRef, {
         ...transaction,
+        id: transactionId,
         userId,
         createdAt: Timestamp.now(),
       })
@@ -187,7 +212,7 @@ export const userDataService = {
     try {
       const userRef = doc(db, "users", userId)
       await updateDoc(userRef, {
-        cart: []
+        cart: [],
       })
       console.log("Cart cleared successfully in db")
     } catch (error) {
@@ -201,17 +226,19 @@ export const userDataService = {
       const transactionsRef = collection(db, "transactions")
       const q = query(transactionsRef, where("userId", "==", userId))
       const querySnapshot = await getDocs(q)
-  
-      const transactions: ITransaction[] = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...(doc.data() as unknown as ITransaction),
-      }))
-  
+
+      const transactions: ITransaction[] = querySnapshot.docs.map((doc) => {
+        const data = doc.data() as ITransaction
+        return {
+          ...data,
+          id: data.id || doc.id,
+        }
+      })
+      
       return transactions
     } catch (error) {
       console.error("Error fetching user transactions", error)
       throw error
     }
-  }
-
+  },
 }
