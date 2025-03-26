@@ -26,6 +26,7 @@ export function useTransaction() {
   }
 
   const transaction: ITransaction = {
+    id: crypto.randomUUID(),
     cart: cartProducts,
     createdAt: Timestamp.now(),
     delivery: {
@@ -41,13 +42,12 @@ export function useTransaction() {
   }
 
   function createTransaction() {
-    const transactionId = crypto.randomUUID()
     if (user) {
       dispatch(setAddress(finalAddress))
-      userDataService.addTransaction(user?.uid, transaction, transactionId)
+      userDataService.addTransaction(user?.uid, transaction, transaction.id)
       userDataService.clearCart(user?.uid)
     }
-    dispatch(setId(transactionId))
+    dispatch(setId(transaction.id))
     dispatch(setProducts([]))
   }
 
