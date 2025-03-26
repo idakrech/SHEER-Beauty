@@ -16,7 +16,16 @@ export default {
     fontFamily: {
       sans: ["Outfit", 'sans-serif'],
       serif: ["Fraunces", 'serif']
-    }
+    },
+    keyframes: {
+      marquee: {
+        from: { transform: "translateX(100%)" },
+        to: { transform: "translateX(-100%)" },
+      },
+    },
+    animation: {
+      marquee: "marquee 15s linear infinite",
+    },
   },
   plugins: [],
 }
