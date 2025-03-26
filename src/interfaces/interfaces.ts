@@ -65,7 +65,7 @@ export interface IUser {
 }
 
 export interface ITransaction {
-  cart: { product: IProduct; quantity: number }[]
+  cart: { product: IProduct, quantity: number, selectedColor?: string}[]
   createdAt: Timestamp
   delivery: {
     address: IAddress | undefined
