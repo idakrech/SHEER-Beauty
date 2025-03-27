@@ -1,6 +1,5 @@
 import { AddressValidationResultsMessage } from "shippo";
 
-//TODO: test thoroughly all the conditions
 export function getSummaryMessage(shippoMessages: AddressValidationResultsMessage[]): string {
   const patterns: { regex: RegExp; category: string }[] = [
     {
