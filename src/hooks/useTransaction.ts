@@ -6,6 +6,7 @@ import { userDataService } from "../services/userDataService"
 import { setProducts } from "../redux/cartSlice"
 import { setAddress } from "../redux/transactionDraftSlice"
 import { setId } from "../redux/transactionSlice"
+import { v4 as uuidv4 } from 'uuid'
 
 export function useTransaction() {
   const cartProducts = useSelector((state: AppState) => state.cart.products)
@@ -26,7 +27,7 @@ export function useTransaction() {
   }
 
   const transaction: ITransaction = {
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     cart: cartProducts,
     createdAt: Timestamp.now(),
     delivery: {
