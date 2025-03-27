@@ -22,7 +22,6 @@ const UserMenu = () => {
       await logOut()
       dispatch(setFavProducts([]))
       dispatch(setCartProducts([]))
-      console.log("User logged out")
     } catch (error) {
       alert(`An error occured: ${error}`)
     }

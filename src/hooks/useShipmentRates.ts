@@ -22,7 +22,6 @@ export const useShipmentRates = () => {
   useEffect(() => {
     if (userDataFromDb?.address) {
       dispatch(setAddress(userDataFromDb?.address))
-      console.log("Address set from db")
     }
   }, [userDataFromDb?.address])
 
@@ -39,8 +38,7 @@ export const useShipmentRates = () => {
           shipment.addressTo?.validationResults?.messages || []
         )
       }
-    } catch (error) {
-      console.log("Error fetching shipment rates:", error)
+    } catch {
       setError(
         "Sorry, we cannot check the available delivery options at the moment. Please try again later 💕"
       )

@@ -1,22 +1,17 @@
-import { useSelector } from "react-redux";
-import { AppState } from "../redux";
-import { useEffect, useState } from "react";
-import { gridConfig } from "../config/gridConfig";
-import APIService from "../services/APIService";
-import { IProduct } from "../interfaces/interfaces";
-import checkIfImageExists from "../helpers/checkImage";
-import { IFilterState } from "../redux/filterSlice";
+import { useSelector } from "react-redux"
+import { AppState } from "../redux"
+import { useEffect, useState } from "react"
+import { gridConfig } from "../config/gridConfig"
+import APIService from "../services/apiService"
+import { IProduct } from "../interfaces/interfaces"
+import checkIfImageExists from "../helpers/checkImage"
+import { IFilterState } from "../redux/filterSlice"
 
 export function useGridProducts(isInitialized: boolean) {
     const products = useSelector((state: AppState) => state.products.products)
     const [gridProducts, setGridProducts] = useState<{
         [key: string]: IProduct[]
-      }>({}) // example:
-            // {
-            //   grid1: [prod1, prod2, prod3],
-            //   grid2: [prod4, prod5],
-            //   grid6: [prod6]
-            // }
+      }>({}) 
 
     // Here I fetch and render products directly from API if it is the initial launch of the app.
     // This is due to long loading time when saving all api products in app state on app launch.

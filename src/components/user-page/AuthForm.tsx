@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react"
 import {
   loginWithEmail,
@@ -35,12 +34,10 @@ const AuthForm = () => {
     try {
       if (isRegister) {
         await registerWithEmail(email, password)
-        console.log("User registered")
       } else {
         await loginWithEmail(email, password)
-        console.log("User logged in")
       }
-    } catch (error) {
+    } catch {
       if (isRegister) {
         setError("We're sorry, an error occured. Please try again later 🫶")
       } else {
@@ -54,8 +51,7 @@ const AuthForm = () => {
       await logOut()
       dispatch(setFavProducts([]))
       dispatch(setCartProducts([]))
-      console.log("User logged out")
-    } catch (error) {
+    } catch {
       setError("Sorry, an error occured")
     }
   }

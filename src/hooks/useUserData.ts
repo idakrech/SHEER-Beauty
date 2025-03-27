@@ -21,8 +21,7 @@ export function useUserData() {
       try {
         const data = await userDataService.getUserData(userId)
         setUserDataFromDb(data as IUserData)
-      } catch (error) {
-        console.log("Failed to fetch user data", error)
+      } catch {
         setError("A problem has occurred when loading the address")
       } finally {
         setLoading(false)

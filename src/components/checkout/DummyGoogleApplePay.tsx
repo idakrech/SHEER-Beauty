@@ -33,14 +33,6 @@ const DummyGoogleApplePay = () => {
         className="w-40 h-10 object-contain border border-zinc-400 rounded-md cursor-pointer"
       />
 
-      {/* <div className="flex justify-center w-full">
-        <button
-          type="submit"
-          className="border border-zinc-300 text-center p-3 mt-6 bg-accent hover:bg-dark rounded-md duration-200 ease-in w-1/3 font-bold font-lg"
-        >
-          Pay Now
-        </button>
-      </div> */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96 text-center">

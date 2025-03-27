@@ -80,7 +80,6 @@ const AddressForm = () => {
     e.preventDefault()
 
     if (areAddressesEqual(address, addressValues)) {
-      console.log("Adres nie zmieniony, nie zapisujemy w bazie");
       setIsEditing(false);
       return;
     }
@@ -88,13 +87,11 @@ const AddressForm = () => {
     try {
       if (user) {
         await userDataService.updateUserAddress(user?.uid, addressValues)
-        console.log("Address saved successfully")
       }
       dispatch(setAddress(addressValues))
       setIsEditing(false)
       setAddressValues(addressValues)
-    } catch (error) {
-      console.log("Error saving address", error)
+    } catch {
       setSavingError("An error occured when saving the address")
     }
   }

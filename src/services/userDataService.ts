@@ -200,8 +200,6 @@ export const userDataService = {
       await updateDoc(userRef, {
         transactionIDs: arrayUnion(transactionId),
       })
-
-      console.log("Transaction saved successfully in db")
     } catch (error) {
       console.error("Error adding transaction to db", error)
       throw error
@@ -214,7 +212,6 @@ export const userDataService = {
       await updateDoc(userRef, {
         cart: [],
       })
-      console.log("Cart cleared successfully in db")
     } catch (error) {
       console.error("Error clearing cart in db", error)
       throw error

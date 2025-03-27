@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IProduct } from "../interfaces/interfaces"
 
@@ -22,7 +21,6 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    //for products fetched from user data db
     setProducts(
       state,
       action: PayloadAction<

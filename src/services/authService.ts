@@ -3,8 +3,6 @@ import { app }  from "../config/firebaseConfig"
 import { userDataService } from "./userDataService"
 import { IUserData } from "../interfaces/interfaces"
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 const auth = getAuth(app)
 
 export const registerWithEmail = async (email: string, password: string) => {
@@ -24,7 +22,7 @@ export const registerWithEmail = async (email: string, password: string) => {
         }
         return userCredential.user
     } catch (error) {
-        console.log("Error while registering user", error)
+        console.error("Error while registering user", error)
         throw error
     }
 }

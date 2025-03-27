@@ -39,10 +39,7 @@ const Delivery = () => {
   useEffect(() => {
     if (address && checkIfAddressComplete(address)) {
       if (!prevAddressRef.current || !areAddressesEqual(prevAddressRef.current, address)) {
-        console.log("Address changed, fetching new rates...")
         fetchRates()
-      } else {
-        console.log("Address unchanged, skipping fetchRates")
       }
       prevAddressRef.current = { ...address }
     }
