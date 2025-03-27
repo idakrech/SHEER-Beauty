@@ -5,6 +5,7 @@ import { useSelector } from "react-redux"
 import { AppState } from "../redux"
 import { useGridProducts } from "../hooks/useGridProducts"
 import WebsiteError from "../components/WebsiteError"
+import { useEffect, useState } from "react"
 
 const Home = () => {
   const isInitialized = useSelector(
@@ -17,7 +18,19 @@ const Home = () => {
     (products) => products.length === 0
   )
 
-  if (allEmpty) {
+  const TIMEOUT_MS = 3000
+
+  const [showError, setShowError] = useState(false)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowError(true)
+    }, TIMEOUT_MS)
+
+    return () => clearTimeout(timeout)
+  }, [gridProducts])
+
+  if (allEmpty && showError) {
     return <WebsiteError/>
   }
 
