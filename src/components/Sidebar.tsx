@@ -33,7 +33,7 @@ const Sidebar = ({
   return (
     <div
       className={`
-     border border-zinc-300 p-5 lg:p-3 h-auto lg:z-40
+     border border-zinc-300 p-5 lg:p-3 h-auto lg:z-70
     ${
       isOpen
         ? "fixed top-0 left-0 md:w-1/2 h-full bg-primary z-[100] max-h-[100vh] overflow-y-auto"

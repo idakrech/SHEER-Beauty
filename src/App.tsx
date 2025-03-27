@@ -152,7 +152,7 @@ function App() {
         />
         {showCategoryDropdown && (
           <div
-            className="fixed w-full bg-white md:bg-gradient-to-t from-[#ffe3f4] to-white shadow-md border border-zinc-300 z-40 flex flex-col items-end  max-h-[90vh] overflow-y-auto -mt-2 md:mt-0"
+            className="fixed w-full bg-white md:bg-gradient-to-t from-[#ffe3f4] to-white shadow-md border border-zinc-300 z-[100] flex flex-col items-end  max-h-[90vh] overflow-y-auto -mt-2 md:mt-0"
             onMouseEnter={() => setShowUserDropdown(false)}
             onMouseLeave={() => setShowCategoryDropdown(false)}
           >
