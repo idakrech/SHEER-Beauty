@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import APIService from "../services/APIService"
+import APIService from "../services/apiService"
 import { setError, setIsInitialized, setLoading, setProducts } from "../redux/productsSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, AppState } from "../redux"
@@ -20,7 +20,7 @@ function useFetchProducts() {
         const data = await APIService.fetchProducts()
         const productsWithValidImages = await Promise.all(
           data.map(
-            (product) =>
+            (product: IProduct) =>
               new Promise<IProduct | null>((resolve) => {
                 checkIfImageExists(product.image_link, (exists) => {
                   resolve(exists ? product : null)
@@ -28,7 +28,7 @@ function useFetchProducts() {
               })
           )
         )
-        const productsWithBrandAndImg = productsWithValidImages.filter((product) => product !== null && product.brand)
+        const productsWithBrandAndImg = productsWithValidImages.filter((product): product is IProduct => product !== null && Boolean(product.brand))
         dispatch(setProducts(productsWithBrandAndImg as IProduct[]))
         dispatch(setIsInitialized(true))
       } catch (error) {
