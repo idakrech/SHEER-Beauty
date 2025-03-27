@@ -56,7 +56,7 @@ const CategoryPage = () => {
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full flex items-center justify-center">
       {isInitialized ? (
         <div className="flex items-start w-full h-full">
           {type.length !== 0 && (
