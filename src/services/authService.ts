@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth"
-import { app }  from "../firebaseConfig"
+import { app }  from "../config/firebaseConfig"
 import { userDataService } from "./userDataService"
 import { IUserData } from "../interfaces/interfaces"
 

@@ -1,7 +1,7 @@
 import { setLoading, setUser } from "../redux/authSlice";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { AppDispatch } from "../redux";
-import { app } from "../firebaseConfig";
+import { app } from "../config/firebaseConfig";
 import { transformFirebaseUser } from "./transformUser";
 
 export const listenToAuth = () => (dispatch: AppDispatch) => {
