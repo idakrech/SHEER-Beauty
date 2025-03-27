@@ -1,10 +1,10 @@
 import { useState } from "react"
 import CardPayment from "./CardPayment"
-// import GoogleApplePay from "./GoogleApplePay"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "../../redux"
 import { setPaymentMethod } from "../../redux/transactionDraftSlice"
-import DummyGoogleApplePay from "./DummyGoogleApplePay"
+// import DummyGoogleApplePay from "./DummyGoogleApplePay"
+import GoogleApplePay from "./GoogleApplePay"
 
 const PaymentMethods = () => {
   const [selectedMethod, setSelectedMethod] = useState<string>("card")
@@ -57,8 +57,8 @@ const PaymentMethods = () => {
         )}
         {selectedMethod === "google" && (
           <div className="my-2 w-full mt-3 flex flex-col gap-2">
-            {/* <GoogleApplePay/> */}
-            <DummyGoogleApplePay/>
+            <GoogleApplePay/>
+            {/* <DummyGoogleApplePay/> */}
           </div> 
         )}
       </div>

@@ -11,7 +11,7 @@ const GoogleApplePay = () => {
   const { totalSum } = useTransaction()
 
   useEffect(() => {
-    if (!stripe) return
+    if (!stripe || totalSum === null) return
 
     const pr = stripe.paymentRequest({
       country: "US",
@@ -30,7 +30,7 @@ const GoogleApplePay = () => {
   }, [stripe])
 
   return canMakePayment && paymentRequest ? (
-    <PaymentRequestButtonElement options={{ paymentRequest }} />
+    <PaymentRequestButtonElement options={{ paymentRequest }} className="w-full md:w-1/3"/>
   ) : (
     <p>Google Pay/Apple Pay not available</p>
   )
