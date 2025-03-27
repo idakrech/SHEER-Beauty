@@ -1,6 +1,6 @@
 const checkIfImageExists = (url: string, callback: (exists: boolean) => void) => {
     const img = new Image()
-    img.src = url
+    img.src = url.replace("http://", "https://")
   
     if (img.complete) {
       callback(true)

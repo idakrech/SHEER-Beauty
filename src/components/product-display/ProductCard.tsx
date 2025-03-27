@@ -44,7 +44,7 @@ const ProductCard = (props: IProduct) => {
       <div className="flex justify-center pb-5">
         <Link to={`/product-page?id=${props.id}`}>
           <img
-            src={props.image_link}
+            src={props.image_link.replace("http://", "https://")}
             alt={`${props.name} image`}
             className="object-cover h-64"
           />
