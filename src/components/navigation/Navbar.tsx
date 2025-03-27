@@ -4,6 +4,8 @@ import {
   PersonOutline,
   Search,
   Menu,
+  Close,
+  HomeOutlined,
 } from "@mui/icons-material"
 import { AppState } from "../../redux"
 import { useSelector } from "react-redux"
@@ -32,38 +34,39 @@ const Navbar = ({
   }
 
   return (
-    <div className="fixed z-50 top-[36px] w-full bg-accent font-medium text-md px-5 sm:px-10 md:px-20 py-3">
+    <div className="fixed z-40 lg:z-50 top-[36px] w-full bg-accent font-medium text-md px-5 px-5 lg:px-20 py-3">
       <div className="flex items-center justify-between">
-        <div className="flex items-center justify-start gap-2 lg:w-1/3">
-          <button className="sm:hidden" onClick={() => onCategoryToggle(true)}>
-            <Menu fontSize="large" />
+        <div className="flex items-center justify-start gap-3 lg:w-1/3">
+          <button className="md:hidden" onClick={() => onCategoryToggle(true)}>
+            <Menu fontSize="medium" />
           </button>
 
           <div
-            className="relative hidden sm:block"
+            className="relative hidden md:block"
             onMouseEnter={() => onCategoryToggle(true)}
           >
             <button>Categories</button>
           </div>
 
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/" className="hidden md:block">Home</NavLink>
+          <NavLink to="/" className="block md:hidden"><HomeOutlined fontSize="medium"/></NavLink>
         </div>
 
         <div className="text-center flex items-center justify-center whitespace-nowrap px-2 lg:w-1/3">
-          <h3 className="text-xl sm:text-3xl text-primary font-sans uppercase font-extralight">
+          <h3 className="text-xl md:text-3xl text-primary font-sans uppercase font-extralight">
             ⋆˙⟡Sheer
           </h3>
-          <h3 className="text-xl sm:text-3xl text-primary font-serif italic">
+          <h3 className="text-xl md:text-3xl text-primary font-serif italic">
             beauty
           </h3>
         </div>
 
         <div className="flex items-center gap-2 lg:w-1/3  justify-end">
-          <button className="sm:hidden" onClick={() => setIsSearchOpen(true)}>
+          <button className="md:hidden" onClick={() => setIsSearchOpen(true)}>
             <Search />
           </button>
 
-          <div className="hidden sm:flex items-center">
+          <div className="hidden md:flex items-center">
             <input
               type="text"
               placeholder="Search..."
@@ -98,7 +101,10 @@ const Navbar = ({
       </div>
 
       {isSearchOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white shadow-md p-4 flex flex-col items-center">
+        <div className="absolute top-15 left-0 w-full bg-white shadow-md p-4 pb-6 flex flex-col items-center">
+          <div className="w-full flex justify-end mb-1">
+          <Close fontSize="large" onClick={() => setIsSearchOpen(false)} />
+            </div>
           <input
             type="text"
             placeholder="Search..."
@@ -106,12 +112,6 @@ const Navbar = ({
             onChange={handleSearchChange}
             className="p-2 font-normal border border-slate-100 w-full"
           />
-          <button
-            className="mt-2 text-accent"
-            onClick={() => setIsSearchOpen(false)}
-          >
-            Close
-          </button>
         </div>
       )}
     </div>

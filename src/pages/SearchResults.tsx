@@ -1,10 +1,20 @@
 import { useLocation } from "react-router-dom"
 import { IProduct } from "../interfaces/interfaces"
 import ProductGrid from "../components/product-display/ProductGrid"
+import { useSelector } from "react-redux"
+import { AppState } from "../redux"
+import InitializationSpinner from "../components/product-display/InitializationSpinner"
 
 const SearchResultsPage = () => {
   const location = useLocation()
   const searchResults: IProduct[] = location.state?.searchResults || []
+  const isInitialized = useSelector(
+    (state: AppState) => state.products.isInitialized
+  )
+
+  if (!isInitialized) {
+    return <InitializationSpinner type="plural"/>
+  }
 
   return (
     <div className="bg-white p-4 w-full border border-zinc-300 my-4 flex flex-col flex-1 justify-center items-center">

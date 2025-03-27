@@ -11,7 +11,7 @@ const PaymentMethods = () => {
   const dispatch = useDispatch<AppDispatch>()
 
   return (
-    <div className="bg-white p-4 w-full border border-zinc-300 mb-4">
+    <div className="bg-white p-4 w-full border border-zinc-300">
       <h3 className="text-xl font-serif font-bold mx-3 mt-2 border-b border-zinc-300 pb-1">
         Payment
       </h3>

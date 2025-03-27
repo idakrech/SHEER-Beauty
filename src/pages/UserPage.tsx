@@ -5,6 +5,7 @@ import { AppState } from "../redux"
 import AddressForm from "../components/user-page/AddressForm"
 import ProductGrid from "../components/product-display/ProductGrid"
 import { useUserData } from "../hooks/useUserData"
+import AuthForm from "../components/user-page/AuthForm"
 
 const UserPage = () => {
   const { tab } = useParams<{ tab: string }>()
@@ -24,7 +25,7 @@ const UserPage = () => {
         ) : (
           <>
             {tab === "account-details" && (
-              <div className="bg-white p-4 w-2/3 border border-zinc-300 my-4">
+              <div className="bg-white p-4 w-full md:w-[80vw] border border-zinc-300 my-4 md:m-0 h-[60vh]">
                 <h3 className="text-xl text-center font-serif font-bold mx-3 mt-2 border-b border-zinc-300 pb-1">
                   Account details
                 </h3>
@@ -53,14 +54,16 @@ const UserPage = () => {
           </>
         )
       ) : (
-        <div className="bg-white p-4 w-2/3 border border-zinc-300 my-4">
-          <h3 className="text-xl text-center font-serif font-bold mx-3 mt-2 border-b border-zinc-300 pb-1">
-            Account details
-          </h3>
+        <div className="bg-white p-4 md:w-2/3 border border-zinc-300 my-4 h-[50vh] flex flex-col items-center">
+          <div className="w-full h-full flex flex-col justify-center items-center">
           <p className="mt-5 mb-3 mx-3 text-center">
             Log in or create an account for a personalized shopping experience!
             ✨
           </p>
+          <div className="w-full md:w-1/2">
+          <AuthForm/>
+          </div>
+          </div>
         </div>
       )}
     </div>

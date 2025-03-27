@@ -27,12 +27,6 @@ import Disclaimer from "./components/Disclaimer"
 import NotFoundPage from "./pages/NotFoundPage"
 import { Close } from "@mui/icons-material"
 
-//TODO: format all errors into more user friendly phrases
-//TODO: catch invalid http and display "No such page found :("
-//BIG: hide .env values somehow (backend?)
-//STYLE: change Vite icon by Website name (in browser tab) into make up icon
-//TODO: what causes hundreds of "Third party cookies will be blocked" in console?
-
 const stripePromise = loadStripe(
   "pk_test_51QrJt3HbWFF7jHYQueZbeHhnBjAiRHhcGn732ltRiXLDlybxn46k5cv6KsHvoidLavihavqIGDqrY9oReG2JE4yH00Q5J0ivAz"
 )
@@ -65,14 +59,17 @@ function App() {
         })
       )
     } else {
-      const existingState = JSON.parse(localStorage.getItem("beautyWebshop_appState") || "{}")
-      
+      const existingState = JSON.parse(
+        localStorage.getItem("beautyWebshop_appState") || "{}"
+      )
+
       localStorage.setItem(
         "beautyWebshop_appState",
         JSON.stringify({
           lastUpdate,
           cart: cart.length > 0 ? cart : existingState.cart || [],
-          favorites: favorites.length > 0 ? favorites : existingState.favorites || [],
+          favorites:
+            favorites.length > 0 ? favorites : existingState.favorites || [],
         })
       )
     }
@@ -135,7 +132,7 @@ function App() {
     const savedState = localStorage.getItem("beautyWebshop_appState")
     if (savedState) {
       const { cart, favorites } = JSON.parse(savedState)
-      
+
       if (cart) {
         dispatch(setCartProducts(cart))
       }
@@ -155,19 +152,31 @@ function App() {
         />
         {showCategoryDropdown && (
           <div
-            className="fixed w-full bg-white shadow-md border border-zinc-300 z-40 flex flex-col items-end"
+            className="fixed w-full bg-white md:bg-gradient-to-t from-[#ffe3f4] to-white shadow-md border border-zinc-300 z-40 flex flex-col items-end  max-h-[90vh] overflow-y-auto -mt-2 md:mt-0"
             onMouseEnter={() => setShowUserDropdown(false)}
             onMouseLeave={() => setShowCategoryDropdown(false)}
           >
-            <Close fontSize="large" className="md:hidden lg:hidden mt-10 mr-1" onClick={() => setShowCategoryDropdown(false)}/>
+            <div className="block lg:hidden mt-5 mr-1">
+              <Close
+                fontSize="large"
+                onClick={() => setShowCategoryDropdown(false)}
+              />
+            </div>
             <CategoryList />
           </div>
         )}
         {showUserDropdown && (
           <div
+            className="fixed z-50 md:top-[102px] right-0 w-full md:w-auto shadow-md bg-white border-x border-b border-zinc-300 px-3 pb-3 flex flex-col items-end -mt-2 md:mt-0"
             onMouseEnter={() => setShowCategoryDropdown(false)}
             onMouseLeave={() => setShowUserDropdown(false)}
           >
+            <div className="block lg:hidden my-2 z-60">
+              <Close
+                fontSize="large"
+                onClick={() => setShowUserDropdown(false)}
+              />
+            </div>
             <UserMenu />
           </div>
         )}

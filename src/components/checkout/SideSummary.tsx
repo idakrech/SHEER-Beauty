@@ -13,7 +13,7 @@ const SideSummary = () => {
 
   return (
     <div>
-      <h3 className="text-xl font-serif font-bold border-b border-zinc-300 pb-1 mb-3">
+      <h3 className="text-xl font-serif font-bold border-b border-zinc-300 pb-1">
         Summary
       </h3>
       <div className="flex justify-between my-1">

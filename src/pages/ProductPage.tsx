@@ -43,7 +43,7 @@ const ProductPage = () => {
   )
   
   if (!isInitialized) {
-    return <InitializationSpinner />
+    return <InitializationSpinner type="single"/>
   }
   
   return (

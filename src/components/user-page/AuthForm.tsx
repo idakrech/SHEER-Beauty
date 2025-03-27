@@ -61,16 +61,16 @@ const AuthForm = () => {
   }
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full mt-2 md:mt-auto lg:mt-5">
       {!user && (
-        <div className="w-full mb-1">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-1">
+        <div className="w-full mb-1 flex flex-col items-center">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-1 w-full items-center">
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="p-1 bg-primary border rounded-md border-zinc-300"
+              className="p-1 bg-primary border rounded-md border-zinc-300 w-full"
               required
             />
             <input
@@ -78,7 +78,7 @@ const AuthForm = () => {
               placeholder="Password"
               value={password}
               onChange={handlePasswordChange}
-              className="p-1 bg-primary border rounded-md border-zinc-300"
+              className="p-1 bg-primary border rounded-md border-zinc-300 w-full"
               required
             />
             {isRegister && passwordStrength !== null && (
@@ -95,14 +95,15 @@ const AuthForm = () => {
             )}
             <button
               type="submit"
-              className="w-full border border-zinc-300 text-center p-1 mb-1 mt-2 rounded-md bg-accent hover:bg-dark duration-200 ease-in"
+              className="md:w-full w-1/2 border border-zinc-300 text-center p-1 mb-1 mt-2 rounded-md bg-accent hover:bg-dark duration-200 ease-in"
             >
               {isRegister ? "Register" : "Login"}
             </button>
           </form>
+
           <button
             onClick={() => setIsRegister(!isRegister)}
-            className="w-full border border-zinc-300 text-center p-1 rounded-md hover:bg-accent/50 duration-200 ease-in"
+            className="md:w-full w-1/2 border border-zinc-300 text-center p-1 rounded-md hover:bg-accent/50 duration-200 ease-in"
           >
             {isRegister ? "Switch to Login" : "Switch to Register"}
           </button>

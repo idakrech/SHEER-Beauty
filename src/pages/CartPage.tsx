@@ -32,15 +32,15 @@ const CartPage = () => {
           )}
         </div>
         {cartProducts.length > 0 && (
-          <div className="flex w-full justify-center">
-            <div className="w-2/3 flex flex-col justify-center items-start my-4 mr-2">
+          <div className="flex w-full justify-center mt-4">
+            <div className="w-full lg:w-2/3 flex flex-col justify-center items-start lg:mr-2">
               <div className="bg-white p-5 w-full border border-zinc-300">
                 <div className="flex items-center px-4 font-normal text-sm w-full border-b border-zinc-300 pb-2">
-                  <div className="w-1/2 text-left">Article</div>
-                  <div className="w-1/4 text-left ml-4">Quantity</div>
-                  <div className="w-1/4 text-right">Sum</div>
+                  <div className="hidden md:block md:w-1/2 text-left">Article</div>
+                  <div className="md:hidden w-full text-center">Articles</div>
+                  <div className="hidden md:block md:w-1/4 text-left ml-4">Quantity</div>
+                  <div className="hidden md:block md:w-1/4 text-right">Sum</div>
                 </div>
-
                 {cartProducts.map(({ product, quantity, selectedColor }) => (
                   <CartItem
                     key={product.id}
@@ -51,9 +51,12 @@ const CartPage = () => {
                 ))}
               </div>
               <Delivery />
+              <div className="w-full lg:hidden flex flex-col bg-white p-5 border border-zinc-300 lg:mt-4 lg:mb-2 mb-4">
+                <SideSummary />
+              </div>
               <PaymentMethods />
             </div>
-            <div className="w-1/3 flex flex-col bg-white p-5 border border-zinc-300 mt-4 mb-8 ml-2">
+            <div className="hidden md:hidden lg:w-1/3 lg:flex flex-col bg-white p-5 border border-zinc-300 ml-2">
               <SideSummary />
             </div>
           </div>

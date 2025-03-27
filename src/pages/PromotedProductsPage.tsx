@@ -31,11 +31,21 @@ const PromotedProductsPage = () => {
 
   const { filteredProducts } = useFilterProducts(filters)
 
+  if (error) {
+    return (
+      <div className="flex flex-col justify-center items-center w-full md:w-2/3 h-[50vh] bg-white border border-zinc-300 my-5 p-5 md:p-0">
+        <h3 className="font-serif sont-semibold text-center">
+          We are sorry, an error has occured. Please try again later 💕
+        </h3>
+      </div>
+    )
+  }
+
   return (
-    <div>
+    <div className="w-full flex justify-center items-center">
       {isInitialized ? (
         <div className="bg-white p-4 w-full border border-zinc-300 my-4 flex flex-col justify-center items-center">
-          <h3 className="text-xl font-serif font-bold my-5 border-b border-zinc-300 pb-1">
+          <h3 className="text-xl font-serif font-bold my-5 border-b border-zinc-300 pb-1 text-center">
             {title}
           </h3>
           <ProductGrid
@@ -45,14 +55,7 @@ const PromotedProductsPage = () => {
           />
         </div>
       ) : (
-        <InitializationSpinner />
-      )}
-      {error && (
-        <div className="bg-white p-4 w-full border border-zinc-300 my-4">
-          <h3 className="font-serif sont-semibold">
-            We are sorry, an error has occured. Please try again later 💕
-          </h3>
-        </div>
+        <InitializationSpinner type="plural" />
       )}
     </div>
   )

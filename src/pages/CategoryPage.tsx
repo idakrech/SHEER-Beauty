@@ -99,13 +99,15 @@ const CategoryPage = () => {
                 }
               />
             ) : (
-              <div
-                className="w-full h-full bg-primary border border-zinc-300 flex flex-col justify-center items-center p-3 m-5"
-                style={{ height: "45vh" }}
-              >
-                <p className="font-serif font-semibold text-center">
-                  Oops! No matches found. Try modifying the filters 💖
-                </p>
+              <div className="w-full flex justify-center">
+                <div
+                  className="w-full h-full bg-primary border border-zinc-300 flex flex-col justify-center items-center p-3 m-5"
+                  style={{ height: "45vh" }}
+                >
+                  <p className="font-serif font-semibold text-center">
+                    Oops! No matches found. Try modifying the filters 💖
+                  </p>
+                </div>
               </div>
             )}
           </div>

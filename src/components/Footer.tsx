@@ -5,8 +5,8 @@ import x from "../assets/x.png"
 const Footer = () => {
   return (
     <div className="flex items-center justify-center bg-accent footer">
-      <div className="w-2/3">
-        <div className="w-full grid grid-cols-5 gap-2 py-8">
+      <div className="md:w-2/3 w-3/4">
+        <div className="w-full grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-2 py-8">
           <div className="flex flex-col">
             <a href="/about-us">About Us</a>
             <a href="/careers">Careers</a>

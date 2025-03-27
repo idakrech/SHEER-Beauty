@@ -29,15 +29,15 @@ const UserMenu = () => {
   }
 
   return (
-    <div className="w-auto shadow-md bg-white border border-zinc-300 p-3 flex flex-col items-end">
+    <div className="w-full">
       {user ? (
-        <ul className="p-2">
+        <ul className="md:p-2 w-full">
           {menuItems.map((item, index) => (
-            <li key={index} className="hover:text-dark text-end border-b border-zinc-300 py-1">
+            <li key={index} className="hover:text-dark text-center md:text-end border-b border-zinc-300 py-1">
               <Link to={`/user-page/${item.tab}`}>{item.label}</Link>
             </li>
           ))}
-          <li className="hover:text-dark text-end font-bold pt-1"> 
+          <li className="hover:text-dark text-center md:text-end font-bold pt-1"> 
             <button onClick={() => handleLogout()}>Log out</button>
           </li>
         </ul>
