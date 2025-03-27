@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useTransaction } from "../../hooks/useTransaction"
+import { StripeCardElementChangeEvent } from "@stripe/stripe-js"
 
 const CardPayment = () => {
   const stripe = useStripe()
@@ -22,8 +23,7 @@ const CardPayment = () => {
     }, 2000)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleCardChange = (event: any) => {
+  const handleCardChange = (event: StripeCardElementChangeEvent) => {
     if (event.complete) {
       setIsCardComplete(true)
       setCardError(null)
