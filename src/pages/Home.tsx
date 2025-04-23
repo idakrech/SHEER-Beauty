@@ -18,7 +18,7 @@ const Home = () => {
     (products) => products.length === 0
   )
 
-  const TIMEOUT_MS = 3000
+  const TIMEOUT_MS = 5000
 
   const [showError, setShowError] = useState(false)
 
