@@ -35,7 +35,7 @@ const Home = () => {
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto -mt-2 md:mt-0">
+    <div className="max-w-screen-xl w-full mx-auto -mt-2 md:mt-0">
       {gridConfig.map((grid) => {
         const products = gridProducts[grid.title] || []
         const filters: IFilterState = {
@@ -48,7 +48,7 @@ const Home = () => {
         }
 
         return (
-          <div key={grid.title}>
+          <div key={grid.title} className="w-full">
             <div
               className="w-full h-[50vh] lg:h-96 flex relative bg-cover bg-center bg-no-repeat items-center justify-center"
               style={{ backgroundImage: `url(${imageMap[grid.image]})` }}
