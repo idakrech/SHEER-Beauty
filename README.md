@@ -95,7 +95,7 @@ Create a .env file in the root directory and configure the required credentials 
   
 👩‍💻 About Me
 
-I’m a Junior Full-Stack Developer. I recently completed my Bachelor of Information Technology - Frontend and Mobile Development at Kristiania University College in Oslo, Norway, and have hands-on experience with React JS, React Native, .NET, C#, iOS development and Android development. I'm currently open to job opportunities!
+I’m a Junior Frontend & Mobile Developer with basic backend skills. I recently completed my Bachelor of Information Technology - Frontend and Mobile Development at Kristiania University College in Oslo, Norway, and have hands-on experience with React JS, React Native, .NET, C#, iOS development and Android development. I'm currently open to job opportunities!
   
 📌 Portfolio: https://sheerbeauty.netlify.app/  
 📧 Contact: krech.ida@gmail.com  
